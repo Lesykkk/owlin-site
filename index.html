@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uk" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owlin - ETS2 MOD Utility</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            'app-bg': '#050418',
+            'app-accent': '#7f54ec',
+            'app-accent2': '#5632bd',
+            'app-text': '#e2d7f3',
+            'tile-border': '#13122B',
+            'tile-bg': '#050418',
+            'muted': '#867CB4',
+            'premium': '#c00033'
+          },
+          boxShadow: {
+            'cta': '0 0 26px rgba(84, 58, 189, 0.277)'
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-app-bg text-app-text font-sans selection:bg-app-accent selection:text-white min-h-full flex flex-col overflow-x-hidden relative">
+
+  <!-- Background Decorative Glowing Blobs -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-900/10 blur-[120px]"></div>
+    <div class="absolute top-[40%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-indigo-900/10 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-purple-950/15 blur-[150px]"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="w-full max-w-7xl mx-auto px-6 py-5 flex items-center justify-between relative z-10">
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        <img src="owl.png" alt="Owlin Logo" class="w-9 h-9 object-contain">
+        <span class="text-xl font-semibold tracking-wide text-white">Owlin</span>
+      </div>
+    </div>
+    
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="#features" class="text-sm font-light text-muted hover:text-white transition-colors duration-200">Features</a>
+      <a href="#screenshots" class="text-sm font-light text-muted hover:text-white transition-colors duration-200">Screenshots</a>
+      <a href="#hotkeys" class="text-sm font-light text-muted hover:text-white transition-colors duration-200">Hotkeys</a>
+      <a href="#faq" class="text-sm font-light text-muted hover:text-white transition-colors duration-200">FAQ</a>
+    </nav>
+    
+    <div>
+      <a href="#download" class="px-5 py-2 rounded-lg bg-gradient-to-b from-[#5330c5] via-[#472b9d] to-[#2e1a64] shadow-cta hover:brightness-110 text-sm font-medium tracking-wide text-white transition-all duration-300">Download</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="w-full max-w-7xl mx-auto px-6 py-12 md:py-20 flex-1 flex flex-col lg:flex-row gap-12 lg:gap-8 items-center relative z-10">
+    <!-- Left Column (Description) -->
+    <div class="flex-1 flex flex-col items-start text-left max-w-xl">
+      <h1 class="text-6xl md:text-7xl font-semibold tracking-tight text-white leading-none">
+        Owlin
+      </h1>
+      <h2 class="text-2xl md:text-3xl font-medium tracking-wide text-violet-400 mt-2">
+        ETS2 MOD Utility
+      </h2>
+      <p class="text-muted font-light text-[0.98rem] leading-relaxed mt-6">
+        All-in-one mod menu for Euro Truck Simulator 2. Powerful features, easy to use, and always one step ahead.
+      </p>
+      
+      <div class="flex flex-wrap gap-4 mt-8 w-full sm:w-auto">
+        <a href="#download" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-b from-[#5330c5] via-[#472b9d] to-[#2e1a64] shadow-cta hover:brightness-110 text-white font-medium text-sm transition-all duration-300 hover:translate-y-[-1px]">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Download Now</span>
+        </a>
+        <a href="#learn-more" class="flex-1 sm:flex-initial flex items-center justify-center px-6 py-3 rounded-lg border border-tile-border bg-white/5 hover:bg-white/10 font-medium text-sm text-white transition-all duration-300">
+          <span>Learn More</span>
+        </a>
+      </div>
+      
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-3 mt-12 pt-6 border-t border-tile-border/40 w-full text-xs text-muted font-light">
+        <div class="flex items-center gap-2">
+          <i data-lucide="shield" class="w-4 h-4 text-app-accent"></i>
+          <span>Safe to Use</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="wrench" class="w-4 h-4 text-app-accent"></i>
+          <span>Easy to Setup</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="rotate-cw" class="w-4 h-4 text-app-accent"></i>
+          <span>Regular Updates</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column (Mockup Screenshot) -->
+    <div class="flex-1 w-full flex justify-center lg:justify-end relative">
+      <!-- Glow behind the mockup -->
+      <div class="absolute inset-0 m-auto w-[85%] h-[85%] rounded-2xl bg-purple-600/10 blur-[60px] pointer-events-none"></div>
+      
+      <!-- Mockup Frame using Screenshot -->
+      <div class="w-full max-w-[580px] border border-white/[0.06] rounded-xl shadow-2xl overflow-hidden relative z-10 bg-[#070619]/90">
+        <img src="preview.png" alt="Owlin Interface Screenshot" class="w-full h-auto block select-none pointer-events-none">
+      </div>
+    </div>
+  </main>
+
+  <!-- Features Grid Section -->
+  <section id="features" class="w-full max-w-7xl mx-auto px-6 py-16 border-t border-tile-border/40 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- Feature Card 1 -->
+      <div class="feature-card rounded-xl border border-tile-border bg-tile-bg/40 backdrop-blur-md p-6 flex flex-col items-center text-center transition-all duration-300 hover:border-app-accent/30 hover:-translate-y-1">
+        <div class="w-12 h-12 rounded-full bg-violet-950/40 border border-app-accent/20 flex items-center justify-center mb-5 text-app-accent">
+          <i data-lucide="shield" class="w-5 h-5"></i>
+        </div>
+        <h3 class="text-base font-semibold tracking-wide text-white">Powerful Features</h3>
+        <p class="text-xs text-muted font-light mt-3 leading-relaxed">
+          Everything you need in one powerful and easy to use mod menu.
+        </p>
+      </div>
+      
+      <!-- Feature Card 2 -->
+      <div class="feature-card rounded-xl border border-tile-border bg-tile-bg/40 backdrop-blur-md p-6 flex flex-col items-center text-center transition-all duration-300 hover:border-app-accent/30 hover:-translate-y-1">
+        <div class="w-12 h-12 rounded-full bg-violet-950/40 border border-app-accent/20 flex items-center justify-center mb-5 text-app-accent">
+          <i data-lucide="rocket" class="w-5 h-5"></i>
+        </div>
+        <h3 class="text-base font-semibold tracking-wide text-white">Lightweight</h3>
+        <p class="text-xs text-muted font-light mt-3 leading-relaxed">
+          Optimized for performance. Runs smooth with minimal system impact.
+        </p>
+      </div>
+      
+      <!-- Feature Card 3 -->
+      <div class="feature-card rounded-xl border border-tile-border bg-tile-bg/40 backdrop-blur-md p-6 flex flex-col items-center text-center transition-all duration-300 hover:border-app-accent/30 hover:-translate-y-1">
+        <div class="w-12 h-12 rounded-full bg-violet-950/40 border border-app-accent/20 flex items-center justify-center mb-5 text-app-accent">
+          <i data-lucide="lock" class="w-5 h-5"></i>
+        </div>
+        <h3 class="text-base font-semibold tracking-wide text-white">Safe & Secure</h3>
+        <p class="text-xs text-muted font-light mt-3 leading-relaxed">
+          Built with security in mind. Use with confidence on your journey.
+        </p>
+      </div>
+      
+      <!-- Feature Card 4 -->
+      <div class="feature-card rounded-xl border border-tile-border bg-tile-bg/40 backdrop-blur-md p-6 flex flex-col items-center text-center transition-all duration-300 hover:border-app-accent/30 hover:-translate-y-1">
+        <div class="w-12 h-12 rounded-full bg-violet-950/40 border border-app-accent/20 flex items-center justify-center mb-5 text-app-accent">
+          <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+        </div>
+        <h3 class="text-base font-semibold tracking-wide text-white">Always Updated</h3>
+        <p class="text-xs text-muted font-light mt-3 leading-relaxed">
+          Regular updates and new features based on your feedback.
+        </p>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="w-full border-t border-tile-border/40 py-8 mt-auto relative z-10 bg-black/10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted font-light">
+      <div>
+        <span>© 2024 Owlin. All rights reserved.</span>
+      </div>
+      <div class="flex gap-4 items-center">
+        <a href="#privacy" class="hover:text-white transition-colors duration-200">Privacy Policy</a>
+        <span class="w-1 h-1 rounded-full bg-white/20"></span>
+        <a href="#terms" class="hover:text-white transition-colors duration-200">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="index.js"></script>
+</body>
+</html>
