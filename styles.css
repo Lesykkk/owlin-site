@@ -49,3 +49,26 @@ body {
 .feature-card:hover::before {
   opacity: 1;
 }
+
+/* Stable 3D Perspective Transforms for App Mockup Screenshots */
+.mockup-main {
+  transform: rotateX(12deg) rotateY(-10deg) rotateZ(4deg);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.mockup-main:hover {
+  transform: rotateX(12deg) rotateY(-10deg) rotateZ(4deg) scale(1.02);
+}
+
+.mockup-floating {
+  transform: rotateX(12deg) rotateY(-10deg) rotateZ(4deg) translateZ(90px);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.mockup-floating:hover {
+  transform: rotateX(12deg) rotateY(-10deg) rotateZ(4deg) translateZ(105px) scale(1.03);
+}
