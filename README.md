@@ -14,9 +14,9 @@
   <a href="https://discord.gg/GF2765zCDb">Download / Discord</a>
 </p>
 
-<!-- <p align="center">
+<p align="center">
   <img src="./preview_main.png" alt="Owlin Tools Screen" width="650" />
-</p> -->
+</p>
 <p align="center">
   <img src="./preview_plugins.png" alt="Owlin Plugins Screen" width="850" />
 </p>
@@ -45,20 +45,22 @@ Owlin is a lightweight desktop mod menu for Euro Truck Simulator 2. It provides 
 >• Any direct or indirect consequences resulting from the use of our software.  
 >
 >### Important
->Failure to comply with game or platform rules is solely the responsibility of the user.
->By downloading, installing, launching, or using any Owlin product, you acknowledge and accept this disclaimer.
+>By downloading, you agree with:
+>- **Terms of Service:** https://owlin.pp.ua/terms.html
+>- **Privacy Policy:** https://owlin.pp.ua/privacy.html.
 
 ## Features
 
 ### :gear: Mod Menu
 * Speed Hack
+* Admin Detection
+* Stability
 * No Damage
 * Infinite Fuel
-* Auto update
 ### :unlock: DLC Bypass
-* Access DLC-related content
-<!-- ### :shield: Guard
-* HWID ban protection -->
+* Access DLC content without owning DLCs
+### :shield: Guard
+* HWID ban protection & bypass
 
 ## Links
 
