@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://owlin.pp.ua/">Website</a>
+  <a href="https://owlin.software/">Website</a>
   ·
   <a href="https://discord.gg/KhhBmsC9xw">Download / Discord</a>
 </p>
@@ -46,8 +46,8 @@ Owlin is a lightweight desktop mod menu for Euro Truck Simulator 2. It provides 
 >
 >### Important
 >By downloading, you agree with:
->- **Terms of Service:** https://owlin.pp.ua/terms.html
->- **Privacy Policy:** https://owlin.pp.ua/privacy.html.
+>- **Terms of Service:** https://owlin.software/terms.html
+>- **Privacy Policy:** https://owlin.software/privacy.html.
 
 ## Features
 
@@ -65,7 +65,7 @@ Owlin is a lightweight desktop mod menu for Euro Truck Simulator 2. It provides 
 ## Links
 
 <p>
-  <a href="https://owlin.pp.ua/">Website</a>
+  <a href="https://owlin.software/">Website</a>
   ·
   <a href="https://discord.gg/KhhBmsC9xw">Download / Discord</a>
 </p>
