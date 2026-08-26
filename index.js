@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Declare the preferred canonical URL for the homepage.
+  let canonical = document.querySelector('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement("link");
+    canonical.rel = "canonical";
+    document.head.appendChild(canonical);
+  }
+  canonical.href = "https://owlin.software/";
+
   // Initialize Lucide Icons
   if (typeof lucide !== "undefined") {
     lucide.createIcons();
