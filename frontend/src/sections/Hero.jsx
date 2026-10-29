@@ -14,7 +14,7 @@ export default function Hero() {
         <div>
           <Eyebrow withDot>Made for ETS2 &amp; ATS</Eyebrow>
           <h1 className={styles.title}>
-            Drive with
+            <span className={styles.lead}>Drive with</span>
             <br />
             <span className={styles.brand}>
               <span className={styles.accent}>Owlin</span> Mod Menu

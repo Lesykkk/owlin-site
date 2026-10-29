@@ -7,8 +7,6 @@ import styles from "./Header.module.css";
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
-  { label: "Showcase", href: "/#showcase" },
   { label: "Pricing", href: "/pricing" },
   { label: "Promo", href: "/promo", badge: "Free" },
 ];
