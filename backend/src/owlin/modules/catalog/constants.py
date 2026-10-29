@@ -14,7 +14,11 @@ PRODUCTS: dict[str, tuple[str, ...]] = {
     "dlc-unlock": ("dlc-unlock",),
     "spoofer-dlc-unlock": ("spoofer", "dlc-unlock"),
 }
-PERIOD_IDS = ("1m", "3m", "6m", "lifetime")
+# How long each period lasts. A month counts as 30 days; None means no end date.
+PERIOD_DAYS: dict[str, int | None] = {"1m": 30, "3m": 90, "6m": 180, "lifetime": None}
+PERIOD_IDS = tuple(PERIOD_DAYS)
+# Free days given for an approved promo video.
+PROMO_DAYS = 7
 PAYMENT_METHOD_IDS = ("paypal", "crypto", "steam")
 PROMO_PLATFORM_IDS = ("tiktok", "youtube", "other")
 
