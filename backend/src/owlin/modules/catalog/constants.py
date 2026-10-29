@@ -1,16 +1,25 @@
-"""Allowed values shared by the database constraints and the services."""
+"""Allowed values and the product catalog.
 
-# What can be bought. A bundle grants both of the single products.
-PRODUCT_IDS = ("spoofer", "dlc-unlock", "bundle")
-# What a subscription grant can be for.
-GRANT_PRODUCT_IDS = ("spoofer", "dlc-unlock")
+Values that are states (statuses, sources, reasons) are also enforced by CHECK constraints in the
+database. The catalog (products, periods, payment methods, video platforms) changes over time, so
+only this code validates it and adding an entry needs no migration.
+"""
+
+# The access modules a user can have. Each one has its own columns in user_subscriptions.
+MODULE_IDS = ("spoofer", "dlc-unlock")
+
+# What can be bought, and which modules each product unlocks. A bundle just lists several.
+PRODUCTS: dict[str, tuple[str, ...]] = {
+    "spoofer": ("spoofer",),
+    "dlc-unlock": ("dlc-unlock",),
+    "bundle": ("spoofer", "dlc-unlock"),
+}
 PERIOD_IDS = ("1m", "3m", "6m", "lifetime")
 PAYMENT_METHOD_IDS = ("paypal", "crypto", "steam")
+PROMO_PLATFORM_IDS = ("tiktok", "youtube", "other")
 
 ORDER_STATUSES = ("pending", "review", "approved", "rejected")
 PROMO_CLAIM_STATUSES = ("review", "approved", "rejected")
-PROMO_PLATFORM_IDS = ("tiktok", "youtube", "other")
-
 GRANT_SOURCES = ("order", "promo", "admin")
 BALANCE_REASONS = ("order_overpay", "spent", "admin")
 

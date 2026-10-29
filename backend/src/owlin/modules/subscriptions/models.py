@@ -5,7 +5,7 @@ from sqlalchemy import CheckConstraint, ForeignKey, Index, false, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from owlin.core.db import Base, in_list
-from owlin.modules.catalog.constants import GRANT_PRODUCT_IDS, GRANT_SOURCES
+from owlin.modules.catalog.constants import GRANT_SOURCES, MODULE_IDS
 
 
 class UserSubscription(Base):
@@ -42,7 +42,7 @@ class SubscriptionGrant(Base):
 
     __tablename__ = "subscription_grants"
     __table_args__ = (
-        CheckConstraint(in_list("product", GRANT_PRODUCT_IDS), name="product"),
+        CheckConstraint(in_list("product", MODULE_IDS), name="product"),
         CheckConstraint(in_list("source", GRANT_SOURCES), name="source"),
         CheckConstraint("days IS NULL OR days > 0", name="days_positive"),
         CheckConstraint(

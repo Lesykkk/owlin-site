@@ -1,8 +1,8 @@
 """create orders, promo claims, grants and balance
 
-Revision ID: 83935f9b691f
+Revision ID: 09c8a41a25ea
 Revises: 
-Create Date: 2026-10-29 14:21:06.354706
+Create Date: 2026-10-29 14:50:03.995580
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '83935f9b691f'
+revision: str = '09c8a41a25ea'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -41,9 +41,6 @@ def upgrade() -> None:
     sa.Column('reviewed_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.CheckConstraint("method IN ('paypal', 'crypto', 'steam')", name=op.f('ck_orders_method')),
-    sa.CheckConstraint("period IN ('1m', '3m', '6m', 'lifetime')", name=op.f('ck_orders_period')),
-    sa.CheckConstraint("product IN ('spoofer', 'dlc-unlock', 'bundle')", name=op.f('ck_orders_product')),
     sa.CheckConstraint("status IN ('pending', 'review', 'approved', 'rejected')", name=op.f('ck_orders_status')),
     sa.CheckConstraint('amount_cents > 0', name=op.f('ck_orders_amount_positive')),
     sa.CheckConstraint('balance_added_cents IS NULL OR balance_added_cents >= 0', name=op.f('ck_orders_balance_added_not_negative')),
@@ -69,7 +66,6 @@ def upgrade() -> None:
     sa.Column('expires_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.CheckConstraint("platform IN ('tiktok', 'youtube', 'other')", name=op.f('ck_promo_claims_platform')),
     sa.CheckConstraint("reward_product IN ('spoofer', 'dlc-unlock')", name=op.f('ck_promo_claims_reward_product')),
     sa.CheckConstraint("status IN ('review', 'approved', 'rejected')", name=op.f('ck_promo_claims_status')),
     sa.CheckConstraint('views IS NULL OR views >= 0', name=op.f('ck_promo_claims_views_not_negative')),

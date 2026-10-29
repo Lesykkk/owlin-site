@@ -5,7 +5,7 @@ from sqlalchemy import CheckConstraint, ForeignKey, Index, func, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from owlin.core.db import Base, in_list
-from owlin.modules.catalog.constants import GRANT_PRODUCT_IDS, PROMO_CLAIM_STATUSES, PROMO_PLATFORM_IDS
+from owlin.modules.catalog.constants import MODULE_IDS, PROMO_CLAIM_STATUSES
 
 
 class PromoClaim(Base):
@@ -18,8 +18,7 @@ class PromoClaim(Base):
 
     __tablename__ = "promo_claims"
     __table_args__ = (
-        CheckConstraint(in_list("platform", PROMO_PLATFORM_IDS), name="platform"),
-        CheckConstraint(in_list("reward_product", GRANT_PRODUCT_IDS), name="reward_product"),
+        CheckConstraint(in_list("reward_product", MODULE_IDS), name="reward_product"),
         CheckConstraint(in_list("status", PROMO_CLAIM_STATUSES), name="status"),
         CheckConstraint("views IS NULL OR views >= 0", name="views_not_negative"),
         Index("uq_promo_claims_video_key_open", "video_key", unique=True, postgresql_where=text("status <> 'rejected'")),
@@ -30,6 +29,7 @@ class PromoClaim(Base):
     id: Mapped[UUID] = mapped_column(primary_key=True, server_default=func.gen_random_uuid())
     user_id: Mapped[UUID] = mapped_column(ForeignKey("auth.users.id", ondelete="CASCADE"))
 
+    # Catalog id (tiktok, youtube, other); validated in code, not by the database.
     platform: Mapped[str]
     video_key: Mapped[str]
     url: Mapped[str]

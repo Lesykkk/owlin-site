@@ -8,9 +8,6 @@ from owlin.core.db import Base, in_list
 from owlin.modules.catalog.constants import (
     MAX_SCREENSHOT_BYTES,
     ORDER_STATUSES,
-    PAYMENT_METHOD_IDS,
-    PERIOD_IDS,
-    PRODUCT_IDS,
     SCREENSHOT_CONTENT_TYPES,
 )
 
@@ -24,9 +21,6 @@ class Order(Base):
 
     __tablename__ = "orders"
     __table_args__ = (
-        CheckConstraint(in_list("product", PRODUCT_IDS), name="product"),
-        CheckConstraint(in_list("period", PERIOD_IDS), name="period"),
-        CheckConstraint(in_list("method", PAYMENT_METHOD_IDS), name="method"),
         CheckConstraint(in_list("status", ORDER_STATUSES), name="status"),
         CheckConstraint("amount_cents > 0", name="amount_positive"),
         CheckConstraint("received_cents IS NULL OR received_cents > 0", name="received_positive"),
@@ -38,6 +32,7 @@ class Order(Base):
     id: Mapped[UUID] = mapped_column(primary_key=True, server_default=func.gen_random_uuid())
     user_id: Mapped[UUID] = mapped_column(ForeignKey("auth.users.id", ondelete="CASCADE"))
 
+    # Catalog ids (see modules/catalog); validated in code, not by the database.
     product: Mapped[str]
     period: Mapped[str]
     method: Mapped[str]
