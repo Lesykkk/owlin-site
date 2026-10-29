@@ -72,6 +72,24 @@ class StorageClient:
             raise UpstreamError("File storage refused the request")
         return f"{self.base_url}{response.json()['signedURL']}"
 
+    async def create_download_urls(self, paths: list[str], expires_in: int = 600) -> dict[str, str]:
+        """Temporary links for many files in one request. Files that cannot be signed are left out."""
+        if not paths:
+            return {}
+        response = await self._request(
+            "POST",
+            f"{self.base_url}/object/sign/{self.bucket}",
+            json={"expiresIn": expires_in, "paths": paths},
+        )
+        if response.status_code != 200:
+            logger.error("Storage refused to sign downloads: %s %s", response.status_code, response.text)
+            raise UpstreamError("File storage refused the request")
+        return {
+            item["path"]: f"{self.base_url}{item['signedURL']}"
+            for item in response.json()
+            if item.get("signedURL")
+        }
+
     async def delete_object(self, path: str) -> None:
         response = await self._request("DELETE", f"{self.base_url}/object/{self._object_path(path)}")
         if response.status_code not in (200, 404):

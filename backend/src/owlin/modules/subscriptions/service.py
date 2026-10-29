@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from owlin.modules.catalog.constants import PRODUCTS
 from owlin.modules.subscriptions.models import SubscriptionGrant, UserSubscription
+from owlin.modules.subscriptions.schemas import SubscriptionInfo
 
 # Column prefix of each module in user_subscriptions (spoofer_access, dlc_expires_at, ...).
 MODULE_COLUMNS = {"spoofer": "spoofer", "dlc-unlock": "dlc"}
@@ -42,6 +43,26 @@ def plan_grant(access: bool, expires_at: datetime | None, days: int | None, now:
     starts_at = expires_at if is_active else now
     ends_at = starts_at + timedelta(days=days)
     return GrantPlan(access=True, expires_at=ends_at, starts_at=starts_at, ends_at=ends_at)
+
+
+async def get_overview(
+    session: AsyncSession, user_id: UUID, now: datetime | None = None
+) -> dict[str, SubscriptionInfo]:
+    """Whether each module is active for the user, and until when. No lock, read only."""
+    now = now or datetime.now(UTC)
+    subscription = await session.get(UserSubscription, user_id)
+
+    overview = {}
+    for module, prefix in MODULE_COLUMNS.items():
+        access = bool(subscription and getattr(subscription, f"{prefix}_access"))
+        expires_at = subscription and getattr(subscription, f"{prefix}_expires_at")
+        active = access and (expires_at is None or expires_at > now)
+        overview[module] = SubscriptionInfo(
+            active=active,
+            expires_at=expires_at if active else None,
+            lifetime=active and expires_at is None,
+        )
+    return overview
 
 
 async def get_subscription_for_update(session: AsyncSession, user_id: UUID) -> UserSubscription:
