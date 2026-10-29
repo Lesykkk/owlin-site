@@ -42,7 +42,7 @@ def clear_overrides() -> Iterator[None]:
 
 @pytest.fixture
 def use_session():
-    def install(session: FakeSession) -> None:
+    def install(session: object) -> None:
         async def override() -> AsyncIterator[FakeSession]:
             yield session
 

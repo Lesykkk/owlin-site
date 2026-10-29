@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     environment: str = "development"
     database_url: str | None = None
     supabase_url: str | None = None
+    # Server-side key that bypasses RLS and Storage policies. Never send it to a browser.
+    supabase_secret_key: str | None = None
+    storage_bucket: str = "payment-proofs"
     # Lists come from the environment as comma-separated strings.
     cors_origins: Annotated[list[str], NoDecode] = ["http://localhost:5173"]
     admin_discord_ids: Annotated[list[str], NoDecode] = []
@@ -43,6 +46,10 @@ class Settings(BaseSettings):
     @property
     def jwt_issuer(self) -> str:
         return f"{self.supabase_url}/auth/v1"
+
+    @property
+    def storage_url(self) -> str:
+        return f"{self.supabase_url}/storage/v1"
 
     @property
     def jwks_url(self) -> str:

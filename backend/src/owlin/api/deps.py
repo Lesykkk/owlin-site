@@ -6,9 +6,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from owlin.core.config import Settings, get_settings
 from owlin.core.db import get_session
+from owlin.integrations.supabase_storage import StorageClient, build_storage_client
 from owlin.core.security import AuthenticationError, TokenUser, verify_token
 
+def get_storage() -> StorageClient:
+    return build_storage_client()
+
+
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
+StorageDep = Annotated[StorageClient, Depends(get_storage)]
 SettingsDep = Annotated[Settings, Depends(get_settings)]
 
 bearer_scheme = HTTPBearer(auto_error=False)

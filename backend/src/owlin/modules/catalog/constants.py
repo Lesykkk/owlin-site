@@ -14,6 +14,17 @@ PRODUCTS: dict[str, tuple[str, ...]] = {
     "dlc-unlock": ("dlc-unlock",),
     "spoofer-dlc-unlock": ("spoofer", "dlc-unlock"),
 }
+# Price in euro cents for each product and period. The server always recomputes the amount from this.
+PRICES_CENTS: dict[str, dict[str, int]] = {
+    "dlc-unlock": {"1m": 199, "3m": 499, "6m": 799, "lifetime": 1499},
+    "spoofer": {"1m": 400, "3m": 900, "6m": 1400, "lifetime": 1999},
+    "spoofer-dlc-unlock": {"1m": 500, "3m": 1300, "6m": 2099, "lifetime": 3099},
+}
+# Coins and networks offered when paying with crypto.
+CRYPTO_COIN_IDS = ("sol", "usdc-solana", "usdc-base", "usdt-trc20", "btc")
+# Orders a user may have waiting for review at the same time.
+MAX_OPEN_ORDERS = 3
+
 # How long each period lasts. A month counts as 30 days; None means no end date.
 PERIOD_DAYS: dict[str, int | None] = {"1m": 30, "3m": 90, "6m": 180, "lifetime": None}
 PERIOD_IDS = tuple(PERIOD_DAYS)
