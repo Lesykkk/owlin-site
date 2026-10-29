@@ -29,6 +29,10 @@
   letter-spacing: -3.5px;
 }
 
+.lead {
+  font-size: 0.82em;
+}
+
 .accent {
   color: var(--color-accent);
 }
