@@ -12,6 +12,7 @@ class Settings(BaseSettings):
 
     environment: str = "development"
     database_url: str | None = None
+    supabase_url: str | None = None
     # Lists come from the environment as comma-separated strings.
     cors_origins: Annotated[list[str], NoDecode] = ["http://localhost:5173"]
     admin_discord_ids: Annotated[list[str], NoDecode] = []
@@ -33,6 +34,19 @@ class Settings(BaseSettings):
             if value.startswith(prefix):
                 return "postgresql+asyncpg://" + value.removeprefix(prefix)
         return value
+
+    @field_validator("supabase_url", mode="after")
+    @classmethod
+    def strip_trailing_slash(cls, value: str | None) -> str | None:
+        return value.rstrip("/") if value else None
+
+    @property
+    def jwt_issuer(self) -> str:
+        return f"{self.supabase_url}/auth/v1"
+
+    @property
+    def jwks_url(self) -> str:
+        return f"{self.jwt_issuer}/.well-known/jwks.json"
 
     @property
     def is_production(self) -> bool:

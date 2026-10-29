@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from owlin.api.routers import health
+from owlin.api.routers import health, me
 from owlin.core.config import get_settings
 
 
@@ -25,6 +25,7 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(health.router)
+    app.include_router(me.router)
     return app
 
 
