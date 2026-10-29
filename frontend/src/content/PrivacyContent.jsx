@@ -1,0 +1,391 @@
+// The text of this document is copied from the main branch. Edit it here when the terms change.
+
+export default function PrivacyContent() {
+  return (
+    <>
+      <section>
+        <p>This Privacy Policy explains how Owlin collects, uses, stores, shares, and protects personal data when you use the Owlin software, website, Discord community, authentication services, downloads, support, and related services collectively referred to as the “Service”.</p>
+        <p>The data controller responsible for Owlin is:</p>
+        <p><strong>Owlin development team (Ukraine)</strong></p>
+        <p>Contact: <strong>Support Channel on our official Discord server</strong></p>
+      </section>
+      <section>
+        <h2>1. Scope</h2>
+        <p>This Policy applies to personal data processed through:</p>
+        <ul>
+          <li>the Owlin desktop application;</li>
+          <li>the Owlin website;</li>
+          <li>Discord authentication;</li>
+          <li>Owlin account and access systems;</li>
+          <li>downloads and software updates;</li>
+          <li>support requests;</li>
+          <li>security, anti-abuse, and diagnostic systems;</li>
+          <li>the official Owlin Discord server where Owlin directly collects or receives information.</li>
+        </ul>
+        <p>Discord separately processes information under Discord’s own privacy terms. Owlin does not control all processing performed independently by Discord, Steam, game developers, or other platforms.</p>
+      </section>
+      <section>
+        <h2>2. Information We Collect</h2>
+        <p>Depending on how you use the Service, we may process the following categories of information.</p>
+        <h3>2.1 Discord account information</h3>
+        <p>When you authenticate through Discord, we may receive:</p>
+        <ul>
+          <li>Discord user ID;</li>
+          <li>Discord username and display name;</li>
+          <li>avatar;</li>
+          <li>email address, where included in the authorised OAuth scope;</li>
+          <li>authentication provider information;</li>
+          <li>account metadata supplied through the authentication process.</li>
+        </ul>
+        <p>We do not receive your Discord password.</p>
+        <h3>2.2 Authentication and account information</h3>
+        <p>We may process:</p>
+        <ul>
+          <li>Owlin user ID;</li>
+          <li>authentication session identifiers;</li>
+          <li>access and refresh tokens;</li>
+          <li>login and last-sign-in timestamps;</li>
+          <li>access status;</li>
+          <li>plan or entitlement information;</li>
+          <li>account creation date;</li>
+          <li>account suspension or termination status.</li>
+        </ul>
+        <p>Authentication tokens are used to maintain secure access. They are not intended to be publicly displayed or shared.</p>
+        <h3>2.3 Device and technical information</h3>
+        <p>We may process:</p>
+        <ul>
+          <li>hardware identifier or device identifier (“HWID”);</li>
+          <li>operating system and application version;</li>
+          <li>IP address;</li>
+          <li>approximate country, region, or network location derived from the IP address;</li>
+          <li>request timestamps;</li>
+          <li>security events;</li>
+          <li>error and diagnostic information;</li>
+          <li>information about failed and successful authorisation attempts.</li>
+        </ul>
+        <p>HWID is used as a device-binding and anti-abuse identifier. It is not intended to reveal the contents of your device.</p>
+        <h3>2.4 Purchase and entitlement information</h3>
+        <p>Where paid access is offered, we may process:</p>
+        <ul>
+          <li>transaction or order identifier;</li>
+          <li>purchased plan;</li>
+          <li>purchase date;</li>
+          <li>subscription or access expiration date;</li>
+          <li>payment status;</li>
+          <li>refund or chargeback status.</li>
+        </ul>
+        <p>Payment processors may process billing details independently. Owlin should not store complete payment-card numbers or card security codes.</p>
+        <h3>2.5 Support and communications</h3>
+        <p>When you contact us, we may process:</p>
+        <ul>
+          <li>Discord messages or support-ticket content;</li>
+          <li>email address;</li>
+          <li>screenshots;</li>
+          <li>voluntarily submitted logs;</li>
+          <li>device and diagnostic details;</li>
+          <li>correspondence history.</li>
+        </ul>
+        <p>Do not send passwords, private keys, authentication tokens, or unrelated sensitive information.</p>
+        <h3>2.6 Terms and policy acceptance</h3>
+        <p>We may record:</p>
+        <ul>
+          <li>Owlin user ID;</li>
+          <li>version of the Terms accepted;</li>
+          <li>version of the Privacy Policy acknowledged;</li>
+          <li>acceptance timestamp;</li>
+          <li>IP address or device information associated with acceptance.</li>
+        </ul>
+        <p>This information may be retained to demonstrate which terms applied to a particular account.</p>
+      </section>
+      <section>
+        <h2>3. How We Use Information</h2>
+        <p>We may use personal data to:</p>
+        <ul>
+          <li>create and authenticate accounts;</li>
+          <li>complete Discord OAuth sign-in;</li>
+          <li>provide access to the Software;</li>
+          <li>bind access to an authorised device;</li>
+          <li>enforce account and access limits;</li>
+          <li>prevent account sharing, fraud, abuse, and unauthorised access;</li>
+          <li>deliver updates and support;</li>
+          <li>diagnose errors and compatibility problems;</li>
+          <li>manage purchases, plans, expiration dates, and refunds;</li>
+          <li>investigate security incidents;</li>
+          <li>enforce the Terms of Service;</li>
+          <li>maintain records required by law;</li>
+          <li>respond to legal requests;</li>
+          <li>protect the rights and security of Owlin and its users.</li>
+        </ul>
+        <p>We do not sell personal data.</p>
+        <p>We do not use personal data for third-party behavioural advertising unless this Policy is updated and any legally required choice is provided first.</p>
+      </section>
+      <section>
+        <h2>4. Legal Bases</h2>
+        <p>Where the GDPR or similar laws apply, we rely on one or more of the following legal bases.</p>
+        <h3>Contract</h3>
+        <p>Processing necessary to:</p>
+        <ul>
+          <li>create and authenticate an account;</li>
+          <li>provide the requested Software and access;</li>
+          <li>manage entitlements;</li>
+          <li>provide support;</li>
+          <li>perform the Terms of Service.</li>
+        </ul>
+        <h3>Legitimate interests</h3>
+        <p>Processing reasonably necessary to:</p>
+        <ul>
+          <li>secure the Service;</li>
+          <li>prevent account sharing and fraud;</li>
+          <li>bind an account to an authorised device;</li>
+          <li>investigate abuse;</li>
+          <li>maintain operational and security logs;</li>
+          <li>protect our systems and users.</li>
+        </ul>
+        <p>We consider the effect of this processing on users and limit collection to information reasonably necessary for these purposes.</p>
+        <h3>Legal obligation</h3>
+        <p>Processing necessary to comply with:</p>
+        <ul>
+          <li>accounting requirements;</li>
+          <li>valid legal requests;</li>
+          <li>consumer-protection obligations;</li>
+          <li>fraud-prevention or regulatory obligations.</li>
+        </ul>
+        <h3>Consent</h3>
+        <p>We rely on consent only where specifically requested, such as optional analytics or optional communications.</p>
+        <p>Consent may be withdrawn at any time, but withdrawal does not affect processing that occurred before withdrawal.</p>
+      </section>
+      <section>
+        <h2>5. Automated Access Decisions</h2>
+        <p>The Service may automatically allow or deny access based on factors such as:</p>
+        <ul>
+          <li>whether an account has an active entitlement;</li>
+          <li>whether access has expired;</li>
+          <li>whether the account is disabled;</li>
+          <li>whether the submitted HWID matches the registered HWID;</li>
+          <li>whether authentication is valid;</li>
+          <li>whether a security restriction applies.</li>
+        </ul>
+        <p>A denied request may return a technical reason such as:</p>
+        <ul>
+          <li>access not found;</li>
+          <li>access inactive;</li>
+          <li>access expired;</li>
+          <li>HWID mismatch;</li>
+          <li>unauthorised request.</li>
+        </ul>
+        <p>Where applicable, you may contact support to request review of an access decision.</p>
+      </section>
+      <section>
+        <h2>6. How We Share Information</h2>
+        <p>We may share or make information available to service providers that help operate the Service.</p>
+        <h3>Supabase</h3>
+        <p>Supabase is used for services including:</p>
+        <ul>
+          <li>database hosting;</li>
+          <li>account authentication;</li>
+          <li>Discord OAuth integration;</li>
+          <li>session management;</li>
+          <li>server-side functions;</li>
+          <li>security and access records.</li>
+        </ul>
+        <p>Information processed through Supabase may include account identifiers, Discord-related account information, authentication information, HWID, IP address, region, plan, access status, and timestamps.</p>
+        <h3>Discord</h3>
+        <p>Discord is used for:</p>
+        <ul>
+          <li>OAuth authentication;</li>
+          <li>community access;</li>
+          <li>support and communications.</li>
+        </ul>
+        <p>Discord processes information under its own terms and privacy policy.</p>
+        <h3>Hosting and infrastructure providers</h3>
+        <p>Information may be processed by providers used for website hosting, content delivery, logging, email, downloads, or other infrastructure.</p>
+        <h3>Legal and safety disclosures</h3>
+        <p>We may disclose information where reasonably necessary to:</p>
+        <ul>
+          <li>comply with applicable law or a valid legal request;</li>
+          <li>investigate fraud, abuse, or security incidents;</li>
+          <li>protect the safety or rights of users or another person;</li>
+          <li>establish, exercise, or defend legal claims.</li>
+        </ul>
+        <p>We do not permit service providers to use personal data for unrelated purposes on our behalf.</p>
+      </section>
+      <section>
+        <h2>7. International Data Transfers</h2>
+        <p>Owlin and its service providers may process information in countries other than your country of residence.</p>
+        <p>Where required by applicable law, international transfers will use an appropriate legal mechanism, such as:</p>
+        <ul>
+          <li>an adequacy decision;</li>
+          <li>standard contractual clauses;</li>
+          <li>another legally recognised transfer safeguard.</li>
+        </ul>
+        <p><strong>Primary database or hosting region: France</strong></p>
+      </section>
+      <section>
+        <h2>8. Data Retention</h2>
+        <p>Personal data is retained only as long as reasonably necessary for the purposes described in this Policy, including security, dispute resolution, accounting, and legal compliance.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Data category</th>
+              <th>Proposed retention period</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Active account and entitlement data</td>
+              <td>For the duration of the account</td>
+            </tr>
+            <tr>
+              <td>Deleted account data</td>
+              <td>Up to <strong>90 days</strong> after deletion, unless legally required for longer</td>
+            </tr>
+            <tr>
+              <td>HWID and device-binding data</td>
+              <td>While access is active, plus <strong>90 days</strong></td>
+            </tr>
+            <tr>
+              <td>IP address, region, and security logs</td>
+              <td><strong>180 days</strong></td>
+            </tr>
+            <tr>
+              <td>Failed login and abuse-prevention records</td>
+              <td><strong>180 days</strong></td>
+            </tr>
+            <tr>
+              <td>Support correspondence</td>
+              <td><strong>12 months</strong> after closure</td>
+            </tr>
+            <tr>
+              <td>Terms and policy acceptance records</td>
+              <td><strong>5 years</strong> or the period needed to establish legal claims</td>
+            </tr>
+            <tr>
+              <td>Transaction and accounting records</td>
+              <td>The period required by applicable tax and accounting law</td>
+            </tr>
+            <tr>
+              <td>Local application logs</td>
+              <td>Until deleted by the user or automatically removed by the application</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>We may retain limited information for longer where necessary to:</p>
+        <ul>
+          <li>comply with law;</li>
+          <li>investigate fraud or security incidents;</li>
+          <li>resolve disputes;</li>
+          <li>enforce a continuing restriction;</li>
+          <li>establish or defend legal claims.</li>
+        </ul>
+        <p>Data should be deleted or anonymised when it is no longer required.</p>
+      </section>
+      <section>
+        <h2>9. Data Security</h2>
+        <p>We use reasonable technical and organisational measures intended to protect personal data, including:</p>
+        <ul>
+          <li>authenticated server requests;</li>
+          <li>access controls;</li>
+          <li>database security rules;</li>
+          <li>device-binding checks;</li>
+          <li>encryption in transit;</li>
+          <li>restricted administrative credentials;</li>
+          <li>signed server responses where applicable;</li>
+          <li>monitoring and security logging.</li>
+        </ul>
+        <p>No system can guarantee absolute security.</p>
+        <p>You are responsible for protecting your Discord account, device, credentials, and authentication tokens.</p>
+        <p>Do not share refresh tokens, access tokens, passwords, or protected application files.</p>
+      </section>
+      <section>
+        <h2>10. Local Storage and Credential Storage</h2>
+        <p>The desktop application may store information locally, including:</p>
+        <ul>
+          <li>configuration settings;</li>
+          <li>cached policy versions;</li>
+          <li>application logs;</li>
+          <li>authentication session information;</li>
+          <li>refresh tokens stored through operating-system credential storage where supported.</li>
+        </ul>
+        <p>Local data may remain until:</p>
+        <ul>
+          <li>the application removes it;</li>
+          <li>the user logs out;</li>
+          <li>the user clears application data;</li>
+          <li>the application is uninstalled;</li>
+          <li>the operating-system credential entry is manually removed.</li>
+        </ul>
+        <p>Uninstalling the application may not automatically delete every credential or diagnostic file, depending on the operating system.</p>
+      </section>
+      <section>
+        <h2>11. Your Rights</h2>
+        <p>Depending on your location, you may have rights to:</p>
+        <ul>
+          <li>receive information about processing;</li>
+          <li>access personal data;</li>
+          <li>correct inaccurate data;</li>
+          <li>request deletion;</li>
+          <li>restrict processing;</li>
+          <li>object to certain processing;</li>
+          <li>receive portable data where applicable;</li>
+          <li>withdraw consent where processing is based on consent;</li>
+          <li>lodge a complaint with a competent data-protection authority.</li>
+        </ul>
+        <p>These rights may be limited where retention or processing is legally required or necessary to protect security and legal claims.</p>
+        <p>To exercise a privacy right, contact:</p>
+        <p><strong>Support Channel on our official Discord server</strong></p>
+        <p>We may need to verify your identity before completing a request.</p>
+      </section>
+      <section>
+        <h2>12. Account and Data Deletion</h2>
+        <p>You may request deletion through:</p>
+        <p><strong>Support Channel on our official Discord server</strong></p>
+        <p>Deleting an Owlin account may remove or anonymise associated account, access, and HWID information, subject to applicable retention requirements.</p>
+        <p>Deleting your Discord account does not necessarily delete information previously stored by Owlin. You must separately contact Owlin where deletion is requested.</p>
+      </section>
+      <section>
+        <h2>13. Children’s Privacy</h2>
+        <p>The Service is not intended for anyone below the minimum legal age required to use the Service or Discord in their country.</p>
+        <p>We do not knowingly seek to collect personal data from children who cannot legally consent or use the Service.</p>
+        <p>A parent or guardian who believes that a child’s information has been collected unlawfully should contact:</p>
+        <p><strong>Support Channel on our official Discord server</strong></p>
+      </section>
+      <section>
+        <h2>14. Cookies and Website Storage</h2>
+        <p>The Owlin website uses only storage or cookies strictly necessary for security, authentication, and core website functionality. It does not use advertising or optional analytics cookies.</p>
+      </section>
+      <section>
+        <h2>15. Third-Party Links and Services</h2>
+        <p>The Service may contain links to Discord, Steam, TruckersMP, game websites, payment services, or other third-party services.</p>
+        <p>Their processing is governed by their own terms and privacy policies.</p>
+        <p>Owlin is not responsible for the privacy practices of independent third parties.</p>
+      </section>
+      <section>
+        <h2>16. Changes to This Policy</h2>
+        <p>We may update this Policy when:</p>
+        <ul>
+          <li>collected information changes;</li>
+          <li>features or providers change;</li>
+          <li>security practices change;</li>
+          <li>legal requirements change.</li>
+        </ul>
+        <p>The updated date will appear at the top.</p>
+        <p>For material changes, notice may be provided through the application, website, Discord server, or account interface.</p>
+        <p>Where legally required, we will request new consent or acknowledgment before applying a materially different processing purpose.</p>
+        <p>Continuing to use the Service does not by itself create valid consent where applicable law requires an explicit choice.</p>
+      </section>
+      <section>
+        <h2>17. Complaints</h2>
+        <p>Please contact us first so we can review your concern:</p>
+        <p><strong>Support Channel on our official Discord server</strong></p>
+        <p>Where the GDPR applies, you may also lodge a complaint with the data-protection authority in your country of residence, employment, or the place of the alleged infringement.</p>
+      </section>
+      <section>
+        <h2>18. Contact</h2>
+        <p>Data controller:</p>
+        <p><strong>Owlin development team (Ukraine)</strong></p>
+        <p>Official support server:</p>
+        <p><a href="https://discord.gg/KhhBmsC9xw" target="_blank" rel="noopener noreferrer">https://discord.gg/KhhBmsC9xw</a></p>
+      </section>
+    </>
+  );
+}
