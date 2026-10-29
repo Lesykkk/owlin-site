@@ -24,7 +24,7 @@ export const PRODUCTS = [
     prices: { "1m": 400, "3m": 900, "6m": 1400, lifetime: 1999 },
   },
   {
-    id: "bundle",
+    id: "spoofer-dlc-unlock",
     name: "Spoofer + DLC Unlock",
     description: "Both modules together at a better price.",
     features: ["Spoofer module", "DLC Unlock module", "All free Owlin tools"],

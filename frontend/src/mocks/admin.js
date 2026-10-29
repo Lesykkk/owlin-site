@@ -51,7 +51,7 @@ export const MOCK_ADMIN_ORDERS = [
     id: "order-2",
     createdAt: hoursAgo(9),
     user: { username: "trucker_anna", discordId: "412345678901234567" },
-    product: "Bundle",
+    product: "Spoofer + DLC Unlock",
     period: "Lifetime",
     method: "PayPal",
     amountCents: 2499,
