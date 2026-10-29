@@ -40,3 +40,15 @@
 .amountField {
   width: 160px;
 }
+
+.missing {
+  display: grid;
+  width: 120px;
+  height: 80px;
+  place-items: center;
+  border: 1px dashed var(--color-line);
+  border-radius: var(--radius-button);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-text-faint);
+}

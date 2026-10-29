@@ -2,9 +2,8 @@ import { Link } from "react-router-dom";
 import Panel from "../../components/Panel";
 import PlatformIcon from "../../components/PlatformIcon";
 import StatusBadge from "../../components/StatusBadge";
-import { MAX_PROMO_SLOTS, PROMO_DAYS, PROMO_PLATFORMS, PROMO_REWARDS } from "../../config/promo";
+import { PROMO_DAYS, PROMO_PLATFORMS, PROMO_REWARDS } from "../../config/promo";
 import { daysLeft, formatDateTime } from "../../lib/format";
-import { countOccupiedSlots } from "../../lib/promo";
 import styles from "./HistoryTable.module.css";
 
 // An approved claim whose free days have run out reads as "expired".
@@ -12,8 +11,8 @@ function displayStatus(claim) {
   return claim.status === "approved" && new Date(claim.expiresAt) <= Date.now() ? "expired" : claim.status;
 }
 
-export default function PromoHistory({ claims }) {
-  const slotsLabel = `${countOccupiedSlots(claims)} of ${MAX_PROMO_SLOTS} slots in use`;
+export default function PromoHistory({ claims, slots }) {
+  const slotsLabel = `${slots.used} of ${slots.max} slots in use`;
 
   return (
     <Panel title="Promo videos" action={<span className={styles.slots}>{slotsLabel}</span>}>
@@ -34,8 +33,8 @@ export default function PromoHistory({ claims }) {
             </thead>
             <tbody>
               {claims.map((claim) => {
-                const platform = PROMO_PLATFORMS.find((item) => item.id === claim.platformId);
-                const reward = PROMO_REWARDS.find((item) => item.id === claim.rewardId);
+                const platform = PROMO_PLATFORMS.find((item) => item.id === claim.platform);
+                const reward = PROMO_REWARDS.find((item) => item.id === claim.rewardProduct);
                 const status = displayStatus(claim);
 
                 return (
@@ -43,19 +42,19 @@ export default function PromoHistory({ claims }) {
                     <td className={styles.date}>{formatDateTime(claim.createdAt)}</td>
                     <td>
                       <a href={claim.url} target="_blank" rel="noopener noreferrer" className={styles.video}>
-                        <PlatformIcon platformId={claim.platformId} />
-                        {platform.label}
+                        <PlatformIcon platformId={claim.platform} />
+                        {platform?.label ?? claim.platform}
                       </a>
                     </td>
                     <td>
-                      {reward.label} · {PROMO_DAYS} days
+                      {reward?.label ?? claim.rewardProduct} · {PROMO_DAYS} days
                     </td>
                     <td>
                       <StatusBadge status={status} />
                       {status === "approved" && (
                         <span className={styles.reason}>{daysLeft(claim.expiresAt)} days left</span>
                       )}
-                      {claim.reason && <span className={styles.reason}>{claim.reason}</span>}
+                      {claim.rejectReason && <span className={styles.reason}>{claim.rejectReason}</span>}
                     </td>
                   </tr>
                 );

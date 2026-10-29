@@ -5,6 +5,7 @@ import Panel from "../components/Panel";
 import TextField from "../components/TextField";
 import { PAYMENT_METHODS, resolvePaymentOption } from "../config/paymentMethods";
 import { PERIODS, PRODUCTS } from "../config/plans";
+import { createOrder, submitOrder, uploadProof } from "../lib/api";
 import { formatPrice } from "../lib/format";
 import MethodPicker from "../sections/checkout/MethodPicker";
 import OrderSummary from "../sections/checkout/OrderSummary";
@@ -31,6 +32,7 @@ function CheckoutForm({ product, period }) {
   const [proofValues, setProofValues] = useState({});
   const [note, setNote] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const method = PAYMENT_METHODS.find((item) => item.id === methodId);
@@ -42,15 +44,38 @@ function CheckoutForm({ product, period }) {
     setError("");
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     if (screenshots.length === 0) {
       setError("Attach at least one screenshot as proof.");
       return;
     }
+
     setError("");
-    // TODO: send the order, files, transaction ID and note to the backend.
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      const files = screenshots.map((item) => item.file);
+      // 1. The server prices the order and hands out one upload slot per file.
+      const order = await createOrder({
+        product: product.id,
+        period: period.id,
+        method: method.id,
+        coin: method.coins ? coinId : null,
+        files,
+      });
+      // 2. The files go straight to storage, then 3. the order is sent for review.
+      await Promise.all(order.uploads.map((slot, index) => uploadProof(slot, files[index])));
+      await submitOrder(order.id, {
+        paths: order.uploads.map((slot) => slot.path),
+        proofText: proofValues[option.id]?.trim() || null,
+        note: note.trim() || null,
+      });
+      setIsSubmitted(true);
+    } catch (submitError) {
+      setError(submitError.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   if (isSubmitted) {
@@ -98,8 +123,8 @@ function CheckoutForm({ product, period }) {
               {error}
             </p>
           )}
-          <Button type="submit" variant="primary" className={styles.submit}>
-            Submit for review
+          <Button type="submit" variant="primary" disabled={isSubmitting} className={styles.submit}>
+            {isSubmitting ? "Sending…" : "Submit for review"}
           </Button>
         </Panel>
       </div>

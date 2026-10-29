@@ -11,7 +11,11 @@ export default function Subscriptions({ subscriptions }) {
     <Panel title="Subscriptions">
       <div className={styles.grid}>
         {MODULES.map((module) => (
-          <SubscriptionCard key={module.id} product={module} subscription={subscriptions[module.id]} />
+          <SubscriptionCard
+            key={module.id}
+            product={module}
+            subscription={subscriptions[module.id]?.active ? subscriptions[module.id] : null}
+          />
         ))}
       </div>
     </Panel>

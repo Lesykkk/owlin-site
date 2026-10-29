@@ -8,11 +8,12 @@ import styles from "./VideoCard.module.css";
 
 const formatViews = (views) => views.toLocaleString("en-US");
 
+// `onApprove(views)` and `onReject(reason)` return promises. `views` is a number or null.
 export default function VideoCard({ video, onApprove, onReject }) {
   const [views, setViews] = useState("");
 
-  const platform = PROMO_PLATFORMS.find((item) => item.id === video.platformId);
-  const reward = PROMO_REWARDS.find((item) => item.id === video.rewardId);
+  const platform = PROMO_PLATFORMS.find((item) => item.id === video.platform);
+  const reward = PROMO_REWARDS.find((item) => item.id === video.rewardProduct);
 
   // Platforms with a fixed threshold need the checked view count; "Other" is up to the admin.
   const viewCount = Number(views.replace(/[\s,]/g, ""));
@@ -50,10 +51,10 @@ export default function VideoCard({ video, onApprove, onReject }) {
     <ReviewCard user={video.user} createdAt={video.createdAt} status={video.status}>
       <Details items={details} />
 
-      {video.reason && <p className={styles.reason}>Rejected: {video.reason}</p>}
+      {video.rejectReason && <p className={styles.reason}>Rejected: {video.rejectReason}</p>}
       {video.status === "approved" && (
         <p className={styles.note}>
-          {video.views !== null && `Views checked: ${formatViews(video.views)} · `}
+          {video.views != null && `Views checked: ${formatViews(video.views)} · `}
           {PROMO_DAYS} days of {reward.label} granted
         </p>
       )}
@@ -63,8 +64,8 @@ export default function VideoCard({ video, onApprove, onReject }) {
           canApprove={canApprove}
           hint={hint}
           hintIsError={needsViews && hasViews && !meetsViews}
-          onApprove={() => onApprove(video.id, hasViews ? viewCount : null)}
-          onReject={(reason) => onReject(video.id, reason)}
+          onApprove={() => onApprove(hasViews ? viewCount : null)}
+          onReject={onReject}
         >
           <div className={styles.viewsField}>
             <TextField label="Views" value={views} onChange={setViews} placeholder={needsViews ? formatViews(platform.minViews) : "optional"} />

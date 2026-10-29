@@ -1,25 +1,29 @@
-import { MOCK_PROFILE } from "../mocks/profile";
-import { useAuth } from "../hooks/useAuth";
+import PageState from "../components/PageState";
+import { useRemote } from "../hooks/useRemote";
+import { getMe, getMyOrders, getMyPromo } from "../lib/api";
 import Orders from "../sections/profile/Orders";
-import PromoHistory from "../sections/profile/PromoHistory";
 import ProfileHeader from "../sections/profile/ProfileHeader";
-import Stats from "../sections/profile/Stats";
+import PromoHistory from "../sections/profile/PromoHistory";
 import Subscriptions from "../sections/profile/Subscriptions";
 import styles from "./Profile.module.css";
 
-export default function Profile() {
-  const { user } = useAuth();
-  // Mock data until the backend provides subscriptions, stats and orders.
-  const profile = MOCK_PROFILE;
+const loadProfile = async () => {
+  const [me, orders, promo] = await Promise.all([getMe(), getMyOrders(), getMyPromo()]);
+  return { me, orders, promo };
+};
 
+export default function Profile() {
+  const { data, error, isLoading, reload } = useRemote(loadProfile);
+
+  if (isLoading || error) return <PageState isLoading={isLoading} error={error} onRetry={reload} />;
+
+  const { me, orders, promo } = data;
   return (
     <div className={`container ${styles.page}`}>
-      <ProfileHeader user={user} balanceCents={profile.balanceCents} />
-      <Subscriptions subscriptions={profile.subscriptions} />
-      <Stats stats={profile.stats} />
-      <Orders orders={profile.orders} />
-      <PromoHistory claims={profile.promoClaims} />
-      <p className={styles.note}>Demo data: real subscriptions, stats, orders and promo videos will appear here once payments go live.</p>
+      <ProfileHeader user={me} balanceCents={me.balanceCents} />
+      <Subscriptions subscriptions={me.subscriptions} />
+      <Orders orders={orders} />
+      <PromoHistory claims={promo.claims} slots={promo.slots} />
     </div>
   );
 }

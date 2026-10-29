@@ -5,17 +5,15 @@ import PlatformIcon from "../components/PlatformIcon";
 import SegmentedControl from "../components/SegmentedControl";
 import TextField from "../components/TextField";
 import {
-  MAX_PROMO_SLOTS,
   MAX_VIDEO_AGE_DAYS,
   PROMO_DAYS,
   PROMO_PLATFORMS,
   PROMO_REWARDS,
   PROMO_RULES,
 } from "../config/promo";
-import { countOccupiedSlots } from "../lib/promo";
+import { useRemote } from "../hooks/useRemote";
+import { createPromoClaim, getMyPromo } from "../lib/api";
 import { parseVideoLink } from "../lib/videoLinks";
-import { isVideoUsed } from "../mocks/promo";
-import { MOCK_PROFILE } from "../mocks/profile";
 import Submitted from "../sections/checkout/Submitted";
 import styles from "./Promo.module.css";
 
@@ -34,12 +32,13 @@ export default function Promo() {
   const [link, setLink] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState("");
-  const [isChecking, setIsChecking] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Mock claims until the backend provides them.
-  const usedSlots = countOccupiedSlots(MOCK_PROFILE.promoClaims);
-  const isFull = usedSlots >= MAX_PROMO_SLOTS;
+  // Only used to show the slots and to disable the button when all are taken. The server enforces the limit.
+  const { data: promo } = useRemote(getMyPromo);
+  const slots = promo?.slots;
+  const isFull = slots ? slots.used >= slots.max : false;
   const platform = PROMO_PLATFORMS.find((item) => item.id === platformId);
 
   function handlePlatformChange(id) {
@@ -55,6 +54,7 @@ export default function Promo() {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    // Quick feedback without a round trip; the server repeats every check.
     const video = parseVideoLink(link, platformId);
     if (video.error) {
       setError(video.error);
@@ -65,17 +65,15 @@ export default function Promo() {
       return;
     }
 
-    setIsChecking(true);
-    const isUsed = await isVideoUsed(video.key);
-    setIsChecking(false);
-
-    if (isUsed) {
-      setError("This video was already used for a promo reward. Submit a different one.");
-      return;
+    setIsSending(true);
+    try {
+      await createPromoClaim({ platform: platformId, url: link.trim(), rewardProduct: rewardId });
+      setIsSubmitted(true);
+    } catch (claimError) {
+      setError(claimError.message);
+    } finally {
+      setIsSending(false);
     }
-
-    // TODO: send { rewardId, platformId, url } to the backend.
-    setIsSubmitted(true);
   }
 
   if (isSubmitted) {
@@ -110,9 +108,11 @@ export default function Promo() {
             <li key={rule}>{rule}</li>
           ))}
         </ul>
-        <p className={styles.slots}>
-          Your promo slots: {usedSlots} of {MAX_PROMO_SLOTS} in use
-        </p>
+        {slots && (
+          <p className={styles.slots}>
+            Your promo slots: {slots.used} of {slots.max} in use
+          </p>
+        )}
       </Panel>
 
       <Panel title="1. Choose your reward">
@@ -144,11 +144,11 @@ export default function Promo() {
         )}
         {isFull && (
           <p className={styles.error} role="alert">
-            All {MAX_PROMO_SLOTS} promo slots are in use. A slot frees up when a video is rejected or its reward expires.
+            All {slots.max} promo slots are in use. A slot frees up when a video is rejected or its reward expires.
           </p>
         )}
-        <Button type="submit" variant="primary" disabled={isChecking || isFull} className={styles.submit}>
-          {isChecking ? "Checking…" : "Submit for review"}
+        <Button type="submit" variant="primary" disabled={isSending || isFull} className={styles.submit}>
+          {isSending ? "Sending…" : "Submit for review"}
         </Button>
       </Panel>
     </form>

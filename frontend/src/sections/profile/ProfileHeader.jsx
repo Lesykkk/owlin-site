@@ -15,6 +15,7 @@ export default function ProfileHeader({ user, balanceCents }) {
           <p className={styles.meta}>
             {user.discordId && <span>Discord ID {user.discordId}</span>}
             <span>Member since {formatDate(user.createdAt)}</span>
+            {user.lastSeenAt && <span>Last launch {formatDate(user.lastSeenAt)}</span>}
           </p>
         </div>
       </div>
