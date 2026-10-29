@@ -100,7 +100,7 @@ async def test_me_returns_the_whole_overview(client, use_session, profile) -> No
     assert body["last_seen_at"] == "2026-10-28T09:00:00Z"
     assert body["subscriptions"]["spoofer"]["active"] is True
     assert body["subscriptions"]["spoofer"]["lifetime"] is False
-    assert body["subscriptions"]["dlc-unlock"] == {"active": False, "expires_at": None, "lifetime": False}
+    assert body["subscriptions"]["dlc-unlock"] == {"active": False, "started_at": None, "expires_at": None, "lifetime": False}
 
 
 @pytest.mark.asyncio
@@ -148,6 +148,20 @@ class TestSubscriptionOverview:
 
         assert overview["spoofer"] == SubscriptionInfo(active=True, expires_at=NOW + timedelta(days=5), lifetime=False)
         assert overview["dlc-unlock"] == SubscriptionInfo(active=True, expires_at=None, lifetime=True)
+
+    @pytest.mark.asyncio
+    async def test_started_at_comes_from_the_earliest_unfinished_grant(self) -> None:
+        subscription = UserSubscription(
+            user_id=uuid4(), spoofer_access=True, spoofer_expires_at=NOW + timedelta(days=5), dlc_access=False
+        )
+        session = ServiceSession({UserSubscription: subscription})
+        session.execute_rows = [("spoofer", NOW - timedelta(days=25)), ("dlc-unlock", NOW - timedelta(days=3))]
+
+        overview = await subscriptions.get_overview(session, subscription.user_id, NOW)
+
+        assert overview["spoofer"].started_at == NOW - timedelta(days=25)
+        # DLC is not active, so a stale start date is not reported.
+        assert overview["dlc-unlock"].started_at is None
 
     @pytest.mark.asyncio
     async def test_an_expired_or_disabled_module_is_inactive_without_a_date(self) -> None:

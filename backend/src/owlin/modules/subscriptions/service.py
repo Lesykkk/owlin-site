@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from uuid import UUID
 
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from owlin.modules.catalog.constants import PRODUCTS
@@ -52,6 +53,17 @@ async def get_overview(
     now = now or datetime.now(UTC)
     subscription = await session.get(UserSubscription, user_id)
 
+    # The current stretch of access starts with the earliest grant that has not run out yet.
+    started = await session.execute(
+        select(SubscriptionGrant.product, func.min(SubscriptionGrant.starts_at))
+        .where(
+            SubscriptionGrant.user_id == user_id,
+            (SubscriptionGrant.ends_at.is_(None)) | (SubscriptionGrant.ends_at > now),
+        )
+        .group_by(SubscriptionGrant.product)
+    )
+    started_at = dict(started.all())
+
     overview = {}
     for module, prefix in MODULE_COLUMNS.items():
         access = bool(subscription and getattr(subscription, f"{prefix}_access"))
@@ -59,6 +71,7 @@ async def get_overview(
         active = access and (expires_at is None or expires_at > now)
         overview[module] = SubscriptionInfo(
             active=active,
+            started_at=started_at.get(module) if active else None,
             expires_at=expires_at if active else None,
             lifetime=active and expires_at is None,
         )

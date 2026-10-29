@@ -44,9 +44,13 @@ class ServiceSession:
         self.committed = False
         self.rolled_back = False
         self.flush_error: Exception | None = None
+        self.execute_rows: list[tuple] = []
 
     async def get(self, model: type, _key: object, with_for_update: bool = False) -> object | None:
         return self.objects.get(model)
+
+    async def execute(self, _statement: object) -> SimpleNamespace:
+        return SimpleNamespace(all=lambda: self.execute_rows)
 
     async def scalar(self, _statement: object) -> object | None:
         return self.scalar_values.pop(0) if self.scalar_values else None
