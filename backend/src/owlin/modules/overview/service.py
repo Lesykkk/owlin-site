@@ -22,7 +22,6 @@ class Overview:
     created_at: datetime
     subscriptions: dict[str, SubscriptionInfo]
     balance_cents: int
-    promo_slots_used: int
     last_seen_at: datetime | None
 
 
@@ -49,11 +48,6 @@ QUERY = text(
         {_subscription_columns()},
         (select coalesce(sum(b.amount_cents), 0) from public.balance_transactions b where b.user_id = u.id)
             as balance_cents,
-        (
-            select count(*) from public.promo_claims c
-            where c.user_id = u.id
-              and (c.status = 'review' or (c.status = 'approved' and c.expires_at > :now))
-        ) as promo_slots_used,
         (select max(d.last_seen_at) from public.user_devices d where d.user_id = u.id) as last_seen_at
     from auth.users u
     left join auth.identities i on i.user_id = u.id and i.provider = 'discord'
@@ -84,6 +78,5 @@ async def load_overview(session: AsyncSession, user_id: UUID, now: datetime) -> 
             for module, prefix in MODULE_COLUMNS.items()
         },
         balance_cents=int(columns["balance_cents"]),
-        promo_slots_used=int(columns["promo_slots_used"]),
         last_seen_at=columns["last_seen_at"],
     )

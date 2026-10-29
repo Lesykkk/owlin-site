@@ -37,7 +37,6 @@ def profile(monkeypatch: pytest.MonkeyPatch):
                 "dlc-unlock": SubscriptionInfo(active=False, expires_at=None, lifetime=False),
             },
             balance_cents=350,
-            promo_slots_used=2,
             last_seen_at=LAST_SEEN,
         )
 
@@ -85,7 +84,7 @@ async def test_me_returns_the_whole_overview(client, use_session, profile) -> No
     assert body["discord_id"] == "123"
     assert body["is_admin"] is False
     assert body["balance_cents"] == 350
-    assert body["promo_slots"] == {"used": 2, "max": 8}
+    assert "promo_slots" not in body
     assert body["last_seen_at"] == "2026-10-28T09:00:00Z"
     assert body["subscriptions"]["spoofer"]["active"] is True
     assert body["subscriptions"]["spoofer"]["lifetime"] is False
@@ -106,7 +105,7 @@ async def test_me_is_not_admin_without_a_discord_identity(client, use_session, p
 
     async def no_discord(_session, _user_id, _now):
         return Overview(
-            discord_id=None, created_at=CREATED_AT, subscriptions={}, balance_cents=0, promo_slots_used=0, last_seen_at=None
+            discord_id=None, created_at=CREATED_AT, subscriptions={}, balance_cents=0, last_seen_at=None
         )
 
     monkeypatch.setattr(overview_service, "load_overview", no_discord)
@@ -199,7 +198,7 @@ class TestLoadOverview:
             created_at=CREATED_AT, discord_id="123",
             spoofer_access=True, spoofer_expires_at=NOW + timedelta(days=5), spoofer_started_at=NOW - timedelta(days=25),
             dlc_access=True, dlc_expires_at=None, dlc_started_at=None,
-            balance_cents=350, promo_slots_used=2, last_seen_at=LAST_SEEN,
+            balance_cents=350, last_seen_at=LAST_SEEN,
         )  # fmt: skip
         return FakeRow(**{**values, **overrides})
 
@@ -210,7 +209,7 @@ class TestLoadOverview:
         overview = await overview_service.load_overview(session, uuid4(), NOW)
 
         assert session.queries == 1
-        assert (overview.discord_id, overview.balance_cents, overview.promo_slots_used) == ("123", 350, 2)
+        assert (overview.discord_id, overview.balance_cents) == ("123", 350)
         assert overview.last_seen_at == LAST_SEEN
         assert overview.subscriptions["spoofer"] == SubscriptionInfo(
             active=True, started_at=NOW - timedelta(days=25), expires_at=NOW + timedelta(days=5), lifetime=False

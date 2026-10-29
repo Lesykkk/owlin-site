@@ -3,9 +3,8 @@ from datetime import UTC, datetime
 from fastapi import APIRouter
 
 from owlin.api.deps import CurrentUserDep, SessionDep, SettingsDep, unauthorized
-from owlin.modules.catalog.constants import MAX_PROMO_SLOTS
 from owlin.modules.overview import service as overview_service
-from owlin.modules.users.schemas import MeResponse, PromoSlots
+from owlin.modules.users.schemas import MeResponse
 
 router = APIRouter(prefix="/api", tags=["me"])
 
@@ -27,6 +26,5 @@ async def read_me(user: CurrentUserDep, session: SessionDep, settings: SettingsD
         is_admin=overview.discord_id in settings.admin_discord_ids,
         subscriptions=overview.subscriptions,
         balance_cents=overview.balance_cents,
-        promo_slots=PromoSlots(used=overview.promo_slots_used, max=MAX_PROMO_SLOTS),
         last_seen_at=overview.last_seen_at,
     )

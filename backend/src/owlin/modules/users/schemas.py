@@ -30,6 +30,5 @@ class MeResponse(BaseModel):
     # Keyed by module id: "spoofer", "dlc-unlock".
     subscriptions: dict[str, SubscriptionInfo]
     balance_cents: int
-    promo_slots: PromoSlots
     # The last time the loader signed in from any of the user's computers.
     last_seen_at: datetime | None
