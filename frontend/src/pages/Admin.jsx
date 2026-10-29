@@ -1,15 +1,8 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import PageState from "../components/PageState";
 import SegmentedControl from "../components/SegmentedControl";
-import { useRemote } from "../hooks/useRemote";
-import {
-  approveClaim,
-  approveOrder,
-  listAdminClaims,
-  listAdminOrders,
-  rejectClaim,
-  rejectOrder,
-} from "../lib/api";
+import { useAdminDecision, useAdminList } from "../hooks/queries";
+import { approveClaim, approveOrder, rejectClaim, rejectOrder } from "../lib/api";
 import OrderCard from "../sections/admin/OrderCard";
 import VideoCard from "../sections/admin/VideoCard";
 import styles from "./Admin.module.css";
@@ -30,20 +23,9 @@ export default function Admin() {
   const [section, setSection] = useState("payments");
   const [filter, setFilter] = useState("review");
 
-  // The result remembers what it was loaded for, so a stale list is never drawn with the wrong cards.
-  const load = useCallback(async () => {
-    const items = section === "payments" ? await listAdminOrders(filter) : await listAdminClaims(filter);
-    return { section, filter, items };
-  }, [section, filter]);
-  const { data, error, reload } = useRemote(load);
-
-  // After a decision the card leaves the queue, so the list is loaded again.
-  const decide = (action) => async () => {
-    await action();
-    await reload();
-  };
-
-  const isCurrent = data?.section === section && data?.filter === filter;
+  // Each section and filter has its own cached list, so switching back is instant.
+  const list = useAdminList(section, filter);
+  const { mutateAsync: decide } = useAdminDecision();
 
   return (
     <div className={`container ${styles.page}`}>
@@ -55,29 +37,29 @@ export default function Admin() {
         <SegmentedControl label="Filter by status" options={STATUS_FILTERS} value={filter} onChange={setFilter} />
       </div>
 
-      {error ? (
-        <PageState error={error} onRetry={reload} />
-      ) : !isCurrent ? (
+      {list.error ? (
+        <PageState error={list.error} onRetry={list.refetch} />
+      ) : list.isPending ? (
         <PageState isLoading />
-      ) : data.items.length === 0 ? (
+      ) : list.data.length === 0 ? (
         <p className={styles.empty}>Nothing here.</p>
       ) : (
         <div className={styles.list}>
           {section === "payments"
-            ? data.items.map((order) => (
+            ? list.data.map((order) => (
                 <OrderCard
                   key={order.id}
                   order={order}
-                  onApprove={(receivedCents) => decide(() => approveOrder(order.id, receivedCents))()}
-                  onReject={(reason) => decide(() => rejectOrder(order.id, reason))()}
+                  onApprove={(receivedCents) => decide(() => approveOrder(order.id, receivedCents))}
+                  onReject={(reason) => decide(() => rejectOrder(order.id, reason))}
                 />
               ))
-            : data.items.map((claim) => (
+            : list.data.map((claim) => (
                 <VideoCard
                   key={claim.id}
                   video={claim}
-                  onApprove={(views) => decide(() => approveClaim(claim.id, views))()}
-                  onReject={(reason) => decide(() => rejectClaim(claim.id, reason))()}
+                  onApprove={(views) => decide(() => approveClaim(claim.id, views))}
+                  onReject={(reason) => decide(() => rejectClaim(claim.id, reason))}
                 />
               ))}
         </div>

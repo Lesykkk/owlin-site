@@ -86,6 +86,13 @@ export async function uploadProof(slot, file) {
   if (error) throw new ApiError(0, "Could not upload a screenshot. Try again.");
 }
 
+// The whole order flow: create it, upload each screenshot, then send it for review.
+export async function placeOrder({ product, period, method, coin, files, proofText, note }) {
+  const order = await createOrder({ product, period, method, coin, files });
+  await Promise.all(order.uploads.map((slot, index) => uploadProof(slot, files[index])));
+  return submitOrder(order.id, { paths: order.uploads.map((slot) => slot.path), proofText, note });
+}
+
 // --- Promo ---
 
 export const createPromoClaim = ({ platform, url, rewardProduct }) =>

@@ -1,29 +1,28 @@
 import PageState from "../components/PageState";
-import { useRemote } from "../hooks/useRemote";
-import { getMe, getMyOrders, getMyPromo } from "../lib/api";
+import { useMe, useMyOrders, useMyPromo } from "../hooks/queries";
 import Orders from "../sections/profile/Orders";
 import ProfileHeader from "../sections/profile/ProfileHeader";
 import PromoHistory from "../sections/profile/PromoHistory";
 import Subscriptions from "../sections/profile/Subscriptions";
 import styles from "./Profile.module.css";
 
-const loadProfile = async () => {
-  const [me, orders, promo] = await Promise.all([getMe(), getMyOrders(), getMyPromo()]);
-  return { me, orders, promo };
-};
-
 export default function Profile() {
-  const { data, error, isLoading, reload } = useRemote(loadProfile);
+  // Usually already in the cache, so the page opens at once and refreshes quietly behind it.
+  const queries = [useMe(), useMyOrders(), useMyPromo()];
+  const [me, orders, promo] = queries;
 
-  if (isLoading || error) return <PageState isLoading={isLoading} error={error} onRetry={reload} />;
+  // A failed background refresh must not hide data that is already on screen.
+  const error = queries.find((query) => query.error && query.data === undefined)?.error;
+  if (error || queries.some((query) => query.isPending)) {
+    return <PageState isLoading={!error} error={error} onRetry={() => queries.forEach((query) => query.refetch())} />;
+  }
 
-  const { me, orders, promo } = data;
   return (
     <div className={`container ${styles.page}`}>
-      <ProfileHeader user={me} balanceCents={me.balanceCents} />
-      <Subscriptions subscriptions={me.subscriptions} />
-      <Orders orders={orders} />
-      <PromoHistory claims={promo.claims} slots={promo.slots} />
+      <ProfileHeader user={me.data} balanceCents={me.data.balanceCents} />
+      <Subscriptions subscriptions={me.data.subscriptions} />
+      <Orders orders={orders.data} />
+      <PromoHistory claims={promo.data.claims} slots={promo.data.slots} />
     </div>
   );
 }

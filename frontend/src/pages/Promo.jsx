@@ -11,8 +11,7 @@ import {
   PROMO_REWARDS,
   PROMO_RULES,
 } from "../config/promo";
-import { useRemote } from "../hooks/useRemote";
-import { createPromoClaim, getMyPromo } from "../lib/api";
+import { useMyPromo, useSubmitPromoClaim } from "../hooks/queries";
 import { parseVideoLink } from "../lib/videoLinks";
 import Submitted from "../sections/checkout/Submitted";
 import styles from "./Promo.module.css";
@@ -32,11 +31,11 @@ export default function Promo() {
   const [link, setLink] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState("");
-  const [isSending, setIsSending] = useState(false);
+  const claim = useSubmitPromoClaim();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Only used to show the slots and to disable the button when all are taken. The server enforces the limit.
-  const { data: promo } = useRemote(getMyPromo);
+  const { data: promo } = useMyPromo();
   const slots = promo?.slots;
   const isFull = slots ? slots.used >= slots.max : false;
   const platform = PROMO_PLATFORMS.find((item) => item.id === platformId);
@@ -65,14 +64,11 @@ export default function Promo() {
       return;
     }
 
-    setIsSending(true);
     try {
-      await createPromoClaim({ platform: platformId, url: link.trim(), rewardProduct: rewardId });
+      await claim.mutateAsync({ platform: platformId, url: link.trim(), rewardProduct: rewardId });
       setIsSubmitted(true);
     } catch (claimError) {
       setError(claimError.message);
-    } finally {
-      setIsSending(false);
     }
   }
 
@@ -147,8 +143,8 @@ export default function Promo() {
             All {slots.max} promo slots are in use. A slot frees up when a video is rejected or its reward expires.
           </p>
         )}
-        <Button type="submit" variant="primary" loading={isSending} disabled={isFull} className={styles.submit}>
-          {isSending ? "Sending…" : "Submit for review"}
+        <Button type="submit" variant="primary" loading={claim.isPending} disabled={isFull} className={styles.submit}>
+          {claim.isPending ? "Sending…" : "Submit for review"}
         </Button>
       </Panel>
     </form>

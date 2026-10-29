@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { prefetchUserData } from "../hooks/queries";
+import { queryClient } from "../lib/queryClient";
 import { supabase } from "../lib/supabase";
 import { AuthContext } from "./authContext";
 
@@ -32,6 +34,10 @@ export default function AuthProvider({ children }) {
 
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(toProfile(session?.user));
+
+      // Load the profile data in the background as soon as someone is signed in, and forget it on sign-out.
+      if (session) prefetchUserData(session.user.id);
+      else queryClient.clear();
 
       // Right after Discord login, continue where the user started (e.g. a checkout).
       const returnTo = session && localStorage.getItem(RETURN_KEY);
