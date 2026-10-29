@@ -8,11 +8,24 @@
   --color-line: #272037;
   --color-line-soft: rgba(255, 255, 255, 0.05);
   --color-text: #f0edf9;
+  --color-text-strong: #ffffff;
+  --color-text-soft: #c9c2dc;
   --color-text-muted: #a39bb8;
-  --color-text-faint: #82788f;
+  --color-text-faint: #8e7ba7;
   --color-eyebrow: #bba6e6;
   --color-accent: #a585ef;
   --color-accent-soft: #c3a5fa;
+  --color-danger: #ff718f;
+
+  --color-border: #4a3870;
+  --color-border-active: #5a3f8a;
+  --color-border-subtle: rgba(255, 255, 255, 0.07);
+  --color-border-accent-soft: rgba(165, 133, 239, 0.3);
+  --color-danger-soft: rgba(255, 113, 143, 0.3);
+
+  --color-surface-deep: #0c0916;
+  --color-surface-raised: #1d1630;
+  --color-fill-subtle: rgba(255, 255, 255, 0.016);
 
   --gradient-card: linear-gradient(145deg, #171123, #0d0a14);
   --gradient-button: linear-gradient(180deg, #6840d0, #422180);

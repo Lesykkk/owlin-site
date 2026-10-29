@@ -22,7 +22,7 @@
   height: 72px;
   border: 1px solid var(--color-line);
   border-radius: 50%;
-  background: #1d1630;
+  background: var(--color-surface-raised);
   object-fit: cover;
 }
 

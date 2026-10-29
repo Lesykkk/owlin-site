@@ -6,7 +6,7 @@
   padding: 27px 0;
   border-top: 1px solid var(--color-line);
   font-size: 12px;
-  color: #887d99;
+  color: var(--color-text-faint);
 }
 
 .links {
@@ -20,7 +20,7 @@
 }
 
 .links a:hover {
-  color: #fff;
+  color: var(--color-text-strong);
 }
 
 @media (max-width: 650px) {

@@ -9,7 +9,7 @@
 }
 
 .byline:hover {
-  color: #fff;
+  color: var(--color-text-strong);
 }
 
 .byline img {

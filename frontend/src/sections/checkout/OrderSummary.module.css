@@ -1,7 +1,7 @@
 .summary {
   position: sticky;
   top: 24px;
-  border-color: #5a3f8a;
+  border-color: var(--color-border-active);
 }
 
 .product {
@@ -26,7 +26,7 @@
   list-style: none;
   font-size: 13px;
   font-weight: 300;
-  color: #c9c2dc;
+  color: var(--color-text-soft);
 }
 
 .total {

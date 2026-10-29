@@ -4,9 +4,9 @@
   align-items: center;
   gap: 10px;
   padding: 34px 20px;
-  border: 1px dashed #3a2f59;
+  border: 1px dashed var(--color-border);
   border-radius: var(--radius-button);
-  background: rgba(255, 255, 255, 0.016);
+  background: var(--color-fill-subtle);
   text-align: center;
   font-size: 14px;
   font-weight: 300;
@@ -32,7 +32,7 @@
 }
 
 .pick:hover {
-  border-color: #4a3870;
+  border-color: var(--color-border);
 }
 
 .limits {
@@ -44,7 +44,7 @@
   margin: 12px 0 0;
   padding-left: 18px;
   font-size: 13px;
-  color: #ff718f;
+  color: var(--color-danger);
 }
 
 .previews {
@@ -78,8 +78,8 @@
   height: 24px;
   border: 1px solid var(--color-line);
   border-radius: 50%;
-  background: #1d1630;
-  color: #fff;
+  background: var(--color-surface-raised);
+  color: var(--color-text-strong);
   font-size: 14px;
   line-height: 1;
   cursor: pointer;
