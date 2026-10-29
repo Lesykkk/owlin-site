@@ -1,0 +1,19 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 56px 0 84px;
+}
+
+.note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-text-faint);
+}
+
+@media (max-width: 650px) {
+  .page {
+    padding-top: 32px;
+  }
+}

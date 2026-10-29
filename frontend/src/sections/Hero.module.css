@@ -1,0 +1,150 @@
+.hero {
+  position: relative;
+  padding-top: 92px;
+  isolation: isolate;
+}
+
+/* Glow limited to the container; it fades to transparent before reaching the box edges */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -70px 0 0;
+  z-index: -1;
+  background: radial-gradient(ellipse 32% 55% at 68% 50%, rgba(98, 54, 169, 0.2), transparent 100%);
+  pointer-events: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 65px;
+  align-items: center;
+}
+
+.title {
+  margin: 28px 0 24px;
+  font-size: clamp(48px, 5.2vw, 74px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -3.5px;
+}
+
+.accent {
+  color: var(--color-accent);
+}
+
+.brand {
+  color: #fff;
+  font-weight: 600;
+}
+
+.intro {
+  max-width: 420px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 31px;
+}
+
+.fine {
+  margin: 16px 0 0;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-text-faint);
+}
+
+/* Screenshot in a tilted app window */
+.art {
+  position: relative;
+  padding: 35px 0 22px;
+}
+
+.window {
+  overflow: hidden;
+  border: 1px solid rgba(86, 64, 113, 0.5);
+  border-radius: var(--radius-frame);
+  background: #0c0916;
+  transform: perspective(1300px) rotateY(-7deg) rotateX(3deg);
+}
+
+.window img {
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  margin: 25px 0 0;
+  text-align: right;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  color: #8b7b9f;
+}
+
+/* Supported games strip */
+.games {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-top: 76px;
+  padding: 22px 0;
+  border-top: 1px solid var(--color-line-soft);
+  border-bottom: 1px solid var(--color-line-soft);
+  font-size: 13px;
+  color: #bbb2ca;
+}
+
+.gamesLabel {
+  margin-right: auto;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #796f8a;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    gap: 28px;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding-top: 50px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 54px;
+    letter-spacing: -2.5px;
+  }
+
+  .window {
+    transform: none;
+  }
+
+  .caption {
+    margin-top: 14px;
+  }
+
+  .games {
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    margin-top: 34px;
+  }
+
+  .gamesLabel {
+    width: 100%;
+  }
+}

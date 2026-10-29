@@ -1,0 +1,17 @@
+.copy {
+  min-width: 64px;
+  min-height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.016);
+  color: var(--color-text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.copy:hover {
+  color: #fff;
+  border-color: #4a3870;
+}

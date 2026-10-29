@@ -1,0 +1,29 @@
+.reason {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 300;
+  color: #ff718f;
+}
+
+.note {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-text-muted);
+}
+
+.platform {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.platform svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-eyebrow);
+}
+
+.viewsField {
+  width: 160px;
+}

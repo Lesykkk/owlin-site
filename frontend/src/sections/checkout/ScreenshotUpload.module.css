@@ -1,0 +1,86 @@
+.drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 34px 20px;
+  border: 1px dashed #3a2f59;
+  border-radius: var(--radius-button);
+  background: rgba(255, 255, 255, 0.016);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-text-muted);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dragging {
+  border-color: var(--color-accent);
+  background: rgba(165, 133, 239, 0.06);
+}
+
+.pick {
+  min-height: 38px;
+  padding: 0 18px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-button);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.pick:hover {
+  border-color: #4a3870;
+}
+
+.limits {
+  font-size: 12px;
+  color: var(--color-text-faint);
+}
+
+.errors {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #ff718f;
+}
+
+.previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preview {
+  position: relative;
+  width: 120px;
+  height: 90px;
+}
+
+.preview img {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.preview button {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: #1d1630;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}

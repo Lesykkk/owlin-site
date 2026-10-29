@@ -1,0 +1,49 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 56px 0 84px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.head h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.filters {
+  display: flex;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.empty {
+  margin: 24px 0;
+  font-weight: 300;
+  color: var(--color-text-muted);
+}
+
+.note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-text-faint);
+}
+
+@media (max-width: 650px) {
+  .page {
+    padding-top: 32px;
+  }
+}

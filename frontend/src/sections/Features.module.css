@@ -1,0 +1,29 @@
+.section {
+  padding: 84px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 650px) {
+  .section {
+    padding: 57px 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
