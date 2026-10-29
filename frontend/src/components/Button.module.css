@@ -57,3 +57,9 @@
 .outline svg {
   color: var(--color-accent);
 }
+
+/* A button that is working stays readable; only a plainly disabled one is dimmed. */
+.button[aria-busy="true"]:disabled {
+  opacity: 0.8;
+  cursor: progress;
+}

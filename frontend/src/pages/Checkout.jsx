@@ -123,7 +123,7 @@ function CheckoutForm({ product, period }) {
               {error}
             </p>
           )}
-          <Button type="submit" variant="primary" disabled={isSubmitting} className={styles.submit}>
+          <Button type="submit" variant="primary" loading={isSubmitting} className={styles.submit}>
             {isSubmitting ? "Sending…" : "Submit for review"}
           </Button>
         </Panel>

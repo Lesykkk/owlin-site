@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Spinner from "./Spinner";
 import styles from "./Button.module.css";
 
 // Renders a router link for internal paths ("/pricing"), a plain link for the rest,
@@ -11,6 +12,7 @@ export default function Button({
   external = false,
   size = "md",
   disabled = false,
+  loading = false,
   className = "",
   children,
 }) {
@@ -18,7 +20,8 @@ export default function Button({
 
   if (href === undefined) {
     return (
-      <button type={type} className={classes} onClick={onClick} disabled={disabled}>
+      <button type={type} className={classes} onClick={onClick} disabled={disabled || loading} aria-busy={loading}>
+        {loading && <Spinner size={16} />}
         {children}
       </button>
     );

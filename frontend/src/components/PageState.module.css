@@ -1,7 +1,6 @@
 .state {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 16px;
   padding: 72px 0 84px;
   font-size: 15px;
@@ -11,4 +10,25 @@
 
 .state p {
   margin: 0;
+}
+
+/* Centered in the space the page will fill, so the footer does not jump when content arrives. */
+.loading {
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 0;
+  /* Quick loads never show it: it fades in only after a short wait. */
+  opacity: 0;
+  animation: appear 0.3s ease 0.2s forwards;
+}
+
+.failed {
+  align-items: flex-start;
+}
+
+@keyframes appear {
+  to {
+    opacity: 1;
+  }
 }

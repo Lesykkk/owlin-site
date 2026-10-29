@@ -147,7 +147,7 @@ export default function Promo() {
             All {slots.max} promo slots are in use. A slot frees up when a video is rejected or its reward expires.
           </p>
         )}
-        <Button type="submit" variant="primary" disabled={isSending || isFull} className={styles.submit}>
+        <Button type="submit" variant="primary" loading={isSending} disabled={isFull} className={styles.submit}>
           {isSending ? "Sending…" : "Submit for review"}
         </Button>
       </Panel>
