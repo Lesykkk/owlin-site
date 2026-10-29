@@ -64,18 +64,29 @@ async def get_overview(
     )
     started_at = dict(started.all())
 
-    overview = {}
-    for module, prefix in MODULE_COLUMNS.items():
-        access = bool(subscription and getattr(subscription, f"{prefix}_access"))
-        expires_at = subscription and getattr(subscription, f"{prefix}_expires_at")
-        active = access and (expires_at is None or expires_at > now)
-        overview[module] = SubscriptionInfo(
-            active=active,
-            started_at=started_at.get(module) if active else None,
-            expires_at=expires_at if active else None,
-            lifetime=active and expires_at is None,
+    return {
+        module: build_info(
+            access=subscription and getattr(subscription, f"{prefix}_access"),
+            expires_at=subscription and getattr(subscription, f"{prefix}_expires_at"),
+            started_at=started_at.get(module),
+            now=now,
         )
-    return overview
+        for module, prefix in MODULE_COLUMNS.items()
+    }
+
+
+def build_info(
+    access: bool | None, expires_at: datetime | None, started_at: datetime | None, now: datetime
+) -> SubscriptionInfo:
+    """What the user sees for one module, from its raw columns."""
+    access = bool(access)
+    active = access and (expires_at is None or expires_at > now)
+    return SubscriptionInfo(
+        active=active,
+        started_at=started_at if active else None,
+        expires_at=expires_at if active else None,
+        lifetime=active and expires_at is None,
+    )
 
 
 async def get_subscription_for_update(session: AsyncSession, user_id: UUID) -> UserSubscription:

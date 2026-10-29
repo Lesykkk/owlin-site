@@ -1,3 +1,4 @@
+from types import SimpleNamespace
 from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
@@ -7,13 +8,11 @@ from owlin.api.app import app
 from owlin.api.deps import get_current_user
 from owlin.core.config import Settings, get_settings
 from owlin.core.security import AuthenticationError, TokenUser
-from owlin.modules.balance import service as balance
-from owlin.modules.devices import service as devices
-from owlin.modules.promo import service as promo
+from owlin.modules.overview import service as overview_service
+from owlin.modules.overview.service import Overview
 from owlin.modules.subscriptions import service as subscriptions
 from owlin.modules.subscriptions.models import UserSubscription
 from owlin.modules.subscriptions.schemas import SubscriptionInfo
-from owlin.modules.users import service as users
 from tests.conftest import ServiceSession
 
 USER = TokenUser(id=uuid4(), username="Pedro", avatar_url="https://cdn.example/a.png")
@@ -24,37 +23,27 @@ NOW = datetime(2026, 10, 29, 12, 0, tzinfo=UTC)
 
 @pytest.fixture
 def profile(monkeypatch: pytest.MonkeyPatch):
-    """Signs in as USER and fakes everything /api/me reads. Returns a setter for the Discord id."""
-    state = {"discord_id": "123"}
+    """Signs in as USER and fakes the overview /api/me reads. Returns a setter for the Discord id."""
+    state = {"discord_id": "123", "admins": []}
 
-    async def get_account(_session, _user_id):
+    async def load_overview(_session, _user_id, _now):
         if state["discord_id"] == "missing":
             return None
-        return users.Account(discord_id=state["discord_id"], created_at=CREATED_AT)
+        return Overview(
+            discord_id=state["discord_id"],
+            created_at=CREATED_AT,
+            subscriptions={
+                "spoofer": SubscriptionInfo(active=True, expires_at=NOW + timedelta(days=20), lifetime=False),
+                "dlc-unlock": SubscriptionInfo(active=False, expires_at=None, lifetime=False),
+            },
+            balance_cents=350,
+            promo_slots_used=2,
+            last_seen_at=LAST_SEEN,
+        )
 
-    async def get_overview(_session, _user_id, _now=None):
-        return {
-            "spoofer": SubscriptionInfo(active=True, expires_at=NOW + timedelta(days=20), lifetime=False),
-            "dlc-unlock": SubscriptionInfo(active=False, expires_at=None, lifetime=False),
-        }
-
-    async def get_balance(_session, _user_id):
-        return 350
-
-    async def count_slots(_session, _user_id, _now):
-        return 2
-
-    async def last_seen(_session, _user_id):
-        return LAST_SEEN
-
-    monkeypatch.setattr(users, "get_account", get_account)
-    monkeypatch.setattr(subscriptions, "get_overview", get_overview)
-    monkeypatch.setattr(balance, "get_balance", get_balance)
-    monkeypatch.setattr(promo, "count_occupied_slots", count_slots)
-    monkeypatch.setattr(devices, "get_last_seen", last_seen)
-
+    monkeypatch.setattr(overview_service, "load_overview", load_overview)
     app.dependency_overrides[get_current_user] = lambda: USER
-    app.dependency_overrides[get_settings] = lambda: Settings(admin_discord_ids=state.get("admins", []))
+    app.dependency_overrides[get_settings] = lambda: Settings(admin_discord_ids=state["admins"])
 
     def configure(discord_id: str = "123", admins: list[str] | None = None) -> None:
         state["discord_id"] = discord_id
@@ -115,10 +104,12 @@ async def test_me_marks_configured_discord_ids_as_admin(client, use_session, pro
 async def test_me_is_not_admin_without_a_discord_identity(client, use_session, profile, monkeypatch) -> None:
     profile(admins=["123"])
 
-    async def no_discord(_session, _user_id):
-        return users.Account(discord_id=None, created_at=CREATED_AT)
+    async def no_discord(_session, _user_id, _now):
+        return Overview(
+            discord_id=None, created_at=CREATED_AT, subscriptions={}, balance_cents=0, promo_slots_used=0, last_seen_at=None
+        )
 
-    monkeypatch.setattr(users, "get_account", no_discord)
+    monkeypatch.setattr(overview_service, "load_overview", no_discord)
     use_session(ServiceSession())
 
     assert (await client.get("/api/me")).json()["is_admin"] is False
@@ -185,3 +176,65 @@ class TestSubscriptionOverview:
         overview = await subscriptions.get_overview(ServiceSession(), uuid4(), NOW)
 
         assert not any(info.active for info in overview.values())
+
+
+class FakeRow:
+    def __init__(self, **values: object) -> None:
+        self._mapping = values
+
+
+class OverviewSession:
+    def __init__(self, row: FakeRow | None) -> None:
+        self.row = row
+        self.queries = 0
+
+    async def execute(self, _statement: object, _params: object = None):
+        self.queries += 1
+        return SimpleNamespace(one_or_none=lambda: self.row)
+
+
+class TestLoadOverview:
+    def row(self, **overrides: object) -> FakeRow:
+        values = dict(
+            created_at=CREATED_AT, discord_id="123",
+            spoofer_access=True, spoofer_expires_at=NOW + timedelta(days=5), spoofer_started_at=NOW - timedelta(days=25),
+            dlc_access=True, dlc_expires_at=None, dlc_started_at=None,
+            balance_cents=350, promo_slots_used=2, last_seen_at=LAST_SEEN,
+        )  # fmt: skip
+        return FakeRow(**{**values, **overrides})
+
+    @pytest.mark.asyncio
+    async def test_reads_everything_in_one_query(self) -> None:
+        session = OverviewSession(self.row())
+
+        overview = await overview_service.load_overview(session, uuid4(), NOW)
+
+        assert session.queries == 1
+        assert (overview.discord_id, overview.balance_cents, overview.promo_slots_used) == ("123", 350, 2)
+        assert overview.last_seen_at == LAST_SEEN
+        assert overview.subscriptions["spoofer"] == SubscriptionInfo(
+            active=True, started_at=NOW - timedelta(days=25), expires_at=NOW + timedelta(days=5), lifetime=False
+        )
+        assert overview.subscriptions["dlc-unlock"].lifetime is True
+
+    @pytest.mark.asyncio
+    async def test_a_user_without_a_subscription_row_has_nothing_active(self) -> None:
+        row = self.row(
+            spoofer_access=None, spoofer_expires_at=None, spoofer_started_at=None,
+            dlc_access=None, dlc_expires_at=None, dlc_started_at=None, last_seen_at=None,
+        )  # fmt: skip
+
+        overview = await overview_service.load_overview(OverviewSession(row), uuid4(), NOW)
+
+        assert not any(info.active for info in overview.subscriptions.values())
+        assert overview.last_seen_at is None
+
+    @pytest.mark.asyncio
+    async def test_an_unknown_user_gives_none(self) -> None:
+        assert await overview_service.load_overview(OverviewSession(None), uuid4(), NOW) is None
+
+    def test_the_query_covers_every_module(self) -> None:
+        sql = str(overview_service.QUERY)
+
+        for prefix in ("spoofer", "dlc"):
+            assert f"{prefix}_access" in sql and f"{prefix}_started_at" in sql
