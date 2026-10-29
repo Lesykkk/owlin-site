@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from sqlalchemy import CheckConstraint, ForeignKey, Index, func
+from sqlalchemy import CheckConstraint, ForeignKey, Index, func, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from owlin.core.db import Base, in_list
@@ -16,10 +16,18 @@ class BalanceTransaction(Base):
         CheckConstraint("amount_cents <> 0", name="amount_not_zero"),
         CheckConstraint(in_list("reason", BALANCE_REASONS), name="reason"),
         Index("ix_balance_transactions_user_created", "user_id", "created_at"),
+        # An order's surplus can be credited to the balance only once.
+        Index(
+            "uq_balance_transactions_order_overpay",
+            "order_id",
+            unique=True,
+            postgresql_where=text("reason = 'order_overpay'"),
+        ),
     )
 
     id: Mapped[UUID] = mapped_column(primary_key=True, server_default=func.gen_random_uuid())
-    user_id: Mapped[UUID] = mapped_column(ForeignKey("auth.users.id", ondelete="CASCADE"))
+    # RESTRICT: a user with balance history cannot be deleted, so money records are never lost silently.
+    user_id: Mapped[UUID] = mapped_column(ForeignKey("auth.users.id", ondelete="RESTRICT"))
     # Positive adds to the balance, negative spends it.
     amount_cents: Mapped[int]
     reason: Mapped[str]

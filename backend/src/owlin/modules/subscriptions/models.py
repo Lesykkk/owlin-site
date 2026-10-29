@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from sqlalchemy import CheckConstraint, ForeignKey, Index, false, func
+from sqlalchemy import CheckConstraint, ForeignKey, Index, false, func, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from owlin.core.db import Base, in_list
@@ -52,6 +52,22 @@ class SubscriptionGrant(Base):
             name="source_reference",
         ),
         Index("ix_subscription_grants_user_created", "user_id", "created_at"),
+        # Safety net against granting twice: one grant per module for each order or promo claim.
+        # Admin grants have neither, so they are not limited.
+        Index(
+            "uq_subscription_grants_order_product",
+            "order_id",
+            "product",
+            unique=True,
+            postgresql_where=text("order_id IS NOT NULL"),
+        ),
+        Index(
+            "uq_subscription_grants_promo_claim_product",
+            "promo_claim_id",
+            "product",
+            unique=True,
+            postgresql_where=text("promo_claim_id IS NOT NULL"),
+        ),
     )
 
     id: Mapped[UUID] = mapped_column(primary_key=True, server_default=func.gen_random_uuid())

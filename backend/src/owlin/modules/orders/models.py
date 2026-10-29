@@ -30,7 +30,8 @@ class Order(Base):
     )
 
     id: Mapped[UUID] = mapped_column(primary_key=True, server_default=func.gen_random_uuid())
-    user_id: Mapped[UUID] = mapped_column(ForeignKey("auth.users.id", ondelete="CASCADE"))
+    # RESTRICT: a user who has orders cannot be deleted, so payment history is never lost silently.
+    user_id: Mapped[UUID] = mapped_column(ForeignKey("auth.users.id", ondelete="RESTRICT"))
 
     # Catalog ids (see modules/catalog); validated in code, not by the database.
     product: Mapped[str]
