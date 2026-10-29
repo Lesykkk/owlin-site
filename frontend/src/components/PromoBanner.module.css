@@ -46,10 +46,10 @@
   padding: 7px 13px;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-button);
-  background: rgba(255, 255, 255, 0.016);
+  background: var(--color-fill-subtle);
   font-size: 13px;
   font-weight: 300;
-  color: #c9c2dc;
+  color: var(--color-text-soft);
 }
 
 .platforms svg {

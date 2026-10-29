@@ -1,20 +1,20 @@
 .badge {
   display: inline-block;
   padding: 4px 9px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 5px;
   font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #b2a1c9;
+  color: var(--color-text-soft);
 }
 
 .approved {
-  border-color: rgba(165, 133, 239, 0.3);
+  border-color: var(--color-border-accent-soft);
   color: var(--color-accent-soft);
 }
 
 .rejected {
-  border-color: rgba(255, 113, 143, 0.3);
-  color: #ff718f;
+  border-color: var(--color-danger-soft);
+  color: var(--color-danger);
 }

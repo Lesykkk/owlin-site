@@ -107,7 +107,7 @@
 .error {
   margin: 14px 0 0;
   font-size: 13px;
-  color: #ff718f;
+  color: var(--color-danger);
 }
 
 .submit {

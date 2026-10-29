@@ -51,7 +51,7 @@
 
 .outline {
   border-color: var(--color-line);
-  background: rgba(255, 255, 255, 0.016);
+  background: var(--color-fill-subtle);
 }
 
 .outline svg {

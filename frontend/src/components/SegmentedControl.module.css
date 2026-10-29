@@ -5,7 +5,7 @@
   padding: 4px;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-button);
-  background: rgba(255, 255, 255, 0.016);
+  background: var(--color-fill-subtle);
 }
 
 .option {
@@ -30,10 +30,10 @@
 }
 
 .option:hover {
-  color: #fff;
+  color: var(--color-text-strong);
 }
 
 .active {
   background: var(--gradient-button);
-  color: #fff;
+  color: var(--color-text-strong);
 }
