@@ -2,7 +2,7 @@ from collections.abc import AsyncIterator
 from datetime import datetime
 from functools import lru_cache
 
-from sqlalchemy import Column, DateTime, Table, Text, Uuid
+from sqlalchemy import Column, DateTime, MetaData, Table, Text, Uuid
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
@@ -12,6 +12,17 @@ from owlin.core.config import get_settings
 class Base(DeclarativeBase):
     """Base class of all ORM models."""
 
+    # Gives every new constraint a predictable name (named CheckConstraints become ck_<table>_<name>).
+    metadata = MetaData(
+        naming_convention={
+            "ix": "ix_%(column_0_label)s",
+            "uq": "uq_%(table_name)s_%(column_0_name)s",
+            "ck": "ck_%(table_name)s_%(constraint_name)s",
+            "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+            "pk": "pk_%(table_name)s",
+        }
+    )
+
     # Every str column is text and every datetime column is timestamptz.
     type_annotation_map = {str: Text(), datetime: DateTime(timezone=True)}
 
@@ -19,6 +30,11 @@ class Base(DeclarativeBase):
 # Stand-in for Supabase's own auth.users so foreign keys to it can be declared.
 # Alembic ignores it (it only manages the public schema), so it is never created.
 auth_users = Table("users", Base.metadata, Column("id", Uuid, primary_key=True), schema="auth")
+
+
+def in_list(column: str, values: tuple[str, ...]) -> str:
+    """SQL text of a CHECK that limits a column to the given values."""
+    return f"{column} IN ({', '.join(repr(value) for value in values)})"
 
 
 @lru_cache
