@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     environment: str = "development"
+    database_url: str | None = None
     # Lists come from the environment as comma-separated strings.
     cors_origins: Annotated[list[str], NoDecode] = ["http://localhost:5173"]
     admin_discord_ids: Annotated[list[str], NoDecode] = []
@@ -20,6 +21,17 @@ class Settings(BaseSettings):
     def split_comma_separated(cls, value: object) -> object:
         if isinstance(value, str):
             return [item.strip() for item in value.split(",") if item.strip()]
+        return value
+
+    @field_validator("database_url", mode="after")
+    @classmethod
+    def use_asyncpg_driver(cls, value: str | None) -> str | None:
+        # Supabase shows plain postgresql:// strings; SQLAlchemy needs the async driver named.
+        if value is None:
+            return None
+        for prefix in ("postgresql://", "postgres://"):
+            if value.startswith(prefix):
+                return "postgresql+asyncpg://" + value.removeprefix(prefix)
         return value
 
     @property
