@@ -52,7 +52,7 @@ async def test_valid_token_returns_claims(signing_key) -> None:
 @pytest.mark.parametrize(
     "overrides",
     [
-        {"exp": int(time.time()) - 10},
+        {"exp": int(time.time()) - 300},
         {"aud": "someone-else"},
         {"iss": "https://evil.example/auth/v1"},
         {"sub": "not-a-uuid"},
@@ -61,6 +61,27 @@ async def test_valid_token_returns_claims(signing_key) -> None:
 async def test_bad_claims_are_rejected(signing_key, overrides) -> None:
     with pytest.raises(AuthenticationError):
         await verify_token(make_token(signing_key, **overrides))
+
+
+@pytest.mark.asyncio
+async def test_a_token_issued_a_few_seconds_ahead_of_our_clock_is_accepted(signing_key) -> None:
+    # Our clock may run slightly behind the one that issued the token.
+    claims = await verify_token(make_token(signing_key, iat=int(time.time()) + 20))
+
+    assert "sub" in claims
+
+
+@pytest.mark.asyncio
+async def test_a_token_issued_far_in_the_future_is_still_rejected(signing_key) -> None:
+    with pytest.raises(AuthenticationError):
+        await verify_token(make_token(signing_key, iat=int(time.time()) + 600, exp=int(time.time()) + 1200))
+
+
+@pytest.mark.asyncio
+async def test_a_token_that_expired_a_few_seconds_ago_is_accepted_within_the_leeway(signing_key) -> None:
+    claims = await verify_token(make_token(signing_key, exp=int(time.time()) - 10))
+
+    assert "sub" in claims
 
 
 @pytest.mark.asyncio

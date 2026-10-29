@@ -11,6 +11,9 @@ from owlin.core.config import get_settings
 
 JWT_ALGORITHMS = ["ES256"]
 JWT_AUDIENCE = "authenticated"
+# Clocks of two machines never agree exactly. A token issued a few seconds "in the future" (by our
+# clock) is still accepted, so a slightly slow server or laptop does not reject fresh logins.
+JWT_LEEWAY_SECONDS = 60
 
 
 class AuthenticationError(Exception):
@@ -63,6 +66,7 @@ async def verify_token(token: str) -> dict[str, Any]:
             audience=JWT_AUDIENCE,
             issuer=settings.jwt_issuer,
             options={"require": ["exp", "sub"]},
+            leeway=JWT_LEEWAY_SECONDS,
         )
         UUID(claims["sub"])
     except (PyJWTError, ValueError) as error:
