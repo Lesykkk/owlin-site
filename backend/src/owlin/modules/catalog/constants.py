@@ -35,7 +35,7 @@ PAYMENT_METHOD_IDS = ("paypal", "crypto", "steam")
 PROMO_MIN_VIEWS: dict[str, int | None] = {"tiktok": 5000, "youtube": 1000, "other": None}
 PROMO_PLATFORM_IDS = tuple(PROMO_MIN_VIEWS)
 # A video must not be older than this when it is submitted.
-MAX_VIDEO_AGE_DAYS = 7
+MAX_VIDEO_AGE_DAYS = 14
 # Promo claims a user may have under review or still running at the same time.
 MAX_PROMO_SLOTS = 8
 

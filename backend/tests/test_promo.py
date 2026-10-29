@@ -83,11 +83,11 @@ class TestParseVideoLink:
 
 class TestEnsureRecent:
     def test_a_fresh_tiktok_is_accepted(self) -> None:
-        ensure_recent(ParsedVideo("tiktok:1", published_at=NOW - timedelta(days=6, hours=23)), NOW)
+        ensure_recent(ParsedVideo("tiktok:1", published_at=NOW - timedelta(days=13, hours=23)), NOW)
 
     def test_an_old_tiktok_is_rejected(self) -> None:
-        with pytest.raises(InvalidRequestError, match="older than 7 days"):
-            ensure_recent(ParsedVideo("tiktok:1", published_at=NOW - timedelta(days=8)), NOW)
+        with pytest.raises(InvalidRequestError, match="older than 14 days"):
+            ensure_recent(ParsedVideo("tiktok:1", published_at=NOW - timedelta(days=15)), NOW)
 
     def test_a_date_in_the_future_means_the_id_is_not_a_real_video(self) -> None:
         with pytest.raises(InvalidRequestError):

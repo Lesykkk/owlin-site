@@ -128,7 +128,7 @@ export default function Promo() {
         <label className={styles.confirm}>
           <input type="checkbox" checked={isConfirmed} onChange={(event) => setIsConfirmed(event.target.checked)} />
           <span>
-            The video mentions Owlin, does not advertise competitors and was published within the last{" "}
+            The video mentions or shows Owlin, links to our Discord server or owlin.software, does not advertise competitors and was published within the last{" "}
             {MAX_VIDEO_AGE_DAYS} days.
           </span>
         </label>

@@ -1,5 +1,7 @@
+import { LINKS } from "./links";
+
 export const PROMO_DAYS = 7;
-export const MAX_VIDEO_AGE_DAYS = 7;
+export const MAX_VIDEO_AGE_DAYS = 14;
 // Pending and active claims share this limit; expired and rejected ones do not count.
 export const MAX_PROMO_SLOTS = 8;
 
@@ -16,7 +18,8 @@ export const PROMO_REWARDS = [
 ];
 
 export const PROMO_RULES = [
-  "Owlin is mentioned in the video, in text or by voice.",
+  "Owlin is mentioned or shown in the video, so that viewers clearly notice it.",
+  `The video also links to our Discord server (${LINKS.discord}) or to owlin.software.`,
   "The video does not advertise competitors' products together with Owlin.",
   `The video is not older than ${MAX_VIDEO_AGE_DAYS} days when you submit it.`,
   `One video gives ${PROMO_DAYS} days of Spoofer or DLC Unlock.`,
