@@ -1,0 +1,94 @@
+:root {
+  color-scheme: dark;
+
+  --font-family: "Outfit", Arial, sans-serif;
+
+  --color-bg: #07050d;
+  --color-panel: #100c19;
+  --color-line: #272037;
+  --color-line-soft: rgba(255, 255, 255, 0.05);
+  --color-text: #f0edf9;
+  --color-text-muted: #a39bb8;
+  --color-text-faint: #82788f;
+  --color-eyebrow: #bba6e6;
+  --color-accent: #a585ef;
+  --color-accent-soft: #c3a5fa;
+
+  --gradient-card: linear-gradient(145deg, #171123, #0d0a14);
+  --gradient-button: linear-gradient(180deg, #6840d0, #422180);
+
+  --radius-button: 9px;
+  --radius-card: 13px;
+  --radius-frame: 14px;
+
+  --content-width: 1180px;
+  --page-gutter: 28px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 30px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  font-synthesis: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: #7044b8;
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid #cbb2ff;
+  outline-offset: 4px;
+}
+
+.container {
+  width: min(var(--content-width), calc(100% - 2 * var(--page-gutter)));
+  margin-inline: auto;
+}
+
+@media (max-width: 650px) {
+  :root {
+    --page-gutter: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

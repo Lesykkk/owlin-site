@@ -1,0 +1,31 @@
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  transition: color 0.2s;
+}
+
+.user:hover {
+  color: #fff;
+}
+
+.user img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Keeps the header from jumping while the session is being restored */
+.placeholder {
+  width: 164px;
+  height: 44px;
+}

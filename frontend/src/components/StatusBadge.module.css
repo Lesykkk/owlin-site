@@ -1,0 +1,20 @@
+.badge {
+  display: inline-block;
+  padding: 4px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 5px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #b2a1c9;
+}
+
+.approved {
+  border-color: rgba(165, 133, 239, 0.3);
+  color: var(--color-accent-soft);
+}
+
+.rejected {
+  border-color: rgba(255, 113, 143, 0.3);
+  color: #ff718f;
+}

@@ -1,0 +1,69 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 27px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--gradient-card);
+  transition: border-color 0.25s;
+}
+
+.card:hover {
+  border-color: #4a3870;
+}
+
+.highlighted {
+  border-color: #5a3f8a;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  min-height: 22px;
+}
+
+.label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #8e7ba7;
+}
+
+.badge {
+  padding: 4px 8px;
+  border: 1px solid rgba(165, 133, 239, 0.3);
+  border-radius: 5px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-accent-soft);
+}
+
+.description {
+  margin: 20px 0 0;
+  min-height: 48px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.from {
+  margin-top: 22px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.price {
+  margin-top: 2px;
+  font-size: 42px;
+  letter-spacing: -1.5px;
+}
+
+.action {
+  margin-top: 24px;
+}

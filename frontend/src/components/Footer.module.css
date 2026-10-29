@@ -1,0 +1,31 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 27px 0;
+  border-top: 1px solid var(--color-line);
+  font-size: 12px;
+  color: #887d99;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 23px;
+}
+
+.links a {
+  transition: color 0.2s;
+}
+
+.links a:hover {
+  color: #fff;
+}
+
+@media (max-width: 650px) {
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
