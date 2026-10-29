@@ -9,6 +9,7 @@ from owlin.api.deps import get_current_user, get_storage
 from owlin.core.errors import ConflictError, InvalidRequestError, NotFoundError
 from owlin.core.security import TokenUser
 from owlin.integrations.supabase_storage import ObjectInfo, UploadTarget
+from owlin.modules.catalog.constants import MAX_SCREENSHOT_BYTES
 from owlin.modules.orders import service
 from owlin.modules.orders.models import Order, OrderScreenshot
 from owlin.modules.orders.schemas import CreateOrderRequest, ScreenshotDeclaration
@@ -106,11 +107,11 @@ class TestPaymentValidation:
             service.validate_payment("cash", None)
 
     def test_screenshots_are_limited_by_type_and_size(self) -> None:
-        service.validate_screenshot("image/webp", 25 * 1024 * 1024)
+        service.validate_screenshot("image/webp", MAX_SCREENSHOT_BYTES)
         with pytest.raises(InvalidRequestError):
             service.validate_screenshot("application/pdf", 10)
         with pytest.raises(InvalidRequestError):
-            service.validate_screenshot("image/png", 25 * 1024 * 1024 + 1)
+            service.validate_screenshot("image/png", MAX_SCREENSHOT_BYTES + 1)
 
 
 class TestCreateOrder:

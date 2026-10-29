@@ -1,5 +1,5 @@
 export const MAX_SCREENSHOTS = 3;
-export const MAX_SIZE_MB = 25;
+export const MAX_SIZE_MB = 5;
 const MAX_BYTES = MAX_SIZE_MB * 1024 * 1024;
 const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
 

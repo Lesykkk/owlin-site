@@ -45,5 +45,5 @@ GRANT_SOURCES = ("order", "promo", "admin")
 BALANCE_REASONS = ("order_overpay", "spent", "admin")
 
 SCREENSHOT_CONTENT_TYPES = ("image/png", "image/jpeg", "image/webp")
-MAX_SCREENSHOT_BYTES = 25 * 1024 * 1024
+MAX_SCREENSHOT_BYTES = 5 * 1024 * 1024
 MAX_SCREENSHOTS_PER_ORDER = 3
