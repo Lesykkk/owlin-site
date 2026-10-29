@@ -105,7 +105,7 @@ class TestApprove:
         assert session.committed is False
 
     @pytest.mark.asyncio
-    @pytest.mark.parametrize("status", ["approved", "rejected", "pending"])
+    @pytest.mark.parametrize("status", ["approved", "rejected"])
     async def test_only_orders_under_review_can_be_approved(self, status: str) -> None:
         order = make_order(status=status)
 

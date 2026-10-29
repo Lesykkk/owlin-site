@@ -23,7 +23,7 @@ PRICES_CENTS: dict[str, dict[str, int]] = {
 # Coins and networks offered when paying with crypto.
 CRYPTO_COIN_IDS = ("sol", "usdc-solana", "usdc-base", "usdt-trc20", "btc")
 # Orders a user may have waiting for review at the same time.
-MAX_OPEN_ORDERS = 3
+MAX_OPEN_ORDERS = 4
 
 # How long each period lasts. A month counts as 30 days; None means no end date.
 PERIOD_DAYS: dict[str, int | None] = {"1m": 30, "3m": 90, "6m": 180, "lifetime": None}
@@ -39,7 +39,7 @@ MAX_VIDEO_AGE_DAYS = 7
 # Promo claims a user may have under review or still running at the same time.
 MAX_PROMO_SLOTS = 8
 
-ORDER_STATUSES = ("pending", "review", "approved", "rejected")
+ORDER_STATUSES = ("review", "approved", "rejected")
 PROMO_CLAIM_STATUSES = ("review", "approved", "rejected")
 GRANT_SOURCES = ("order", "promo", "admin")
 BALANCE_REASONS = ("order_overpay", "spent", "admin")
@@ -47,3 +47,5 @@ BALANCE_REASONS = ("order_overpay", "spent", "admin")
 SCREENSHOT_CONTENT_TYPES = ("image/png", "image/jpeg", "image/webp")
 MAX_SCREENSHOT_BYTES = 5 * 1024 * 1024
 MAX_SCREENSHOTS_PER_ORDER = 3
+# The largest order request: every screenshot at its limit plus room for the text fields.
+MAX_ORDER_REQUEST_BYTES = MAX_SCREENSHOTS_PER_ORDER * MAX_SCREENSHOT_BYTES + 64 * 1024

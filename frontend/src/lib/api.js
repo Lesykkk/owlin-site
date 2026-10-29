@@ -2,9 +2,6 @@ import { supabase } from "./supabase";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// The bucket the backend hands out upload slots for.
-export const PROOFS_BUCKET = "payment-proofs";
-
 export class ApiError extends Error {
   constructor(status, message) {
     super(message);
@@ -32,9 +29,11 @@ function messageFor(status, payload) {
   return "Something went wrong. Try again in a moment.";
 }
 
+// `body` is a plain object (sent as JSON) or a FormData (sent as multipart, with the browser's boundary).
 async function request(method, path, body) {
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
+  const isForm = body instanceof FormData;
 
   let response;
   try {
@@ -42,9 +41,9 @@ async function request(method, path, body) {
       method,
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
-        ...(body && { "Content-Type": "application/json" }),
+        ...(body && !isForm && { "Content-Type": "application/json" }),
       },
-      body: body && JSON.stringify(body),
+      body: isForm ? body : body && JSON.stringify(body),
     });
   } catch {
     throw new ApiError(0, "Cannot reach the server. Try again in a moment.");
@@ -66,31 +65,18 @@ export const getMyPromo = () => get("/api/me/promo");
 
 // --- Orders ---
 
-// Step 1 returns the order id, the price and one upload slot per screenshot.
-export const createOrder = (order) =>
-  post("/api/orders", {
-    product: order.product,
-    period: order.period,
-    method: order.method,
-    coin: order.coin,
-    screenshots: order.files.map((file) => ({ content_type: file.type, size_bytes: file.size })),
-  });
-
-// Step 2, after the files are uploaded.
-export const submitOrder = (id, { paths, proofText, note }) =>
-  post(`/api/orders/${id}/submit`, { paths, proof_text: proofText, note });
-
-// Uploads straight into the private bucket with the one-time token from createOrder.
-export async function uploadProof(slot, file) {
-  const { error } = await supabase.storage.from(PROOFS_BUCKET).uploadToSignedUrl(slot.path, slot.token, file);
-  if (error) throw new ApiError(0, "Could not upload a screenshot. Try again.");
-}
-
-// The whole order flow: create it, upload each screenshot, then send it for review.
-export async function placeOrder({ product, period, method, coin, files, proofText, note }) {
-  const order = await createOrder({ product, period, method, coin, files });
-  await Promise.all(order.uploads.map((slot, index) => uploadProof(slot, files[index])));
-  return submitOrder(order.id, { paths: order.uploads.map((slot) => slot.path), proofText, note });
+// Places an order in one request: its details and the screenshots. The server checks everything and
+// either creates the order under review with all files stored, or refuses and saves nothing.
+export function placeOrder({ product, period, method, coin, files, proofText, note }) {
+  const form = new FormData();
+  form.append("product", product);
+  form.append("period", period);
+  form.append("method", method);
+  if (coin) form.append("coin", coin);
+  if (proofText) form.append("proof_text", proofText);
+  if (note) form.append("note", note);
+  files.forEach((file) => form.append("screenshots", file));
+  return post("/api/orders", form);
 }
 
 // --- Promo ---

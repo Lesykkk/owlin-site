@@ -1,39 +1,49 @@
-from uuid import UUID
+from typing import Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, File, Form, UploadFile
 
 from owlin.api.deps import CurrentUserDep, SessionDep, StorageDep
+from owlin.core.errors import InvalidRequestError
+from owlin.modules.catalog.constants import MAX_SCREENSHOT_BYTES, MAX_SCREENSHOTS_PER_ORDER
 from owlin.modules.orders import service
-from owlin.modules.orders.schemas import (
-    CreateOrderRequest,
-    CreateOrderResponse,
-    OrderResponse,
-    SubmitOrderRequest,
-    UploadSlot,
-)
+from owlin.modules.orders.schemas import OrderResponse
 
 router = APIRouter(prefix="/api", tags=["orders"])
 
 
+async def read_screenshot(file: UploadFile) -> bytes:
+    """Read one uploaded file, refusing to hold more than the allowed size in memory."""
+    content = await file.read(MAX_SCREENSHOT_BYTES + 1)
+    if len(content) > MAX_SCREENSHOT_BYTES:
+        raise InvalidRequestError(f"Each screenshot must be at most {MAX_SCREENSHOT_BYTES // (1024 * 1024)} MB")
+    return content
+
+
 @router.post("/orders", status_code=201)
 async def create_order(
-    body: CreateOrderRequest, user: CurrentUserDep, session: SessionDep, storage: StorageDep
-) -> CreateOrderResponse:
-    """Step 1: create the order and get a place to upload each screenshot."""
-    order, targets = await service.create_order(session, storage, user.id, body)
-    return CreateOrderResponse(
-        id=order.id,
-        amount_cents=order.amount_cents,
-        uploads=[UploadSlot(path=target.path, token=target.token) for target in targets],
-    )
-
-
-@router.post("/orders/{order_id}/submit")
-async def submit_order(
-    order_id: UUID, body: SubmitOrderRequest, user: CurrentUserDep, session: SessionDep, storage: StorageDep
+    user: CurrentUserDep,
+    session: SessionDep,
+    storage: StorageDep,
+    product: Annotated[str, Form()],
+    period: Annotated[str, Form()],
+    method: Annotated[str, Form()],
+    screenshots: Annotated[list[UploadFile], File()],
+    coin: Annotated[str | None, Form()] = None,
+    proof_text: Annotated[str | None, Form(max_length=300)] = None,
+    note: Annotated[str | None, Form(max_length=1000)] = None,
 ) -> OrderResponse:
-    """Step 2: after uploading the files, send the order to review."""
-    order = await service.submit_order(session, storage, user.id, order_id, body.paths, body.proof_text, body.note)
+    """Place an order: its data and screenshots in one multipart request.
+
+    The order is either created under review with all its files stored, or refused and nothing is saved.
+    """
+    if len(screenshots) > MAX_SCREENSHOTS_PER_ORDER:
+        raise InvalidRequestError(f"Attach from 1 to {MAX_SCREENSHOTS_PER_ORDER} screenshots")
+
+    files = [await read_screenshot(file) for file in screenshots]
+    data = service.NewOrder(
+        product=product, period=period, method=method, coin=coin or None, proof_text=proof_text, note=note
+    )
+    order = await service.create_order(session, storage, user.id, data, files)
     return OrderResponse.model_validate(order)
 
 

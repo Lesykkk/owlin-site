@@ -15,7 +15,8 @@ from owlin.modules.catalog.constants import (
 class Order(Base):
     """A manual payment: the user pays outside the site, uploads proof, an admin reviews it.
 
-    Statuses: pending (created, screenshots still uploading) -> review -> approved / rejected.
+    An order exists only once its screenshots are stored: it starts under review, then an admin
+    approves or rejects it. Requests that fail validation leave no order and no files.
     All money is in euro cents.
     """
 
@@ -42,7 +43,7 @@ class Order(Base):
     # What the user had to pay, calculated by the server.
     amount_cents: Mapped[int]
 
-    status: Mapped[str] = mapped_column(server_default="pending")
+    status: Mapped[str] = mapped_column(server_default="review")
     # Transaction hash, PayPal name or Steam name, whatever the method asks for (optional).
     proof_text: Mapped[str | None]
     note: Mapped[str | None]

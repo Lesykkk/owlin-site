@@ -92,8 +92,8 @@ async def reject_order(
 async def list_orders_for_admin(
     session: AsyncSession, storage: StorageClient, status: str | None
 ) -> list[AdminOrderResponse]:
-    """The review queue (oldest first) or a history list (newest first). Unsubmitted orders are left out."""
-    statement = select(Order).where(Order.status != "pending")
+    """The review queue (oldest first) or a history list (newest first)."""
+    statement = select(Order)
     if status is not None:
         statement = statement.where(Order.status == status)
     ordering = Order.created_at.asc() if status == "review" else Order.created_at.desc()

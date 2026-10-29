@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from owlin.api.middleware import BodyLimitMiddleware
 from owlin.api.routers import admin, health, me, orders, promo
 from owlin.core.config import get_settings
 from owlin.core.errors import AppError
@@ -17,6 +18,8 @@ def create_app() -> FastAPI:
         redoc_url=None,
         openapi_url=None if settings.is_production else "/openapi.json",
     )
+
+    app.add_middleware(BodyLimitMiddleware)
 
     # Auth uses the Authorization header, not cookies, so credentials stay off.
     app.add_middleware(

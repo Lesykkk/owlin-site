@@ -3,39 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from owlin.modules.catalog.constants import MAX_SCREENSHOTS_PER_ORDER
 from owlin.modules.users.schemas import UserInfo
-
-
-class ScreenshotDeclaration(BaseModel):
-    content_type: str
-    size_bytes: int = Field(gt=0)
-
-
-class CreateOrderRequest(BaseModel):
-    product: str
-    period: str
-    method: str
-    coin: str | None = None
-    # Declared up front so the server can hand out one upload slot per file.
-    screenshots: list[ScreenshotDeclaration] = Field(min_length=1, max_length=MAX_SCREENSHOTS_PER_ORDER)
-
-
-class UploadSlot(BaseModel):
-    path: str
-    token: str
-
-
-class CreateOrderResponse(BaseModel):
-    id: UUID
-    amount_cents: int
-    uploads: list[UploadSlot]
-
-
-class SubmitOrderRequest(BaseModel):
-    paths: list[str] = Field(min_length=1, max_length=MAX_SCREENSHOTS_PER_ORDER)
-    proof_text: str | None = Field(default=None, max_length=300)
-    note: str | None = Field(default=None, max_length=1000)
 
 
 class ApproveOrderRequest(BaseModel):
