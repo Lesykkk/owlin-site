@@ -13,6 +13,15 @@
   background: var(--gradient-card);
 }
 
+/* Same purple as the FREE tag next to Promo in the header. */
+.copy .tag {
+  color: var(--color-accent);
+}
+
+.free {
+  color: var(--color-notice);
+}
+
 .title {
   margin: 12px 0 0;
   font-size: 28px;

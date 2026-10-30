@@ -28,11 +28,18 @@ export const EXAMPLE_VIDEO = {
 // The Discord invite and the site address a promo video must link to; shown as links inside the rules.
 export const PROMO_LINK_TARGETS = [LINKS.discord, "owlin.software"];
 
+// "5,000 views on TikTok or 1,000 on YouTube", taken from the platform list so the two never disagree.
+const viewsRule = () => {
+  const [tiktok, youtube] = ["tiktok", "youtube"].map((id) => PROMO_PLATFORMS.find((platform) => platform.id === id));
+  return `The video has at least ${tiktok.minViews.toLocaleString("en-US")} views on TikTok or ${youtube.minViews.toLocaleString("en-US")} on YouTube. Videos on other sites are checked manually.`;
+};
+
 export const PROMO_RULES = [
   "Owlin is mentioned or shown in the video, so that viewers clearly notice it.",
   `The video also links to our Discord server (${LINKS.discord}) or to owlin.software.`,
   "The video does not advertise competitors' products together with Owlin.",
   `The video is not older than ${MAX_VIDEO_AGE_DAYS} days when you submit it.`,
+  viewsRule(),
   `One video gives ${PROMO_DAYS} days of Spoofer or DLC Unlock.`,
   `You can have up to ${MAX_PROMO_SLOTS} pending and active promo videos at a time. Expired and rejected ones do not count.`,
 ];
