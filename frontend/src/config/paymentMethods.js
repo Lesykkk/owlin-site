@@ -66,15 +66,6 @@ const CRYPTO_COINS = [
 // Top-level choices. A method with `coins` asks for one more choice (which coin).
 export const PAYMENT_METHODS = [
   {
-    id: "paypal",
-    label: "PayPal",
-    summary: "Pay by PayPal",
-    hint: "Send the exact amount to this PayPal address as Friends & Family.",
-    amount: { kind: "fiat" },
-    proofField: { label: "PayPal username (optional)", placeholder: "Your PayPal name" },
-    details: [{ label: "PayPal email", value: "pedrokapucci@owlin.software" }],
-  },
-  {
     id: "crypto",
     label: "Crypto",
     summary: "SOL, USDC, USDT, BTC",
@@ -94,6 +85,15 @@ export const PAYMENT_METHODS = [
         href: "https://steamcommunity.com/id/lesykkk/",
       },
     ],
+  },
+  {
+    id: "paypal",
+    label: "PayPal",
+    summary: "Pay by PayPal",
+    hint: "Send the exact amount to this PayPal address as Friends & Family.",
+    amount: { kind: "fiat" },
+    proofField: { label: "PayPal username (optional)", placeholder: "Your PayPal name" },
+    details: [{ label: "PayPal email", value: "pedrokapucci@owlin.software" }],
   },
 ];
 

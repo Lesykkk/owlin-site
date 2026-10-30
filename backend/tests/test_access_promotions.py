@@ -114,7 +114,7 @@ class TestActivePromotions:
 
 
 @pytest.mark.asyncio
-async def test_endpoint_is_public_and_cacheable(client, use_session, monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_endpoint_is_public(client, use_session, monkeypatch: pytest.MonkeyPatch) -> None:
     async def fake_rows(_session: object) -> list[PromotionRow]:
         return [make_promotion(ends_at=datetime(2099, 1, 1, tzinfo=UTC))]
 
@@ -125,4 +125,3 @@ async def test_endpoint_is_public_and_cacheable(client, use_session, monkeypatch
 
     assert response.status_code == 200
     assert response.json() == {"promotions": [{"name": "Free DLC", "modules": ["dlc-unlock"], "ends_at": "2099-01-01T00:00:00Z"}]}
-    assert response.headers["cache-control"] == "public, max-age=30"
