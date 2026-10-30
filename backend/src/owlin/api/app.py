@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from owlin.api.middleware import BodyLimitMiddleware
-from owlin.api.routers import admin, health, me, orders, promo
+from owlin.api.routers import admin, health, me, orders, promo, promotions
 from owlin.core.config import get_settings
 from owlin.core.errors import AppError
 
@@ -33,6 +33,7 @@ def create_app() -> FastAPI:
     app.include_router(me.router)
     app.include_router(orders.router)
     app.include_router(promo.router)
+    app.include_router(promotions.router)
     app.include_router(admin.router)
 
     @app.exception_handler(AppError)

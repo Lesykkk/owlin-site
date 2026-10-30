@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from sqlalchemy import CheckConstraint, ForeignKey, Index, false, func, text
+from sqlalchemy import CheckConstraint, ForeignKey, Index, false, func, text, true
 from sqlalchemy.orm import Mapped, mapped_column
 
 from owlin.core.db import Base, in_list
@@ -27,9 +27,9 @@ class UserSubscription(Base):
     spoofer_expires_at: Mapped[datetime | None]
     dlc_access: Mapped[bool] = mapped_column(server_default=false())
     dlc_expires_at: Mapped[datetime | None]
-    ets2_access: Mapped[bool] = mapped_column(server_default=false())
+    ets2_access: Mapped[bool] = mapped_column(server_default=true())
     ets2_expires_at: Mapped[datetime | None]
-    ets2mp_access: Mapped[bool] = mapped_column(server_default=false())
+    ets2mp_access: Mapped[bool] = mapped_column(server_default=true())
     ets2mp_expires_at: Mapped[datetime | None]
 
 
