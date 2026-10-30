@@ -30,6 +30,16 @@ export function freeNowInProduct(product, promotions) {
   return { names, endsAt: ends, isEverything: free.length === modulesOf(product).length };
 }
 
+// One promotion as shown in the strip: "FREE NOW · DLC UNLOCK · SPOOFER · until 14 Sept 2027".
+// The promotion's name replaces "FREE NOW" when it has one. Modules keep the order of the plans.
+export function promotionLabel({ name, modules, endsAt }) {
+  const title = name?.trim() || "FREE NOW";
+  const names = Object.keys(MODULE_NAMES)
+    .filter((moduleId) => modules.includes(moduleId))
+    .map((moduleId) => MODULE_NAMES[moduleId].toUpperCase());
+  return [title, ...names, `until ${formatDate(endsAt)}`].join(" · ");
+}
+
 export function freeSentence({ names, endsAt }) {
   return `${names.join(" and ")} ${names.length > 1 ? "are" : "is"} free for everyone until ${formatDate(endsAt)}.`;
 }

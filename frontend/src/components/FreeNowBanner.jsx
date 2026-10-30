@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useActivePromotions } from "../hooks/queries";
-import { formatDate } from "../lib/format";
+import { promotionLabel } from "../lib/freeNow";
 import { CloseIcon } from "./Icons";
 import styles from "./FreeNowBanner.module.css";
 
@@ -19,17 +19,17 @@ function readDismissed() {
   }
 }
 
-// A strip above the header with the promotions that are open for everyone right now, named as they
-// are in the database. When the text is wider than the strip it runs from right to left instead of
+// A strip above the header with the promotions that are open for everyone right now: the name (or
+// FREE NOW), the free modules and the end date. When the text is wider than the strip it runs from right to left instead of
 // wrapping. Shows nothing when there is no promotion or the visitor closed it. A new or changed
 // promotion shows the strip again.
 export default function FreeNowBanner() {
   const { data } = useActivePromotions();
   const promotions = data?.promotions ?? [];
-  const text = ["FREE NOW", ...promotions.map((item) => `${item.name} · until ${formatDate(item.endsAt)}`)].join(" · ");
+  const text = promotions.map(promotionLabel).join("  |  ");
 
   // What was closed is identified by the promotions themselves, so a different promotion is not hidden.
-  const promotionsKey = promotions.map((item) => `${item.name}|${item.endsAt}`).join(";");
+  const promotionsKey = promotions.map((item) => `${item.name}|${item.modules}|${item.endsAt}`).join(";");
   const [dismissedKey, setDismissedKey] = useState(readDismissed);
 
   function dismiss() {
