@@ -11,7 +11,7 @@ function remainingShare(subscription) {
   return Math.min(100, Math.max(0, (left / total) * 100));
 }
 
-export default function SubscriptionCard({ product, subscription }) {
+export default function SubscriptionCard({ product, subscription, freeUntil }) {
   const isActive = Boolean(subscription);
   const share = isActive && !subscription.lifetime ? remainingShare(subscription) : null;
 
@@ -19,7 +19,9 @@ export default function SubscriptionCard({ product, subscription }) {
     <div className={styles.card}>
       <div className={styles.top}>
         <span className={styles.name}>{product.name}</span>
-        <span className={`${styles.status} ${isActive ? styles.active : ""}`}>{isActive ? "Active" : "Not active"}</span>
+        <span className={`${styles.status} ${isActive || freeUntil ? styles.active : ""}`}>
+          {isActive ? "Active" : freeUntil ? "Free now" : "Not active"}
+        </span>
       </div>
 
       {isActive ? (
@@ -42,10 +44,16 @@ export default function SubscriptionCard({ product, subscription }) {
         </>
       ) : (
         <>
-          <p className={styles.expires}>Get {product.name} to unlock it in the menu.</p>
-          <Button href="/pricing" variant="primary" size="sm" className={styles.action}>
-            Get {product.name}
-          </Button>
+          <p className={styles.expires}>
+            {freeUntil
+              ? `Free for everyone until ${formatDate(freeUntil)}.`
+              : `Get ${product.name} to unlock it in the menu.`}
+          </p>
+          {!freeUntil && (
+            <Button href="/pricing" variant="primary" size="sm" className={styles.action}>
+              Get {product.name}
+            </Button>
+          )}
         </>
       )}
     </div>

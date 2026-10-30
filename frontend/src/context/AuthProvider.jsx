@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { prefetchUserData } from "../hooks/queries";
+import { keys, prefetchUserData } from "../hooks/queries";
 import { queryClient } from "../lib/queryClient";
 import { supabase } from "../lib/supabase";
 import { AuthContext } from "./authContext";
@@ -36,8 +36,9 @@ export default function AuthProvider({ children }) {
       setUser(toProfile(session?.user));
 
       // Load the profile data in the background as soon as someone is signed in, and forget it on sign-out.
+      // The public promotions are the same for everyone, so they stay.
       if (session) prefetchUserData(session.user.id);
-      else queryClient.clear();
+      else queryClient.removeQueries({ predicate: (query) => query.queryKey[0] !== keys.promotions[0] });
 
       // Right after Discord login, continue where the user started (e.g. a checkout).
       const returnTo = session && localStorage.getItem(RETURN_KEY);

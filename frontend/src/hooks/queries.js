@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createPromoClaim,
+  getActivePromotions,
   getMe,
   getMyOrders,
   getMyPromo,
@@ -17,6 +18,7 @@ export const keys = {
   orders: (userId) => ["orders", userId],
   promo: (userId) => ["promo", userId],
   admin: ["admin"],
+  promotions: ["promotions"],
 };
 
 // Starts loading everything the profile shows, right after sign-in, so it is ready when it is opened.
@@ -34,6 +36,10 @@ function useUserQuery(key, queryFn) {
 export const useMe = () => useUserQuery(keys.me, getMe);
 export const useMyOrders = () => useUserQuery(keys.orders, getMyOrders);
 export const useMyPromo = () => useUserQuery(keys.promo, getMyPromo);
+
+// Promotions that are open for everyone right now. The same for every visitor, so signed out is fine.
+export const useActivePromotions = () =>
+  useQuery({ queryKey: keys.promotions, queryFn: getActivePromotions, staleTime: 60_000 });
 
 // The admin queue changes under you as other people submit things, so it is always refreshed on open.
 export function useAdminList(section, status) {

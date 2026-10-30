@@ -1,3 +1,5 @@
+import { useActivePromotions } from "../hooks/queries";
+import { freeNowInProduct, freeSentence } from "../lib/freeNow";
 import { bundleSavingsPercent, perMonthCents } from "../lib/pricing";
 import { formatPrice } from "../lib/format";
 import Button from "./Button";
@@ -8,6 +10,8 @@ export default function PricingCard({ product, period }) {
   const priceCents = product.prices[period.id];
   const monthly = perMonthCents(priceCents, period);
   const savings = bundleSavingsPercent(product, period.id);
+  const { data: promotions } = useActivePromotions();
+  const free = freeNowInProduct(product, promotions?.promotions);
 
   return (
     <div className={`${styles.card} ${product.highlighted ? styles.highlighted : ""}`}>
@@ -21,6 +25,7 @@ export default function PricingCard({ product, period }) {
       <div className={styles.price}>{formatPrice(priceCents)}</div>
       <div className={styles.hint}>{monthly ? `${formatPrice(monthly)} / month` : "One-time payment"}</div>
       {savings > 0 && <div className={styles.savings}>Save {savings}% vs buying separately</div>}
+      {free && <div className={styles.free}>{freeSentence(free)}</div>}
 
       <ul className={styles.features}>
         {product.features.map((feature) => (

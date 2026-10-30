@@ -30,7 +30,7 @@
 }
 
 .link:hover {
-  color: #fff;
+  color: var(--color-text-strong);
 }
 
 .video {
@@ -39,9 +39,9 @@
   overflow: hidden;
   display: grid;
   place-items: center;
-  border: 1px solid #453454;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-frame);
-  background: linear-gradient(145deg, #1f1534, #0a0711);
+  background: var(--gradient-card);
 }
 
 .video iframe {
@@ -86,7 +86,7 @@
   border-radius: 50%;
   background: rgba(116, 74, 196, 0.27);
   backdrop-filter: blur(8px);
-  color: #fff;
+  color: var(--color-text-strong);
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -112,7 +112,7 @@
   font-size: 11px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #cbbddc;
+  color: var(--color-text-soft);
 }
 
 @media (max-width: 900px) {

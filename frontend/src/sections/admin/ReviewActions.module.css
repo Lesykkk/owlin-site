@@ -20,5 +20,5 @@
 }
 
 .error {
-  color: #ff718f;
+  color: var(--color-danger);
 }

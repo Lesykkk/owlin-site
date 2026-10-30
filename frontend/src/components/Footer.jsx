@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LINKS } from "../config/links";
+import SocialLinks from "./SocialLinks";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -9,9 +9,7 @@ export default function Footer() {
       <div className={styles.links}>
         <Link to="/privacy">Privacy policy</Link>
         <Link to="/terms">Terms of service</Link>
-        <a href={LINKS.discord} target="_blank" rel="noopener noreferrer">
-          Discord ↗
-        </a>
+        <SocialLinks />
       </div>
     </footer>
   );

@@ -29,12 +29,16 @@
   letter-spacing: -3.5px;
 }
 
+.lead {
+  font-size: 0.82em;
+}
+
 .accent {
   color: var(--color-accent);
 }
 
 .brand {
-  color: #fff;
+  color: var(--color-text-strong);
   font-weight: 600;
 }
 
@@ -61,6 +65,10 @@
   color: var(--color-text-faint);
 }
 
+.social {
+  margin-top: 18px;
+}
+
 /* Screenshot in a tilted app window */
 .art {
   position: relative;
@@ -71,8 +79,9 @@
   overflow: hidden;
   border: 1px solid rgba(86, 64, 113, 0.5);
   border-radius: var(--radius-frame);
-  background: #0c0916;
-  transform: perspective(1300px) rotateY(-7deg) rotateX(3deg);
+  background: var(--color-surface-deep);
+  transform: perspective(1300px) rotateY(var(--tilt-y, -7deg)) rotateX(var(--tilt-x, 3deg));
+  transition: transform 0.25s ease-out;
 }
 
 .window img {
@@ -85,7 +94,7 @@
   text-align: right;
   font-size: 12px;
   letter-spacing: 0.3px;
-  color: #8b7b9f;
+  color: var(--color-text-faint);
 }
 
 /* Supported games strip */
@@ -97,16 +106,14 @@
   padding: 22px 0;
   border-top: 1px solid var(--color-line-soft);
   border-bottom: 1px solid var(--color-line-soft);
-  font-size: 13px;
-  color: #bbb2ca;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
 }
 
 .gamesLabel {
   margin-right: auto;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #796f8a;
 }
 
 @media (max-width: 900px) {

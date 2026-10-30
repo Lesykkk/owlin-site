@@ -1,0 +1,20 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.row a {
+  display: inline-flex;
+  color: var(--color-text-faint);
+  transition: color 0.2s;
+}
+
+.row a:hover {
+  color: var(--color-text-strong);
+}
+
+.row svg {
+  width: 18px;
+  height: 18px;
+}

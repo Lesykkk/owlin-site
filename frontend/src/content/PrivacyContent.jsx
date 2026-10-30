@@ -6,7 +6,7 @@ export default function PrivacyContent() {
       <section>
         <p>This Privacy Policy explains how Owlin collects, uses, stores, shares, and protects personal data when you use the Owlin software, website, Discord community, authentication services, downloads, support, and related services collectively referred to as the “Service”.</p>
         <p>The data controller responsible for Owlin is:</p>
-        <p><strong>Owlin development team (Ukraine)</strong></p>
+        <p><strong>Owlin development team</strong></p>
         <p>Contact: <strong>Support Channel on our official Discord server</strong></p>
       </section>
       <section>
@@ -382,7 +382,7 @@ export default function PrivacyContent() {
       <section>
         <h2>18. Contact</h2>
         <p>Data controller:</p>
-        <p><strong>Owlin development team (Ukraine)</strong></p>
+        <p><strong>Owlin development team</strong></p>
         <p>Official support server:</p>
         <p><a href="https://discord.gg/KhhBmsC9xw" target="_blank" rel="noopener noreferrer">https://discord.gg/KhhBmsC9xw</a></p>
       </section>

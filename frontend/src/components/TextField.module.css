@@ -30,5 +30,5 @@
 
 .field input:hover,
 .field input:focus {
-  border-color: #4a3870;
+  border-color: var(--color-border);
 }

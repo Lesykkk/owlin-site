@@ -12,7 +12,7 @@
   padding: 18px;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-button);
-  background: rgba(255, 255, 255, 0.016);
+  background: var(--color-fill-subtle);
   color: var(--color-text);
   text-align: left;
   cursor: pointer;
@@ -20,7 +20,7 @@
 }
 
 .option:hover {
-  border-color: #4a3870;
+  border-color: var(--color-border);
 }
 
 .active {

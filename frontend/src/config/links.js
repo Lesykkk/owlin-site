@@ -1,7 +1,8 @@
 export const LINKS = {
   discord: "https://discord.gg/KhhBmsC9xw",
   download: "https://discord.gg/Up4hXStCdh",
-  tiktok: "https://www.tiktok.com/@owlinteam",
+  tiktok: "https://www.tiktok.com/@pedrokapucci",
+  youtube: "https://www.youtube.com/@pedrokapucci",
   author: "https://discord.com/users/580797344010731543",
 };
 

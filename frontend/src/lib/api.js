@@ -63,6 +63,10 @@ export const getMe = () => get("/api/me");
 export const getMyOrders = () => get("/api/me/orders");
 export const getMyPromo = () => get("/api/me/promo");
 
+// --- Public ---
+
+export const getActivePromotions = () => get("/api/promotions/active");
+
 // --- Orders ---
 
 // Places an order in one request: its details and the screenshots. The server checks everything and

@@ -9,11 +9,11 @@
 }
 
 .card:hover {
-  border-color: #4a3870;
+  border-color: var(--color-border);
 }
 
 .highlighted {
-  border-color: #5a3f8a;
+  border-color: var(--color-border-active);
 }
 
 .top {
@@ -28,12 +28,12 @@
   font-size: 12px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #8e7ba7;
+  color: var(--color-text-faint);
 }
 
 .badge {
   padding: 4px 8px;
-  border: 1px solid rgba(165, 133, 239, 0.3);
+  border: 1px solid var(--color-border-accent-soft);
   border-radius: 5px;
   font-size: 10px;
   letter-spacing: 1px;
@@ -63,11 +63,18 @@
   color: var(--color-text-muted);
 }
 
+.free {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-notice);
+}
+
 .savings {
   align-self: flex-start;
   margin-top: 12px;
   padding: 4px 9px;
-  border: 1px solid rgba(165, 133, 239, 0.3);
+  border: 1px solid var(--color-border-accent-soft);
   border-radius: 5px;
   font-size: 11px;
   color: var(--color-accent-soft);
@@ -82,7 +89,7 @@
   list-style: none;
   font-size: 14px;
   font-weight: 300;
-  color: #c9c2dc;
+  color: var(--color-text-soft);
 }
 
 .features li {
