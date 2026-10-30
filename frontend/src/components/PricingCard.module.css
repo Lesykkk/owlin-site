@@ -63,6 +63,13 @@
   color: var(--color-text-muted);
 }
 
+.free {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-notice);
+}
+
 .savings {
   align-self: flex-start;
   margin-top: 12px;

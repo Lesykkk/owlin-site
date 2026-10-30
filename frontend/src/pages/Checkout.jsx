@@ -5,8 +5,9 @@ import Panel from "../components/Panel";
 import TextField from "../components/TextField";
 import { PAYMENT_METHODS, resolvePaymentOption } from "../config/paymentMethods";
 import { PERIODS, PRODUCTS } from "../config/plans";
-import { useSubmitOrder } from "../hooks/queries";
+import { useActivePromotions, useSubmitOrder } from "../hooks/queries";
 import { formatPrice } from "../lib/format";
+import { freeNowInProduct, freeSentence } from "../lib/freeNow";
 import MethodPicker from "../sections/checkout/MethodPicker";
 import OrderSummary from "../sections/checkout/OrderSummary";
 import PaymentDetails from "../sections/checkout/PaymentDetails";
@@ -33,6 +34,8 @@ function CheckoutForm({ product, period }) {
   const [note, setNote] = useState("");
   const [error, setError] = useState("");
   const submitOrder = useSubmitOrder();
+  const { data: promotions } = useActivePromotions();
+  const free = freeNowInProduct(product, promotions?.promotions);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const method = PAYMENT_METHODS.find((item) => item.id === methodId);
@@ -82,6 +85,12 @@ function CheckoutForm({ product, period }) {
     <form className={`container ${styles.page}`} onSubmit={handleSubmit}>
       <div className={styles.main}>
         <h1 className={styles.title}>Checkout</h1>
+
+        {free && (
+          <p className={styles.free}>
+            {freeSentence(free)} {free.isEverything && "You may not need to buy it right now."}
+          </p>
+        )}
 
         <Panel title="1. Payment method">
           <MethodPicker

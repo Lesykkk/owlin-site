@@ -29,6 +29,8 @@ The less important the text, the dimmer the level. Take the nearest level, do no
 | `--color-accent-soft` | `#c3a5fa` | lighter accent: hover, icons, labels on accent |
 | `--color-eyebrow` | `#bba6e6` | section eyebrows only ("Made for ETS2 & ATS") |
 | `--color-danger` | `#ff718f` | errors, rejected, destructive actions |
+| `--color-notice` | `#ffd60a` | background of the site-wide announcement strip (free promotions) |
+| `--color-notice-text` | `#0a0a0a` | text on the announcement strip |
 
 ## Borders and lines
 

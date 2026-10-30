@@ -1,10 +1,28 @@
-/* Keeps the footer at the bottom of the viewport on short pages */
+/* The strip stays on top; everything under it scrolls, so the scrollbar starts below the strip. */
 .layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100%;
+}
+
+/* The scrollbar track is always shown, even on short pages, so content does not shift between pages.
+   The column keeps the footer at the bottom on short pages. */
+.scroll {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scroll-padding-top: 30px;
 }
 
 .content {
   flex: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll {
+    scroll-behavior: auto;
+  }
 }

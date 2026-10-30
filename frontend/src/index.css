@@ -16,6 +16,8 @@
   --color-accent: #a585ef;
   --color-accent-soft: #c3a5fa;
   --color-danger: #ff718f;
+  --color-notice: #ffd60a;
+  --color-notice-text: #0a0a0a;
 
   --color-border: #4a3870;
   --color-border-active: #5a3f8a;
@@ -47,11 +49,11 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 30px;
-  /* Always show the scrollbar track, even on short pages, so content does not shift between pages. */
-  overflow-y: scroll;
+/* The page scrolls inside the layout (MainLayout), under the announcement strip, so the document itself never scrolls. */
+html,
+body,
+#root {
+  height: 100%;
 }
 
 /* Scrollbar: slim rounded thumb, purple-gray, on the page background */
@@ -86,7 +88,7 @@ html {
 
 body {
   margin: 0;
-  min-height: 100vh;
+  overflow: hidden;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-family);
@@ -130,10 +132,6 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {

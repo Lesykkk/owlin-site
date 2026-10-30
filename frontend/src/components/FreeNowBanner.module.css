@@ -1,0 +1,82 @@
+.strip {
+  position: relative;
+  overflow: hidden;
+  padding: 11px 48px;
+  background: var(--color-notice);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-align: center;
+  color: var(--color-notice-text);
+}
+
+/* Invisible copy of the text, only there to measure how wide it is. */
+.measure {
+  position: absolute;
+  visibility: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* A text wider than the strip runs from right to left, without a gap at the seam. */
+.scrolling {
+  padding-inline: 0;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: run var(--seconds) linear infinite;
+}
+
+.scrolling:hover .track {
+  animation-play-state: paused;
+}
+
+.item {
+  flex-shrink: 0;
+  padding-inline: 24px;
+  white-space: nowrap;
+}
+
+.screenReader {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Sits over the end of the strip; its own background hides the text running under it. */
+.close {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  transform: translateY(-50%);
+  background: var(--color-notice);
+  color: var(--color-notice-text);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.close:hover {
+  opacity: 0.6;
+}
+
+.close svg {
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes run {
+  to {
+    transform: translateX(-50%);
+  }
+}
