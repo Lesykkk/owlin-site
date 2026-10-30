@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Button from "../components/Button";
+import ExampleVideo from "../components/ExampleVideo";
 import Panel from "../components/Panel";
 import PlatformIcon from "../components/PlatformIcon";
 import SegmentedControl from "../components/SegmentedControl";
@@ -9,12 +10,29 @@ import {
   PROMO_DAYS,
   PROMO_PLATFORMS,
   PROMO_REWARDS,
+  PROMO_LINK_TARGETS,
   PROMO_RULES,
 } from "../config/promo";
 import { useMyPromo, useSubmitPromoClaim } from "../hooks/queries";
 import { parseVideoLink } from "../lib/videoLinks";
 import Submitted from "../sections/checkout/Submitted";
 import styles from "./Promo.module.css";
+
+const escapeForRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const LINK_PATTERN = new RegExp(`(${PROMO_LINK_TARGETS.map(escapeForRegExp).join("|")})`);
+
+// Shows the Discord invite and the site address inside a rule as highlighted links.
+function RuleText({ text }) {
+  return text.split(LINK_PATTERN).map((part, index) => {
+    if (index % 2 === 0) return part;
+    const href = part.startsWith("http") ? part : `https://${part}`;
+    return (
+      <a key={part} className={styles.highlight} href={href} target="_blank" rel="noopener noreferrer">
+        {part}
+      </a>
+    );
+  });
+}
 
 const PLATFORM_OPTIONS = PROMO_PLATFORMS.map((platform) => ({
   ...platform,
@@ -82,7 +100,7 @@ export default function Promo() {
   }
 
   return (
-    <form className={`container ${styles.page}`} onSubmit={handleSubmit}>
+    <div className={`container ${styles.page}`}>
       <h1 className={styles.title}>Video promo</h1>
       <p className={styles.lead}>
         Make a video about Owlin and get {PROMO_DAYS} days of Spoofer or DLC Unlock for free.
@@ -98,55 +116,62 @@ export default function Promo() {
         ))}
       </ul>
 
-      <Panel title="Rules">
-        <ul className={styles.rules}>
-          {PROMO_RULES.map((rule) => (
-            <li key={rule}>{rule}</li>
-          ))}
-        </ul>
-        {slots && (
-          <p className={styles.slots}>
-            Your promo slots: {slots.used} of {slots.max} in use
-          </p>
-        )}
-      </Panel>
+      <div className={styles.layout}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <Panel title="Rules">
+            <ul className={styles.rules}>
+              {PROMO_RULES.map((rule) => (
+                <li key={rule}>
+                  <RuleText text={rule} />
+                </li>
+              ))}
+            </ul>
+            {slots && (
+              <p className={styles.slots}>
+                Your promo slots: {slots.used} of {slots.max} in use
+              </p>
+            )}
+          </Panel>
 
-      <Panel title="1. Choose your reward">
-        <SegmentedControl label="Reward" options={PROMO_REWARDS} value={rewardId} onChange={setRewardId} />
-      </Panel>
+          <Panel title="1. Choose your reward">
+            <SegmentedControl label="Reward" options={PROMO_REWARDS} value={rewardId} onChange={setRewardId} />
+          </Panel>
 
-      <Panel title="2. Video link" required>
-        <div className={styles.platform}>
-          <SegmentedControl label="Platform" options={PLATFORM_OPTIONS} value={platformId} onChange={handlePlatformChange} />
-        </div>
-        <TextField label={`${platform.label} link`} value={link} onChange={handleLinkChange} placeholder={platform.placeholder} />
-        <p className={styles.hint}>
-          Each video can be used only once, so use the video's own link, not a profile link.
-          {platformId === "other" && " Videos on other sites are checked manually."}
-        </p>
+          <Panel title="2. Video link" required>
+            <div className={styles.platform}>
+              <SegmentedControl label="Platform" options={PLATFORM_OPTIONS} value={platformId} onChange={handlePlatformChange} />
+            </div>
+            <TextField label={`${platform.label} link`} value={link} onChange={handleLinkChange} placeholder={platform.placeholder} />
+            <p className={styles.hint}>
+              Each video can be used only once, so use the video's own link, not a profile link.
+              {platformId === "other" && " Videos on other sites are checked manually."}
+            </p>
 
-        <label className={styles.confirm}>
-          <input type="checkbox" checked={isConfirmed} onChange={(event) => setIsConfirmed(event.target.checked)} />
-          <span>
-            The video mentions or shows Owlin, links to our Discord server or owlin.software, does not advertise competitors and was published within the last{" "}
-            {MAX_VIDEO_AGE_DAYS} days.
-          </span>
-        </label>
+            <label className={styles.confirm}>
+              <input type="checkbox" checked={isConfirmed} onChange={(event) => setIsConfirmed(event.target.checked)} />
+              <span>
+                The video mentions or shows Owlin, links to our Discord server or owlin.software, does not advertise competitors and was published within the last{" "}
+                {MAX_VIDEO_AGE_DAYS} days.
+              </span>
+            </label>
 
-        {error && (
-          <p className={styles.error} role="alert">
-            {error}
-          </p>
-        )}
-        {isFull && (
-          <p className={styles.error} role="alert">
-            All {slots.max} promo slots are in use. A slot frees up when a video is rejected or its reward expires.
-          </p>
-        )}
-        <Button type="submit" variant="primary" loading={claim.isPending} disabled={isFull} className={styles.submit}>
-          {claim.isPending ? "Sending…" : "Submit for review"}
-        </Button>
-      </Panel>
-    </form>
+            {error && (
+              <p className={styles.error} role="alert">
+                {error}
+              </p>
+            )}
+            {isFull && (
+              <p className={styles.error} role="alert">
+                All {slots.max} promo slots are in use. A slot frees up when a video is rejected or its reward expires.
+              </p>
+            )}
+            <Button type="submit" variant="primary" loading={claim.isPending} disabled={isFull} className={styles.submit}>
+              {claim.isPending ? "Sending…" : "Submit for review"}
+            </Button>
+          </Panel>
+        </form>
+        <ExampleVideo />
+      </div>
+    </div>
   );
 }

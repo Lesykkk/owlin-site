@@ -2,8 +2,27 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 760px;
   padding: 56px 0 84px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 325px;
+  align-items: start;
+  gap: 40px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .title {
@@ -64,6 +83,15 @@
   font-weight: 300;
   line-height: 1.6;
   color: var(--color-text-muted);
+}
+
+.highlight {
+  color: var(--color-accent-soft);
+  transition: color 0.2s;
+}
+
+.highlight:hover {
+  color: var(--color-text-strong);
 }
 
 .slots {

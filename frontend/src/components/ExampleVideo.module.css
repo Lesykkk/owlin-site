@@ -1,0 +1,40 @@
+.frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 325 / 578;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--color-surface-deep);
+}
+
+.author {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--color-text-faint);
+  transition: color 0.2s;
+}
+
+.author:hover {
+  color: var(--color-text-strong);
+}
+
+.author svg {
+  width: 15px;
+  height: 15px;
+}
+
+@media (max-width: 960px) {
+  .example {
+    width: 100%;
+    max-width: 325px;
+    margin-inline: auto;
+  }
+
+  .author {
+    display: flex;
+    justify-content: center;
+  }
+}

@@ -17,6 +17,17 @@ export const PROMO_REWARDS = [
   { id: "dlc-unlock", label: "DLC Unlock" },
 ];
 
+// A sample video shown next to the submission form.
+export const EXAMPLE_VIDEO = {
+  platformId: "tiktok",
+  embedUrl: "https://www.tiktok.com/player/v1/7695863549985312021?music_info=1&description=1",
+  url: "https://www.tiktok.com/@pedrokapucci/video/7695863549985312021",
+  author: "@pedrokapucci",
+};
+
+// The Discord invite and the site address a promo video must link to; shown as links inside the rules.
+export const PROMO_LINK_TARGETS = [LINKS.discord, "owlin.software"];
+
 export const PROMO_RULES = [
   "Owlin is mentioned or shown in the video, so that viewers clearly notice it.",
   `The video also links to our Discord server (${LINKS.discord}) or to owlin.software.`,
