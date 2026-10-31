@@ -4,17 +4,13 @@
   --font-family: "Outfit", Arial, sans-serif;
 
   --color-bg: #07050d;
-  --color-panel: #100c19;
   --color-line: #272037;
   --color-line-soft: rgba(255, 255, 255, 0.05);
   --color-text: #f0edf9;
   --color-text-strong: #ffffff;
-  --color-text-soft: #c9c2dc;
   --color-text-muted: #a39bb8;
   --color-text-faint: #796f8a;
-  --color-eyebrow: #bba6e6;
   --color-accent: #a585ef;
-  --color-accent-soft: #c3a5fa;
   --color-danger: #ff718f;
   --color-notice: #ffd60a;
   --color-notice-text: #0a0a0a;

@@ -52,7 +52,15 @@
   letter-spacing: 1px;
   line-height: 1;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-notice);
+  /* Fades slowly in and out to draw the eye to the free promo. */
+  animation: fade 2.8s ease-in-out infinite;
+}
+
+@keyframes fade {
+  50% {
+    opacity: 0.25;
+  }
 }
 
 .panelNav .badge {

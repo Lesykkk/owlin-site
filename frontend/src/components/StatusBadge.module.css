@@ -6,12 +6,12 @@
   font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--color-text-soft);
+  color: var(--color-text-muted);
 }
 
 .approved {
   border-color: var(--color-border-accent-soft);
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
 .rejected {

@@ -35,12 +35,12 @@
   font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--color-text-soft);
+  color: var(--color-text-muted);
 }
 
 .premium .badge {
   border-color: var(--color-border-accent-soft);
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
 .title {

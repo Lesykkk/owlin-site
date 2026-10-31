@@ -1,6 +1,5 @@
 import { PROMO_DAYS, PROMO_PLATFORMS } from "../config/promo";
 import Button from "./Button";
-import Eyebrow from "./Eyebrow";
 import PlatformIcon from "./PlatformIcon";
 import styles from "./PromoBanner.module.css";
 
@@ -10,7 +9,7 @@ export default function PromoBanner({ className = "" }) {
     <section className={`container ${styles.section} ${className}`}>
       <div className={styles.banner}>
         <div className={styles.copy}>
-          <Eyebrow className={styles.tag}>Free</Eyebrow>
+          <span className={styles.label}>Free</span>
           <h2 className={styles.title}>Make a video, get <span className={styles.free}>{PROMO_DAYS} days</span> free.</h2>
           <p className={styles.text}>
             Post a video about Owlin on TikTok, YouTube or elsewhere and get {PROMO_DAYS} days of Spoofer or DLC Unlock.

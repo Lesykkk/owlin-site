@@ -48,11 +48,12 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
+  transition: color 0.2s;
 }
 
 .video:hover {
-  text-decoration: underline;
+  color: var(--color-text-strong);
 }
 
 .video svg {
@@ -68,5 +69,10 @@
 }
 
 .empty a {
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
+  transition: color 0.2s;
+}
+
+.empty a:hover {
+  color: var(--color-text-strong);
 }

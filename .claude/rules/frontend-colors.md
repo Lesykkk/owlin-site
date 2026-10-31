@@ -15,7 +15,6 @@ All colors live in `frontend/src/index.css` as CSS variables. In components and 
 |---|---|---|
 | `--color-text-strong` | `#ffffff` | most important text: titles, buttons, active menu item |
 | `--color-text` | `#f0edf9` | main body text, the default |
-| `--color-text-soft` | `#c9c2dc` | secondary but readable: feature lists, badges, chips, steps |
 | `--color-text-muted` | `#a39bb8` | descriptions, subtitles, helper explanations |
 | `--color-text-faint` | `#796f8a` | quietest: small captions, labels, game names, footer |
 
@@ -25,9 +24,7 @@ The less important the text, the dimmer the level. Take the nearest level, do no
 
 | Variable | Value | Use for |
 |---|---|---|
-| `--color-accent` | `#a585ef` | brand purple: "Owlin", active elements, links |
-| `--color-accent-soft` | `#c3a5fa` | lighter accent: hover, icons, labels on accent |
-| `--color-eyebrow` | `#bba6e6` | section eyebrows only ("Made for ETS2 & ATS") |
+| `--color-accent` | `#a585ef` | the one purple: brand words, links, icons, eyebrows, active elements, badges |
 | `--color-danger` | `#ff718f` | errors, rejected, destructive actions |
 | `--color-notice` | `#ffd60a` | background of the site-wide announcement strip (free promotions) |
 | `--color-notice-text` | `#0a0a0a` | text on the announcement strip |
@@ -49,7 +46,6 @@ The less important the text, the dimmer the level. Take the nearest level, do no
 | Variable | Value | Use for |
 |---|---|---|
 | `--color-bg` | `#07050d` | page background |
-| `--color-panel` | `#100c19` | panels |
 | `--color-surface-deep` | `#0c0916` | darkest surface: header, screenshot window |
 | `--color-surface-raised` | `#1d1630` | raised surface: upload zone, profile header |
 | `--color-fill-subtle` | white 1.6% | barely visible fill of cards and fields |

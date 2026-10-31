@@ -13,9 +13,13 @@
   background: var(--gradient-card);
 }
 
-/* Same purple as the FREE tag next to Promo in the header. */
-.copy .tag {
-  color: var(--color-accent);
+/* The same small caps label as the titles of the cards and panels. */
+.label {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
 }
 
 .free {
@@ -58,13 +62,13 @@
   background: var(--color-fill-subtle);
   font-size: 13px;
   font-weight: 300;
-  color: var(--color-text-soft);
+  color: var(--color-text-muted);
 }
 
 .platforms svg {
   width: 16px;
   height: 16px;
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
 .action {

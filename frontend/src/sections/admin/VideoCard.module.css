@@ -21,7 +21,7 @@
 .platform svg {
   width: 16px;
   height: 16px;
-  color: var(--color-eyebrow);
+  color: var(--color-accent);
 }
 
 .viewsField {
