@@ -65,7 +65,7 @@
   width: 17px;
   height: 17px;
   flex-shrink: 0;
-  color: var(--color-eyebrow);
+  color: var(--color-accent);
 }
 
 .requirements strong {
@@ -86,7 +86,7 @@
 }
 
 .highlight {
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
   transition: color 0.2s;
 }
 
