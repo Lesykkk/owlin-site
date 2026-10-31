@@ -1,3 +1,5 @@
+import { SUPPORT_CONTACTS } from "./links";
+
 export const FAQ = [
   {
     question: "How do I pay?",
@@ -19,5 +21,10 @@ export const FAQ = [
   {
     question: "What does Lifetime mean?",
     answer: "A one-time payment for the selected module or bundle, with no renewals.",
+  },
+  {
+    question: "Have troubles?",
+    answer: "Send a direct message on Discord and we will help:",
+    links: SUPPORT_CONTACTS,
   },
 ];

@@ -28,7 +28,7 @@
   font-size: 14px;
   font-weight: 300;
   line-height: 1.6;
-  color: var(--color-text-soft);
+  color: var(--color-text-muted);
 }
 
 .fields {

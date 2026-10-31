@@ -50,7 +50,18 @@ export default function Pricing() {
         {FAQ.map((item) => (
           <details key={item.question} className={styles.item}>
             <summary>{item.question}</summary>
-            <p>{item.answer}</p>
+            <p>
+              {item.answer}
+              {item.links && (
+                <span className={styles.contacts}>
+                  {item.links.map((link) => (
+                    <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
+                      {link.label} ↗
+                    </a>
+                  ))}
+                </span>
+              )}
+            </p>
           </details>
         ))}
       </section>
