@@ -41,36 +41,7 @@
 }
 
 .requirements {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0 0 8px;
-  padding: 0;
-  list-style: none;
-}
-
-.requirements li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-button);
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--color-text-muted);
-}
-
-.requirements svg {
-  width: 17px;
-  height: 17px;
-  flex-shrink: 0;
-  color: var(--color-eyebrow);
-}
-
-.requirements strong {
-  font-weight: 400;
-  color: var(--color-text);
+  margin-bottom: 8px;
 }
 
 .rules {
@@ -86,7 +57,7 @@
 }
 
 .highlight {
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
   transition: color 0.2s;
 }
 
@@ -142,7 +113,7 @@
   width: 100%;
   margin-top: 22px;
   min-height: 52px;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 @media (max-width: 650px) {

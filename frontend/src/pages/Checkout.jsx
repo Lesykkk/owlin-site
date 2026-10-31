@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import Button from "../components/Button";
 import Panel from "../components/Panel";
+import SupportNote from "../components/SupportNote";
 import TextField from "../components/TextField";
 import { PAYMENT_METHODS, resolvePaymentOption } from "../config/paymentMethods";
 import { PERIODS, PRODUCTS } from "../config/plans";
@@ -101,6 +102,8 @@ function CheckoutForm({ product, period }) {
             onCoinChange={setCoinId}
           />
         </Panel>
+
+        <SupportNote />
 
         <Panel title="2. Send payment">
           <PaymentDetails option={option} priceCents={priceCents} />

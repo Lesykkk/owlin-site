@@ -7,11 +7,9 @@ round trip; this is the authoritative copy.
 
 import re
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
 from urllib.parse import SplitResult, parse_qsl, urlencode, urlsplit
 
 from owlin.core.errors import InvalidRequestError
-from owlin.modules.catalog.constants import MAX_VIDEO_AGE_DAYS
 
 YOUTUBE_ID = re.compile(r"[\w-]{11}")
 YOUTUBE_PATH_ID = re.compile(r"/(?:shorts|live|embed)/([^/]+)")
@@ -24,8 +22,6 @@ TRACKING_PARAMS = {"fbclid", "gclid", "igshid", "si"}
 @dataclass(frozen=True)
 class ParsedVideo:
     key: str
-    # Only known for TikTok, whose video ids carry the creation time.
-    published_at: datetime | None = None
 
 
 def split_link(raw: str) -> tuple[SplitResult, str]:
@@ -46,20 +42,12 @@ def split_link(raw: str) -> tuple[SplitResult, str]:
     return parts, re.sub(r"^(www|m)\.", "", host.lower())
 
 
-def tiktok_published_at(video_id: str) -> datetime:
-    """TikTok video ids start with the upload time in unix seconds, in their upper bits."""
-    try:
-        return datetime.fromtimestamp(int(video_id) >> 32, UTC)
-    except (OverflowError, OSError, ValueError):
-        raise InvalidRequestError("That TikTok link does not point to a video.") from None
-
-
 def parse_tiktok(parts: SplitResult, host: str) -> ParsedVideo:
     match = TIKTOK_VIDEO_PATH.match(parts.path)
     if host not in TIKTOK_HOSTS or not match:
         raise InvalidRequestError("Open the video in TikTok and copy its full link (tiktok.com/@name/video/…).")
     video_id = match.group(1)
-    return ParsedVideo(key=f"tiktok:{video_id}", published_at=tiktok_published_at(video_id))
+    return ParsedVideo(key=f"tiktok:{video_id}")
 
 
 def parse_youtube(parts: SplitResult, host: str) -> ParsedVideo:
@@ -96,13 +84,3 @@ def parse_video_link(raw: str, platform: str) -> ParsedVideo:
     if platform == "youtube":
         return parse_youtube(parts, host)
     return parse_other(parts, host)
-
-
-def ensure_recent(video: ParsedVideo, now: datetime) -> None:
-    """Reject videos older than the allowed age. Only possible where the date is known."""
-    if video.published_at is None:
-        return
-    if video.published_at > now + timedelta(days=1):
-        raise InvalidRequestError("That TikTok link does not point to a video.")
-    if now - video.published_at > timedelta(days=MAX_VIDEO_AGE_DAYS):
-        raise InvalidRequestError(f"This video is older than {MAX_VIDEO_AGE_DAYS} days.")

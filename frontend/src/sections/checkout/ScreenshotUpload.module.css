@@ -4,14 +4,18 @@
   align-items: center;
   gap: 10px;
   padding: 34px 20px;
-  border: 1px dashed var(--color-border);
+  border: 1px dashed var(--color-line);
   border-radius: var(--radius-button);
-  background: var(--color-fill-subtle);
+  background: var(--color-fill-secondary);
   text-align: center;
   font-size: 14px;
   font-weight: 300;
   color: var(--color-text-muted);
   transition: border-color 0.2s, background 0.2s;
+}
+
+.drop:hover {
+  border-color: var(--color-border);
 }
 
 .dragging {
@@ -66,7 +70,7 @@
   width: 100%;
   height: 100%;
   border: 1px solid var(--color-line);
-  border-radius: 8px;
+  border-radius: var(--radius-button);
   object-fit: cover;
 }
 

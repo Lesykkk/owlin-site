@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Eyebrow from "../components/Eyebrow";
 import { PlayIcon } from "../components/Icons";
+import SectionTitle from "../components/SectionTitle";
 import { DEMO_VIDEO_ID, LINKS } from "../config/links";
 import styles from "./Showcase.module.css";
 
@@ -18,12 +18,11 @@ export default function Showcase() {
   return (
     <section id="showcase" className={`container ${styles.section}`}>
       <div className={styles.copy}>
-        <Eyebrow>A closer look</Eyebrow>
-        <h2 className={styles.title}>
+        <SectionTitle eyebrow="A closer look">
           See what’s
           <br />
           behind the wheel.
-        </h2>
+        </SectionTitle>
         <p className={styles.text}>A look inside Owlin: the interface, the tools and the details that make it yours.</p>
         <a className={styles.link} href={LINKS.discord} target="_blank" rel="noopener noreferrer">
           Get the latest from our Discord ↗

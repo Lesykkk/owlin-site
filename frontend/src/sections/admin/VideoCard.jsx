@@ -22,7 +22,7 @@ export default function VideoCard({ video, onApprove, onReject }) {
   const meetsViews = !needsViews || (hasViews && viewCount >= platform.minViews);
   const canApprove = meetsViews && (views.trim() === "" || hasViews);
 
-  let hint = "Check that the video mentions or shows Owlin clearly, a link to our Discord or owlin.software, no competitors and a publish date within 14 days.";
+  let hint = "Check that the video mentions or shows Owlin clearly, a link to our Discord or owlin.software and no competitors.";
   if (needsViews && !hasViews) hint = `Enter the views you see (${formatViews(platform.minViews)}+ needed).`;
   else if (needsViews && !meetsViews) hint = `Below the ${formatViews(platform.minViews)} views needed. Reject it, or enter the real count.`;
 

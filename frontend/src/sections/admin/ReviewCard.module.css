@@ -50,9 +50,10 @@
 }
 
 .details a {
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
+  transition: color 0.2s;
 }
 
 .details a:hover {
-  text-decoration: underline;
+  color: var(--color-text-strong);
 }

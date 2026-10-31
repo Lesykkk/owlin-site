@@ -25,14 +25,7 @@ export default function App() {
             </RequireAuth>
           }
         />
-        <Route
-          path="promo"
-          element={
-            <RequireAuth>
-              <Promo />
-            </RequireAuth>
-          }
-        />
+        <Route path="promo" element={<Promo />} />
         <Route
           path="profile"
           element={

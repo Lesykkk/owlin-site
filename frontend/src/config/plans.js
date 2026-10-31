@@ -21,7 +21,7 @@ export const PRODUCTS = [
     name: "Spoofer",
     description: "The Spoofer module to Bypass Bans.",
     features: ["Spoofer module", "All free Owlin tools"],
-    prices: { "1m": 400, "3m": 900, "6m": 1400, lifetime: 1999 },
+    prices: { "1m": 399, "3m": 899, "6m": 1399, lifetime: 1999 },
   },
   {
     id: "spoofer-dlc-unlock",
@@ -31,7 +31,7 @@ export const PRODUCTS = [
     includes: ["spoofer", "dlc-unlock"],
     badge: "Best value",
     highlighted: true,
-    prices: { "1m": 500, "3m": 1300, "6m": 2099, lifetime: 3099 },
+    prices: { "1m": 499, "3m": 1299, "6m": 1900, lifetime: 3099 },
   },
 ];
 

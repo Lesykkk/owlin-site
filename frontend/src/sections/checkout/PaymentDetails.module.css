@@ -20,7 +20,7 @@
   justify-content: space-between;
   gap: 10px;
   padding: 14px 18px;
-  background: var(--color-fill-subtle);
+  background: var(--color-fill-secondary);
 }
 
 .row + .row {
@@ -51,11 +51,11 @@
   font-size: 14px;
   font-weight: 300;
   line-height: 1.6;
-  color: var(--color-text-soft);
+  color: var(--color-text-muted);
 }
 
 .row a {
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
 .row a:hover {

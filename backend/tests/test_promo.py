@@ -8,19 +8,15 @@ from owlin.api.app import app
 from owlin.api.deps import get_current_user
 from owlin.core.errors import ConflictError, InvalidRequestError, NotFoundError
 from owlin.core.security import TokenUser
+from owlin.modules.catalog.constants import MAX_PROMO_SLOTS, PROMO_DAYS
 from owlin.modules.promo import review, service
 from owlin.modules.promo.models import PromoClaim
-from owlin.modules.promo.video_links import ParsedVideo, ensure_recent, parse_video_link
+from owlin.modules.promo.video_links import ParsedVideo, parse_video_link
 from owlin.modules.subscriptions.models import SubscriptionGrant, UserSubscription
 from tests.conftest import ServiceSession
 
 NOW = datetime(2026, 10, 29, 12, 0, tzinfo=UTC)
 ADMIN_ID = uuid4()
-
-
-def tiktok_id(age: timedelta) -> str:
-    """A TikTok-style video id whose embedded upload time is `age` before NOW."""
-    return str(int((NOW - age).timestamp()) << 32)
 
 
 class TestParseVideoLink:
@@ -37,13 +33,10 @@ class TestParseVideoLink:
     def test_every_youtube_form_gives_the_same_key(self, url: str) -> None:
         assert parse_video_link(url, "youtube").key == "youtube:dKiSnET6eNs"
 
-    def test_tiktok_key_and_upload_time_come_from_the_video_id(self) -> None:
-        video_id = tiktok_id(timedelta(days=2))
+    def test_tiktok_key_comes_from_the_video_id(self) -> None:
+        video = parse_video_link("https://www.tiktok.com/@user/video/7695863549985312021?lang=en", "tiktok")
 
-        video = parse_video_link(f"https://www.tiktok.com/@user/video/{video_id}?lang=en", "tiktok")
-
-        assert video.key == f"tiktok:{video_id}"
-        assert video.published_at == NOW - timedelta(days=2)
+        assert video.key == "tiktok:7695863549985312021"
 
     def test_other_links_ignore_tracking_noise(self) -> None:
         keys = {
@@ -73,28 +66,11 @@ class TestParseVideoLink:
             ("https://youtube.com/watch?v=short", "youtube"),
             ("https://youtu.be/dKiSnET6eNs", "other"),
             ("https://www.tiktok.com/@u/video/1", "other"),
-            ("https://www.tiktok.com/@u/video/99999999999999999999999", "tiktok"),
         ],
     )
     def test_invalid_links_are_rejected(self, url: str, platform: str) -> None:
         with pytest.raises(InvalidRequestError):
             parse_video_link(url, platform)
-
-
-class TestEnsureRecent:
-    def test_a_fresh_tiktok_is_accepted(self) -> None:
-        ensure_recent(ParsedVideo("tiktok:1", published_at=NOW - timedelta(days=13, hours=23)), NOW)
-
-    def test_an_old_tiktok_is_rejected(self) -> None:
-        with pytest.raises(InvalidRequestError, match="older than 14 days"):
-            ensure_recent(ParsedVideo("tiktok:1", published_at=NOW - timedelta(days=15)), NOW)
-
-    def test_a_date_in_the_future_means_the_id_is_not_a_real_video(self) -> None:
-        with pytest.raises(InvalidRequestError):
-            ensure_recent(ParsedVideo("tiktok:1", published_at=NOW + timedelta(days=30)), NOW)
-
-    def test_platforms_without_a_known_date_are_left_to_the_admin(self) -> None:
-        ensure_recent(ParsedVideo("youtube:dKiSnET6eNs"), NOW)
 
 
 YOUTUBE_URL = "https://youtu.be/dKiSnET6eNs"
@@ -118,7 +94,7 @@ class TestCheckAndCreate:
 
     @pytest.mark.asyncio
     async def test_a_full_set_of_slots_blocks_new_claims(self) -> None:
-        session = ServiceSession(scalar_values=[None, 8])
+        session = ServiceSession(scalar_values=[None, MAX_PROMO_SLOTS])
 
         with pytest.raises(ConflictError, match="slots"):
             await service.check_claim(session, uuid4(), "youtube", YOUTUBE_URL, "spoofer", NOW)
@@ -128,16 +104,6 @@ class TestCheckAndCreate:
     async def test_unknown_platform_or_reward(self, platform: str, reward: str) -> None:
         with pytest.raises(InvalidRequestError):
             await service.check_claim(ServiceSession(), uuid4(), platform, YOUTUBE_URL, reward, NOW)
-
-    @pytest.mark.asyncio
-    async def test_an_old_tiktok_is_refused_before_touching_the_database(self) -> None:
-        url = f"https://www.tiktok.com/@u/video/{tiktok_id(timedelta(days=20))}"
-        session = ServiceSession(scalar_values=[None, 0])
-
-        with pytest.raises(InvalidRequestError, match="older"):
-            await service.check_claim(session, uuid4(), "tiktok", url, "spoofer", NOW)
-
-        assert session.scalar_values == [None, 0]
 
     @pytest.mark.asyncio
     async def test_creating_a_claim_stores_it_under_review_with_the_normalized_key(self) -> None:
@@ -183,18 +149,18 @@ def session_for(claim: PromoClaim, **subscription: object) -> ServiceSession:
 
 class TestApproveClaim:
     @pytest.mark.asyncio
-    async def test_grants_seven_days_and_keeps_the_slot_until_they_run_out(self) -> None:
+    async def test_grants_the_promo_days_and_keeps_the_slot_until_they_run_out(self) -> None:
         claim = make_claim()
         session = session_for(claim)
 
         result = await review.approve_claim(session, claim.id, ADMIN_ID, views=1500, now=NOW)
 
         assert (result.status, result.views) == ("approved", 1500)
-        assert result.expires_at == NOW + timedelta(days=7)
+        assert result.expires_at == NOW + timedelta(days=PROMO_DAYS)
         assert (result.reviewed_by, result.reviewed_at) == (ADMIN_ID, NOW)
-        assert session.objects[UserSubscription].spoofer_expires_at == NOW + timedelta(days=7)
+        assert session.objects[UserSubscription].spoofer_expires_at == NOW + timedelta(days=PROMO_DAYS)
         [grant] = session.added_of(SubscriptionGrant)
-        assert (grant.source, grant.promo_claim_id, grant.days) == ("promo", claim.id, 7)
+        assert (grant.source, grant.promo_claim_id, grant.days) == ("promo", claim.id, PROMO_DAYS)
         assert session.committed is True
 
     @pytest.mark.asyncio
@@ -205,7 +171,7 @@ class TestApproveClaim:
 
         result = await review.approve_claim(session, claim.id, ADMIN_ID, views=2000, now=NOW)
 
-        assert result.expires_at == running_until + timedelta(days=7)
+        assert result.expires_at == running_until + timedelta(days=PROMO_DAYS)
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("platform, views", [("youtube", 999), ("youtube", None), ("tiktok", 4999)])

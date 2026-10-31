@@ -1,0 +1,19 @@
+.note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-text-muted);
+}
+
+.note a {
+  color: var(--color-accent);
+  transition: color 0.2s;
+}
+
+.note a:hover {
+  color: var(--color-text-strong);
+}

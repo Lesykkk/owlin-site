@@ -17,8 +17,8 @@ PRODUCTS: dict[str, tuple[str, ...]] = {
 # Price in euro cents for each product and period. The server always recomputes the amount from this.
 PRICES_CENTS: dict[str, dict[str, int]] = {
     "dlc-unlock": {"1m": 199, "3m": 499, "6m": 799, "lifetime": 1499},
-    "spoofer": {"1m": 400, "3m": 900, "6m": 1400, "lifetime": 1999},
-    "spoofer-dlc-unlock": {"1m": 500, "3m": 1300, "6m": 2099, "lifetime": 3099},
+    "spoofer": {"1m": 399, "3m": 899, "6m": 1399, "lifetime": 1999},
+    "spoofer-dlc-unlock": {"1m": 499, "3m": 1299, "6m": 1900, "lifetime": 3099},
 }
 # Coins and networks offered when paying with crypto.
 CRYPTO_COIN_IDS = ("sol", "usdc-solana", "usdc-base", "usdt-trc20", "btc")
@@ -29,15 +29,13 @@ MAX_OPEN_ORDERS = 4
 PERIOD_DAYS: dict[str, int | None] = {"1m": 30, "3m": 90, "6m": 180, "lifetime": None}
 PERIOD_IDS = tuple(PERIOD_DAYS)
 # Free days given for an approved promo video.
-PROMO_DAYS = 7
+PROMO_DAYS = 14
 PAYMENT_METHOD_IDS = ("paypal", "crypto", "steam")
 # Views a video needs per platform. None means there is no fixed number and an admin decides.
 PROMO_MIN_VIEWS: dict[str, int | None] = {"tiktok": 5000, "youtube": 1000, "other": None}
 PROMO_PLATFORM_IDS = tuple(PROMO_MIN_VIEWS)
-# A video must not be older than this when it is submitted.
-MAX_VIDEO_AGE_DAYS = 14
 # Promo claims a user may have under review or still running at the same time.
-MAX_PROMO_SLOTS = 8
+MAX_PROMO_SLOTS = 4
 
 ORDER_STATUSES = ("review", "approved", "rejected")
 PROMO_CLAIM_STATUSES = ("review", "approved", "rejected")

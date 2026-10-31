@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import { Chip, ChipList } from "../components/Chip";
 import ExampleVideo from "../components/ExampleVideo";
 import Panel from "../components/Panel";
 import PlatformIcon from "../components/PlatformIcon";
 import SegmentedControl from "../components/SegmentedControl";
 import TextField from "../components/TextField";
 import {
-  MAX_VIDEO_AGE_DAYS,
   PROMO_DAYS,
   PROMO_PLATFORMS,
   PROMO_REWARDS,
   PROMO_LINK_TARGETS,
   PROMO_RULES,
 } from "../config/promo";
+import { useAuth } from "../hooks/useAuth";
 import { useMyPromo, useSubmitPromoClaim } from "../hooks/queries";
+import { clearDraft, readDraft, saveDraft } from "../lib/promoDraft";
 import { parseVideoLink } from "../lib/videoLinks";
 import Submitted from "../sections/checkout/Submitted";
 import styles from "./Promo.module.css";
@@ -44,10 +46,15 @@ function requirementLabel(platform) {
 }
 
 export default function Promo() {
-  const [rewardId, setRewardId] = useState(PROMO_REWARDS[0].id);
-  const [platformId, setPlatformId] = useState(PROMO_PLATFORMS[0].id);
-  const [link, setLink] = useState("");
-  const [isConfirmed, setIsConfirmed] = useState(false);
+  const { user, isLoading: isAuthLoading, login } = useAuth();
+  // A form filled in before the login redirect comes back once, and is deleted at once.
+  const [draft] = useState(readDraft);
+  useEffect(() => clearDraft(), []);
+
+  const [rewardId, setRewardId] = useState(PROMO_REWARDS.some((item) => item.id === draft?.rewardId) ? draft.rewardId : PROMO_REWARDS[0].id);
+  const [platformId, setPlatformId] = useState(PROMO_PLATFORMS.some((item) => item.id === draft?.platformId) ? draft.platformId : PROMO_PLATFORMS[0].id);
+  const [link, setLink] = useState(typeof draft?.link === "string" ? draft.link : "");
+  const [isConfirmed, setIsConfirmed] = useState(draft?.isConfirmed === true);
   const [error, setError] = useState("");
   const claim = useSubmitPromoClaim();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -82,6 +89,14 @@ export default function Promo() {
       return;
     }
 
+    // Guests are sent to log in first and come back to this form.
+    if (!user) {
+      if (isAuthLoading) return;
+      saveDraft({ rewardId, platformId, link, isConfirmed });
+      login();
+      return;
+    }
+
     try {
       await claim.mutateAsync({ platform: platformId, url: link.trim(), rewardProduct: rewardId });
       setIsSubmitted(true);
@@ -106,15 +121,17 @@ export default function Promo() {
         Make a video about Owlin and get {PROMO_DAYS} days of Spoofer or DLC Unlock for free.
       </p>
 
-      <ul className={styles.requirements}>
-        {PROMO_PLATFORMS.map((item) => (
-          <li key={item.id}>
-            <PlatformIcon platformId={item.id} />
-            <strong>{item.label}</strong>
-            {requirementLabel(item)}
-          </li>
-        ))}
-      </ul>
+      <div className={styles.requirements}>
+        <ChipList>
+          {PROMO_PLATFORMS.map((item) => (
+            <Chip key={item.id}>
+              <PlatformIcon platformId={item.id} />
+              <strong>{item.label}</strong>
+              {requirementLabel(item)}
+            </Chip>
+          ))}
+        </ChipList>
+      </div>
 
       <div className={styles.layout}>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -150,8 +167,7 @@ export default function Promo() {
             <label className={styles.confirm}>
               <input type="checkbox" checked={isConfirmed} onChange={(event) => setIsConfirmed(event.target.checked)} />
               <span>
-                The video mentions or shows Owlin, links to our Discord server or owlin.software, does not advertise competitors and was published within the last{" "}
-                {MAX_VIDEO_AGE_DAYS} days.
+                The video mentions or shows Owlin, links to our Discord server or owlin.software, does not advertise competitors.
               </span>
             </label>
 
@@ -166,7 +182,7 @@ export default function Promo() {
               </p>
             )}
             <Button type="submit" variant="primary" loading={claim.isPending} disabled={isFull} className={styles.submit}>
-              {claim.isPending ? "Sending…" : "Submit for review"}
+              {claim.isPending ? "Sending…" : user || isAuthLoading ? "Submit for review" : "Log in to submit"}
             </Button>
           </Panel>
         </form>

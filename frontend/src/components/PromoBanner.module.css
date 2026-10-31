@@ -13,9 +13,13 @@
   background: var(--gradient-card);
 }
 
-/* Same purple as the FREE tag next to Promo in the header. */
-.copy .tag {
-  color: var(--color-accent);
+/* The same small caps label as the titles of the cards and panels. */
+.label {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
 }
 
 .free {
@@ -37,34 +41,6 @@
   font-weight: 300;
   line-height: 1.7;
   color: var(--color-text-muted);
-}
-
-.platforms {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.platforms li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 13px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-button);
-  background: var(--color-fill-subtle);
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--color-text-soft);
-}
-
-.platforms svg {
-  width: 16px;
-  height: 16px;
-  color: var(--color-accent-soft);
 }
 
 .action {

@@ -77,11 +77,12 @@
 }
 
 .text a {
-  color: var(--color-accent-soft);
+  color: var(--color-accent);
+  transition: color 0.2s;
 }
 
 .text a:hover {
-  text-decoration: underline;
+  color: var(--color-text-strong);
 }
 
 /* Wide tables scroll on their own instead of stretching the page. */

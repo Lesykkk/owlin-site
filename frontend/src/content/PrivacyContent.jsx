@@ -7,7 +7,7 @@ export default function PrivacyContent() {
         <p>This Privacy Policy explains how Owlin collects, uses, stores, shares, and protects personal data when you use the Owlin software, website, Discord community, authentication services, downloads, support, and related services collectively referred to as the “Service”.</p>
         <p>The data controller responsible for Owlin is:</p>
         <p><strong>Owlin development team</strong></p>
-        <p>Contact: <strong>Support Channel on our official Discord server</strong></p>
+        <p>Contact: <a href="https://discord.com/users/580797344010731543" target="_blank" rel="noopener noreferrer">https://discord.com/users/580797344010731543</a></p>
       </section>
       <section>
         <h2>1. Scope</h2>
@@ -332,13 +332,13 @@ export default function PrivacyContent() {
         </ul>
         <p>These rights may be limited where retention or processing is legally required or necessary to protect security and legal claims.</p>
         <p>To exercise a privacy right, contact:</p>
-        <p><strong>Support Channel on our official Discord server</strong></p>
+        <p><a href="https://discord.com/users/580797344010731543" target="_blank" rel="noopener noreferrer">https://discord.com/users/580797344010731543</a></p>
         <p>We may need to verify your identity before completing a request.</p>
       </section>
       <section>
         <h2>12. Account and Data Deletion</h2>
         <p>You may request deletion through:</p>
-        <p><strong>Support Channel on our official Discord server</strong></p>
+        <p><a href="https://discord.com/users/580797344010731543" target="_blank" rel="noopener noreferrer">https://discord.com/users/580797344010731543</a></p>
         <p>Deleting an Owlin account may remove or anonymise associated account, access, and HWID information, subject to applicable retention requirements.</p>
         <p>Deleting your Discord account does not necessarily delete information previously stored by Owlin. You must separately contact Owlin where deletion is requested.</p>
       </section>
@@ -347,7 +347,7 @@ export default function PrivacyContent() {
         <p>The Service is not intended for anyone below the minimum legal age required to use the Service or Discord in their country.</p>
         <p>We do not knowingly seek to collect personal data from children who cannot legally consent or use the Service.</p>
         <p>A parent or guardian who believes that a child’s information has been collected unlawfully should contact:</p>
-        <p><strong>Support Channel on our official Discord server</strong></p>
+        <p><a href="https://discord.com/users/580797344010731543" target="_blank" rel="noopener noreferrer">https://discord.com/users/580797344010731543</a></p>
       </section>
       <section>
         <h2>14. Cookies and Website Storage</h2>
@@ -376,7 +376,7 @@ export default function PrivacyContent() {
       <section>
         <h2>17. Complaints</h2>
         <p>Please contact us first so we can review your concern:</p>
-        <p><strong>Support Channel on our official Discord server</strong></p>
+        <p><a href="https://discord.com/users/580797344010731543" target="_blank" rel="noopener noreferrer">https://discord.com/users/580797344010731543</a></p>
         <p>Where the GDPR applies, you may also lodge a complaint with the data-protection authority in your country of residence, employment, or the place of the alleged infringement.</p>
       </section>
       <section>
