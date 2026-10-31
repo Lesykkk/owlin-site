@@ -4,7 +4,7 @@
   padding: 20px;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-button);
-  background: var(--color-fill-subtle);
+  background: var(--color-fill-secondary);
 }
 
 .top {
@@ -20,8 +20,8 @@
 
 .status {
   padding: 4px 9px;
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 5px;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-badge);
   font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -44,7 +44,7 @@
   height: 4px;
   margin-top: 14px;
   border-radius: 999px;
-  background: var(--color-border-subtle);
+  background: var(--color-border-secondary);
   overflow: hidden;
 }
 

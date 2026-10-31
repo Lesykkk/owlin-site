@@ -66,9 +66,10 @@
 .panelNav .badge {
   position: static;
   margin-left: 10px;
-  padding: 4px 7px;
+  padding: 4px 9px;
   border: 1px solid var(--color-border-accent-soft);
-  border-radius: 5px;
+  border-radius: var(--radius-badge);
+  font-size: 10px;
 }
 
 .toggle {
@@ -79,7 +80,7 @@
   place-items: center;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-button);
-  background: var(--color-fill-subtle);
+  background: var(--color-fill-secondary);
   color: var(--color-text);
   cursor: pointer;
   transition: border-color 0.2s;

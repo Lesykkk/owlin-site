@@ -77,7 +77,7 @@
 
 .window {
   overflow: hidden;
-  border: 1px solid rgba(86, 64, 113, 0.5);
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-frame);
   background: var(--color-surface-deep);
   transform: perspective(1300px) rotateY(var(--tilt-y, -7deg)) rotateX(var(--tilt-x, 3deg));

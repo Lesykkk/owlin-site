@@ -35,7 +35,7 @@ The less important the text, the dimmer the level. Take the nearest level, do no
 |---|---|---|
 | `--color-line` | `#272037` | dividers and calm outlines (the common choice) |
 | `--color-line-soft` | white 5% | thinnest rules (games strip) |
-| `--color-border-subtle` | white 7% | thin border of cards and badges |
+| `--color-border-secondary` | white 8% | thin border of secondary buttons and neutral badges |
 | `--color-border` | `#4a3870` | outline of interactive elements: fields, buttons, pickers |
 | `--color-border-active` | `#5a3f8a` | selected / highlighted element |
 | `--color-border-accent-soft` | accent 30% | purple border on hover or selection |
@@ -48,7 +48,7 @@ The less important the text, the dimmer the level. Take the nearest level, do no
 | `--color-bg` | `#07050d` | page background |
 | `--color-surface-deep` | `#0c0916` | darkest surface: header, screenshot window |
 | `--color-surface-raised` | `#1d1630` | raised surface: upload zone, profile header |
-| `--color-fill-subtle` | white 1.6% | barely visible fill of cards and fields |
+| `--color-fill-secondary` | white 1.2% | barely visible fill of secondary buttons, cards and fields |
 | `--color-scrollbar` | `#3b3254` | scrollbar thumb |
 | `--color-scrollbar-hover` | `#55477a` | scrollbar thumb on hover |
 | `--gradient-card` | gradient | card background |

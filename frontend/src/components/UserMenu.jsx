@@ -29,11 +29,11 @@ export default function UserMenu() {
         {user.username}
       </Link>
       {me?.isAdmin && (
-        <Button href="/admin" variant="outline" size="sm">
+        <Button href="/admin" variant="secondary" size="sm">
           Admin
         </Button>
       )}
-      <Button variant="outline" size="sm" onClick={logout}>
+      <Button variant="secondary" size="sm" onClick={logout}>
         Log out
       </Button>
     </div>

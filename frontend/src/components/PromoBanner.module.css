@@ -59,7 +59,7 @@
   padding: 7px 13px;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-button);
-  background: var(--color-fill-subtle);
+  background: var(--color-fill-secondary);
   font-size: 13px;
   font-weight: 300;
   color: var(--color-text-muted);
