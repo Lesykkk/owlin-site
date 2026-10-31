@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from owlin.core.errors import ConflictError, InvalidRequestError
 from owlin.modules.catalog.constants import MAX_PROMO_SLOTS, MODULE_IDS, PROMO_PLATFORM_IDS
 from owlin.modules.promo.models import PromoClaim
-from owlin.modules.promo.video_links import ParsedVideo, ensure_recent, parse_video_link
+from owlin.modules.promo.video_links import ParsedVideo, parse_video_link
 
 LIST_LIMIT = 100
 
@@ -32,7 +32,6 @@ async def check_claim(
         raise InvalidRequestError("Unknown reward")
 
     video = parse_video_link(url, platform)
-    ensure_recent(video, now)
 
     taken = await session.scalar(
         select(PromoClaim.id).where(PromoClaim.video_key == video.key, PromoClaim.status != "rejected").limit(1)
