@@ -1,8 +1,8 @@
 import { LINKS } from "./links";
 
-export const PROMO_DAYS = 7;
+export const PROMO_DAYS = 14;
 // Pending and active claims share this limit; expired and rejected ones do not count.
-export const MAX_PROMO_SLOTS = 8;
+export const MAX_PROMO_SLOTS = 4;
 
 // `minViews: null` means there is no fixed number and the video is reviewed manually.
 export const PROMO_PLATFORMS = [

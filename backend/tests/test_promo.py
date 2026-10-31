@@ -8,6 +8,7 @@ from owlin.api.app import app
 from owlin.api.deps import get_current_user
 from owlin.core.errors import ConflictError, InvalidRequestError, NotFoundError
 from owlin.core.security import TokenUser
+from owlin.modules.catalog.constants import MAX_PROMO_SLOTS, PROMO_DAYS
 from owlin.modules.promo import review, service
 from owlin.modules.promo.models import PromoClaim
 from owlin.modules.promo.video_links import ParsedVideo, parse_video_link
@@ -93,7 +94,7 @@ class TestCheckAndCreate:
 
     @pytest.mark.asyncio
     async def test_a_full_set_of_slots_blocks_new_claims(self) -> None:
-        session = ServiceSession(scalar_values=[None, 8])
+        session = ServiceSession(scalar_values=[None, MAX_PROMO_SLOTS])
 
         with pytest.raises(ConflictError, match="slots"):
             await service.check_claim(session, uuid4(), "youtube", YOUTUBE_URL, "spoofer", NOW)
@@ -148,18 +149,18 @@ def session_for(claim: PromoClaim, **subscription: object) -> ServiceSession:
 
 class TestApproveClaim:
     @pytest.mark.asyncio
-    async def test_grants_seven_days_and_keeps_the_slot_until_they_run_out(self) -> None:
+    async def test_grants_the_promo_days_and_keeps_the_slot_until_they_run_out(self) -> None:
         claim = make_claim()
         session = session_for(claim)
 
         result = await review.approve_claim(session, claim.id, ADMIN_ID, views=1500, now=NOW)
 
         assert (result.status, result.views) == ("approved", 1500)
-        assert result.expires_at == NOW + timedelta(days=7)
+        assert result.expires_at == NOW + timedelta(days=PROMO_DAYS)
         assert (result.reviewed_by, result.reviewed_at) == (ADMIN_ID, NOW)
-        assert session.objects[UserSubscription].spoofer_expires_at == NOW + timedelta(days=7)
+        assert session.objects[UserSubscription].spoofer_expires_at == NOW + timedelta(days=PROMO_DAYS)
         [grant] = session.added_of(SubscriptionGrant)
-        assert (grant.source, grant.promo_claim_id, grant.days) == ("promo", claim.id, 7)
+        assert (grant.source, grant.promo_claim_id, grant.days) == ("promo", claim.id, PROMO_DAYS)
         assert session.committed is True
 
     @pytest.mark.asyncio
@@ -170,7 +171,7 @@ class TestApproveClaim:
 
         result = await review.approve_claim(session, claim.id, ADMIN_ID, views=2000, now=NOW)
 
-        assert result.expires_at == running_until + timedelta(days=7)
+        assert result.expires_at == running_until + timedelta(days=PROMO_DAYS)
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("platform, views", [("youtube", 999), ("youtube", None), ("tiktok", 4999)])

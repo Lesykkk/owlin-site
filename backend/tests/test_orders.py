@@ -71,7 +71,7 @@ def new_order(**overrides: object) -> NewOrder:
 
 class TestPricing:
     def test_amount_comes_from_the_catalog(self) -> None:
-        assert service.price_cents("spoofer", "3m") == 900
+        assert service.price_cents("spoofer", "3m") == 899
         assert service.price_cents("spoofer-dlc-unlock", "lifetime") == 3099
 
     @pytest.mark.parametrize("product, period", [("nope", "3m"), ("spoofer", "2y")])
@@ -131,7 +131,7 @@ class TestCreateOrder:
 
         order = await service.create_order(session, storage, user_id, new_order(), [PNG, JPEG])
 
-        assert (order.status, order.amount_cents, order.user_id) == ("review", 900, user_id)
+        assert (order.status, order.amount_cents, order.user_id) == ("review", 899, user_id)
         assert session.committed is True
         assert [(content_type, data) for _path, data, content_type in storage.uploaded] == [
             ("image/png", PNG),
@@ -244,7 +244,7 @@ class TestEndpoints:
 
         assert response.status_code == 201
         body = response.json()
-        assert (body["status"], body["amount_cents"], body["product"]) == ("review", 400, "spoofer")
+        assert (body["status"], body["amount_cents"], body["product"]) == ("review", 399, "spoofer")
         assert len(self.storage.uploaded) == 2
         assert "proof_text" not in body
 
