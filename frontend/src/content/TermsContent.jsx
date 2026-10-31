@@ -7,7 +7,7 @@ export default function TermsContent() {
       <section>
         <p>These Terms of Service (“Terms”) govern access to and use of the Owlin software, website, Discord community, authentication services, downloads, updates, support services, and related features collectively referred to as the “Service”.</p>
         <p>The Service is operated by <strong>Owlin development team</strong> (“Owlin”, “we”, “us”, or “our”).</p>
-        <p>Contact: <strong>Support Channel on our official Discord server</strong></p>
+        <p>Contact: <a href="https://discord.com/users/580797344010731543" target="_blank" rel="noopener noreferrer">https://discord.com/users/580797344010731543</a></p>
         <p>By downloading, installing, accessing, purchasing, launching, or using the Service, you confirm that you have read and agreed to these Terms and the Owlin <Link to="/privacy">Privacy Policy</Link>.</p>
         <p>If you do not agree, do not download, install, access, or use the Service.</p>
       </section>
@@ -249,7 +249,7 @@ export default function TermsContent() {
       <section>
         <h2>18. Disputes</h2>
         <p>Before starting formal proceedings, the parties should attempt to resolve the dispute by contacting:</p>
-        <p><strong>Support Channel on our official Discord server</strong></p>
+        <p><a href="https://discord.com/users/580797344010731543" target="_blank" rel="noopener noreferrer">https://discord.com/users/580797344010731543</a></p>
       </section>
       <section>
         <h2>19. Severability</h2>
