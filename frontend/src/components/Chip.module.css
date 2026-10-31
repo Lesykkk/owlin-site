@@ -1,0 +1,33 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-button);
+  background: var(--color-fill-secondary);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-text-muted);
+}
+
+.chip svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--color-accent);
+}
+
+.chip strong {
+  font-weight: 400;
+  color: var(--color-text);
+}

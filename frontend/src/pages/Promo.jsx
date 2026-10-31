@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import { Chip, ChipList } from "../components/Chip";
 import ExampleVideo from "../components/ExampleVideo";
 import Panel from "../components/Panel";
 import PlatformIcon from "../components/PlatformIcon";
@@ -120,15 +121,17 @@ export default function Promo() {
         Make a video about Owlin and get {PROMO_DAYS} days of Spoofer or DLC Unlock for free.
       </p>
 
-      <ul className={styles.requirements}>
-        {PROMO_PLATFORMS.map((item) => (
-          <li key={item.id}>
-            <PlatformIcon platformId={item.id} />
-            <strong>{item.label}</strong>
-            {requirementLabel(item)}
-          </li>
-        ))}
-      </ul>
+      <div className={styles.requirements}>
+        <ChipList>
+          {PROMO_PLATFORMS.map((item) => (
+            <Chip key={item.id}>
+              <PlatformIcon platformId={item.id} />
+              <strong>{item.label}</strong>
+              {requirementLabel(item)}
+            </Chip>
+          ))}
+        </ChipList>
+      </div>
 
       <div className={styles.layout}>
         <form className={styles.form} onSubmit={handleSubmit}>

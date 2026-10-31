@@ -1,5 +1,6 @@
 import { PROMO_DAYS, PROMO_PLATFORMS } from "../config/promo";
 import Button from "./Button";
+import { Chip, ChipList } from "./Chip";
 import PlatformIcon from "./PlatformIcon";
 import styles from "./PromoBanner.module.css";
 
@@ -14,14 +15,14 @@ export default function PromoBanner({ className = "" }) {
           <p className={styles.text}>
             Post a video about Owlin on TikTok, YouTube or elsewhere and get {PROMO_DAYS} days of Spoofer or DLC Unlock.
           </p>
-          <ul className={styles.platforms}>
+          <ChipList>
             {PROMO_PLATFORMS.map((platform) => (
-              <li key={platform.id}>
+              <Chip key={platform.id}>
                 <PlatformIcon platformId={platform.id} />
                 {platform.label}
-              </li>
+              </Chip>
             ))}
-          </ul>
+          </ChipList>
         </div>
         <Button href="/promo" variant="primary" className={styles.action}>
           Get free days

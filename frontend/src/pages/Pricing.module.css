@@ -55,28 +55,6 @@
   color: var(--color-text-muted);
 }
 
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.chips li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 16px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-button);
-  background: var(--color-fill-secondary);
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--color-text-muted);
-}
-
 .faq {
   max-width: 820px;
   padding-bottom: 84px;
@@ -180,10 +158,4 @@
   .faq {
     padding-top: 56px;
   }
-}
-
-.chips svg {
-  width: 18px;
-  height: 18px;
-  color: var(--color-accent);
 }

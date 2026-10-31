@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Chip, ChipList } from "../components/Chip";
 import Eyebrow from "../components/Eyebrow";
 import SegmentedControl from "../components/SegmentedControl";
 import PricingCard from "../components/PricingCard";
@@ -35,14 +36,14 @@ export default function Pricing() {
         <p className={styles.note}>
           Pay, then upload a screenshot as proof. Sign in with Discord when you buy. We check payments manually.
         </p>
-        <ul className={styles.chips}>
+        <ChipList>
           {PAYMENT_METHODS.map((method) => (
-            <li key={method.id}>
+            <Chip key={method.id}>
               <MethodIcon methodId={method.id} />
               {method.label}
-            </li>
+            </Chip>
           ))}
-        </ul>
+        </ChipList>
       </section>
 
       <section className={`container ${styles.faq}`}>
