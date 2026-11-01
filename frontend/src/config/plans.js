@@ -14,14 +14,14 @@ export const PRODUCTS = [
     name: "DLC Unlock",
     description: "Access DLC content with Owlin DLC Unlock.",
     features: ["DLC Unlock module", "All free Owlin tools"],
-    prices: { "1m": 199, "3m": 499, "6m": 799, lifetime: 1499 },
+    prices: { "1m": 199, "3m": 399, "6m": 699, lifetime: 1099 },
   },
   {
     id: "spoofer",
     name: "Spoofer",
     description: "The Spoofer module to Bypass Bans.",
     features: ["Spoofer module", "All free Owlin tools"],
-    prices: { "1m": 399, "3m": 899, "6m": 1399, lifetime: 1999 },
+    prices: { "1m": 299, "3m": 699, "6m": 1099, lifetime: 1599 },
   },
   {
     id: "spoofer-dlc-unlock",
@@ -31,7 +31,7 @@ export const PRODUCTS = [
     includes: ["spoofer", "dlc-unlock"],
     badge: "Best value",
     highlighted: true,
-    prices: { "1m": 499, "3m": 1299, "6m": 1900, lifetime: 3099 },
+    prices: { "1m": 399, "3m": 1099, "6m": 1699, lifetime: 2699 },
   },
 ];
 
