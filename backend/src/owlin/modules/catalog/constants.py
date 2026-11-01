@@ -16,9 +16,9 @@ PRODUCTS: dict[str, tuple[str, ...]] = {
 }
 # Price in euro cents for each product and period. The server always recomputes the amount from this.
 PRICES_CENTS: dict[str, dict[str, int]] = {
-    "dlc-unlock": {"1m": 199, "3m": 499, "6m": 799, "lifetime": 1499},
-    "spoofer": {"1m": 399, "3m": 899, "6m": 1399, "lifetime": 1999},
-    "spoofer-dlc-unlock": {"1m": 499, "3m": 1299, "6m": 1900, "lifetime": 3099},
+    "dlc-unlock": {"1m": 199, "3m": 399, "6m": 699, "lifetime": 1099},
+    "spoofer": {"1m": 299, "3m": 699, "6m": 1099, "lifetime": 1599},
+    "spoofer-dlc-unlock": {"1m": 399, "3m": 1099, "6m": 1699, "lifetime": 2699},
 }
 # Coins and networks offered when paying with crypto.
 CRYPTO_COIN_IDS = ("sol", "usdc-solana", "usdc-base", "usdt-trc20", "btc")

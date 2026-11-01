@@ -83,10 +83,10 @@ class TestApprove:
 
     @pytest.mark.asyncio
     async def test_a_lifetime_order_leaves_no_end_date(self) -> None:
-        order = make_order(product="dlc-unlock", period="lifetime", amount_cents=1499)
+        order = make_order(product="dlc-unlock", period="lifetime", amount_cents=1099)
         session = session_for(order)
 
-        await review.approve_order(session, order.id, ADMIN_ID, 1499, now=NOW)
+        await review.approve_order(session, order.id, ADMIN_ID, 1099, now=NOW)
 
         subscription = session.objects[UserSubscription]
         assert subscription.dlc_access is True
