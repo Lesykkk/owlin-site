@@ -13,12 +13,13 @@ class Settings(BaseSettings):
     environment: str = "development"
     database_url: str | None = None
     supabase_url: str | None = None
-    # Server-side key that bypasses RLS and Storage policies. Never send it to a browser.
     supabase_secret_key: str | None = None
     storage_bucket: str = "payment-proofs"
-    # Lists come from the environment as comma-separated strings.
     cors_origins: Annotated[list[str], NoDecode] = ["http://localhost:5173"]
     admin_discord_ids: Annotated[list[str], NoDecode] = []
+    discord_bot_token: str | None = None
+    discord_guild_id: int | None = None
+    discord_spam_trap_channel_id: int | None = None
 
     @field_validator("cors_origins", "admin_discord_ids", mode="before")
     @classmethod
@@ -54,6 +55,10 @@ class Settings(BaseSettings):
     @property
     def jwks_url(self) -> str:
         return f"{self.jwt_issuer}/.well-known/jwks.json"
+
+    @property
+    def discord_bot_enabled(self) -> bool:
+        return bool(self.discord_bot_token and self.discord_guild_id)
 
     @property
     def is_production(self) -> bool:

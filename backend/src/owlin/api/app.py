@@ -1,11 +1,24 @@
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from owlin.api.middleware import BodyLimitMiddleware
 from owlin.api.routers import admin, health, me, orders, promo, promotions
+from owlin.bot.runner import start_bot, stop_bot
 from owlin.core.config import get_settings
 from owlin.core.errors import AppError
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
+    bot_task = start_bot(get_settings())
+    try:
+        yield
+    finally:
+        await stop_bot(bot_task)
 
 
 def create_app() -> FastAPI:
@@ -13,7 +26,7 @@ def create_app() -> FastAPI:
 
     app = FastAPI(
         title="Owlin API",
-        # The interactive docs are only for local development.
+        lifespan=lifespan,
         docs_url=None if settings.is_production else "/docs",
         redoc_url=None,
         openapi_url=None if settings.is_production else "/openapi.json",

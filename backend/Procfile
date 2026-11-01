@@ -1,2 +1,2 @@
 release: alembic upgrade head
-web: uvicorn owlin.api.app:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips="*"
+web: MALLOC_ARENA_MAX=2 uvicorn owlin.api.app:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips="*"
