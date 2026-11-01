@@ -19,8 +19,8 @@ export const PROMO_REWARDS = [
 // A sample video shown next to the submission form.
 export const EXAMPLE_VIDEO = {
   platformId: "tiktok",
-  embedUrl: "https://www.tiktok.com/player/v1/7695863549985312021?music_info=0&description=0&rel=0&native_context_menu=0",
-  url: "https://www.tiktok.com/@pedrokapucci/video/7695863549985312021",
+  embedUrl: "https://www.tiktok.com/player/v1/7667547376625650965?music_info=0&description=0&rel=0&native_context_menu=0",
+  url: "https://www.tiktok.com/@pedrokapucci/video/7667547376625650965",
   author: "@pedrokapucci",
 };
 
