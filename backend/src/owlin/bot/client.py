@@ -22,4 +22,6 @@ class OwlinBot(commands.Bot):
             await self.add_cog(SpamTrap(self.settings.discord_spam_trap_channel_id))
 
         self.tree.copy_global_to(guild=self.guild_object)
+        self.tree.clear_commands(guild=None)
+        await self.tree.sync()
         await self.tree.sync(guild=self.guild_object)
