@@ -47,9 +47,9 @@ def get_engine() -> AsyncEngine:
         database_url,
         pool_pre_ping=True,
         # Supabase's session pooler allows 15 clients in total, shared with Storage, the dashboard and
-        # the release command. Staying at 10 with no overflow means a burst of requests waits for a
+        # the release command. Staying at 5 with no overflow means a burst of requests waits for a
         # free connection instead of being refused by the pooler with a 500.
-        pool_size=10,
+        pool_size=5,
         max_overflow=0,
         pool_timeout=30,
         # Keeps working if the URL ever points at Supabase's transaction pooler (port 6543),
