@@ -6,8 +6,8 @@ export const MAX_PROMO_SLOTS = 4;
 
 // `minViews: null` means there is no fixed number and the video is reviewed manually.
 export const PROMO_PLATFORMS = [
-  { id: "tiktok", label: "TikTok", minViews: 5000, placeholder: "https://www.tiktok.com/@name/video/…" },
-  { id: "youtube", label: "YouTube", minViews: 1000, placeholder: "https://www.youtube.com/watch?v=…" },
+  { id: "tiktok", label: "TikTok", minViews: 2000, placeholder: "https://www.tiktok.com/@name/video/…" },
+  { id: "youtube", label: "YouTube", minViews: 300, placeholder: "https://www.youtube.com/watch?v=…" },
   { id: "other", label: "Other", minViews: null, placeholder: "https://" },
 ];
 
@@ -27,7 +27,7 @@ export const EXAMPLE_VIDEO = {
 // The Discord invite and the site address a promo video must link to; shown as links inside the rules.
 export const PROMO_LINK_TARGETS = [LINKS.discord, "owlin.software"];
 
-// "5,000 views on TikTok or 1,000 on YouTube", taken from the platform list so the two never disagree.
+// "2,000 views on TikTok or 300 on YouTube", taken from the platform list so the two never disagree.
 const viewsRule = () => {
   const [tiktok, youtube] = ["tiktok", "youtube"].map((id) => PROMO_PLATFORMS.find((platform) => platform.id === id));
   return `The video has at least ${tiktok.minViews.toLocaleString("en-US")} views on TikTok or ${youtube.minViews.toLocaleString("en-US")} on YouTube. Videos on other sites are checked manually.`;
