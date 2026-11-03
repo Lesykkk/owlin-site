@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from owlin.core.errors import ConflictError, InvalidRequestError
+from owlin.integrations import tiktok
 from owlin.modules.catalog.constants import MAX_PROMO_SLOTS, MODULE_IDS, PROMO_PLATFORM_IDS
 from owlin.modules.promo.models import PromoClaim
 from owlin.modules.promo.video_links import ParsedVideo, parse_video_link
@@ -31,7 +32,10 @@ async def check_claim(
     if reward_product not in MODULE_IDS:
         raise InvalidRequestError("Unknown reward")
 
-    video = parse_video_link(url, platform)
+    link = url
+    if platform == "tiktok" and tiktok.is_short_link(url):
+        link = await tiktok.resolve_short_link(url)
+    video = parse_video_link(link, platform)
 
     taken = await session.scalar(
         select(PromoClaim.id).where(PromoClaim.video_key == video.key, PromoClaim.status != "rejected").limit(1)
