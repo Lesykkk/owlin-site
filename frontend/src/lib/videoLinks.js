@@ -1,6 +1,7 @@
 const YOUTUBE_ID = /^[\w-]{11}$/;
 const TIKTOK_VIDEO_PATH = /^\/@[^/]+\/video\/(\d+)/;
 const TIKTOK_HOSTS = ["tiktok.com", "vm.tiktok.com", "vt.tiktok.com"];
+const TIKTOK_SHORT_HOSTS = ["vm.tiktok.com", "vt.tiktok.com"];
 const YOUTUBE_HOSTS = ["youtube.com", "youtu.be"];
 const TRACKING_PARAMS = ["fbclid", "gclid", "igshid", "si"];
 
@@ -24,7 +25,10 @@ function youtubeVideoId(url, host) {
   return match ? match[1] : null;
 }
 
+// A short link (vm.tiktok.com/…) has no video id. Only the server can follow its redirect, so it checks that one.
 function parseTiktok(url, host) {
+  if (TIKTOK_SHORT_HOSTS.includes(host) && url.pathname.replace(/\//g, "") !== "") return { key: null };
+
   const match = url.pathname.match(TIKTOK_VIDEO_PATH);
   if (!TIKTOK_HOSTS.includes(host) || !match) {
     return { error: "Open the video in TikTok and copy its full link (tiktok.com/@name/video/…)." };
@@ -51,7 +55,7 @@ function parseOther(url, host) {
 }
 
 // Reduces any link to the same video to one key, so a video cannot be submitted twice
-// through different URLs. Returns { key, videoId? } or { error }.
+// through different URLs. Returns { key, videoId? } or { error }. `key` is null for a TikTok short link.
 export function parseVideoLink(raw, platformId) {
   const url = parseUrl(raw);
   if (!url) return { error: "Paste a link to your video." };

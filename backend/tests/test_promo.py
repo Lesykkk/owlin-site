@@ -1,6 +1,7 @@
 from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
+import httpx
 import pytest
 from sqlalchemy.exc import IntegrityError
 
@@ -8,6 +9,7 @@ from owlin.api.app import app
 from owlin.api.deps import get_current_user
 from owlin.core.errors import ConflictError, InvalidRequestError, NotFoundError
 from owlin.core.security import TokenUser
+from owlin.integrations import tiktok
 from owlin.modules.catalog.constants import MAX_PROMO_SLOTS, PROMO_DAYS
 from owlin.modules.promo import review, service
 from owlin.modules.promo.models import PromoClaim
@@ -73,6 +75,69 @@ class TestParseVideoLink:
             parse_video_link(url, platform)
 
 
+SHORT_URL = "https://vm.tiktok.com/ZN8y4gHbu/"
+FULL_URL = "https://www.tiktok.com/@user/video/7695863549985312021?_r=1"
+
+
+def redirecting(*locations: str) -> httpx.MockTransport:
+    hops = iter(locations)
+
+    def handler(_request: httpx.Request) -> httpx.Response:
+        location = next(hops, None)
+        return httpx.Response(301, headers={"Location": location}) if location else httpx.Response(200)
+
+    return httpx.MockTransport(handler)
+
+
+class TestResolveShortLink:
+    @pytest.mark.parametrize("url", [SHORT_URL, "vt.tiktok.com/ZSabc", "https://vm.tiktok.com/ZN8y4gHbu"])
+    def test_short_links_are_recognised(self, url: str) -> None:
+        assert tiktok.is_short_link(url) is True
+
+    @pytest.mark.parametrize("url", [FULL_URL, "https://vm.tiktok.com/", "https://youtu.be/dKiSnET6eNs", "nope"])
+    def test_other_links_are_not_short_links(self, url: str) -> None:
+        assert tiktok.is_short_link(url) is False
+
+    @pytest.mark.asyncio
+    async def test_the_redirect_gives_the_full_video_link(self) -> None:
+        assert await tiktok.resolve_short_link(SHORT_URL, redirecting(FULL_URL)) == FULL_URL
+
+    @pytest.mark.asyncio
+    async def test_a_relative_redirect_is_followed_on_the_same_host(self) -> None:
+        url = await tiktok.resolve_short_link(SHORT_URL, redirecting("/t/ZN8y4gHbu/", FULL_URL))
+
+        assert url == FULL_URL
+
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize(
+        "locations",
+        [
+            ["https://example.com/@user/video/1"],
+            ["http://www.tiktok.com/@user/video/1"],
+            ["https://www.tiktok.com/@user"],
+            ["/a", "/b", "/c", "/d"],
+        ],
+    )
+    async def test_a_redirect_that_does_not_lead_to_a_tiktok_video_is_refused(self, locations: list[str]) -> None:
+        with pytest.raises(InvalidRequestError):
+            await tiktok.resolve_short_link(SHORT_URL, redirecting(*locations))
+
+    @pytest.mark.asyncio
+    async def test_a_page_without_a_redirect_is_refused(self) -> None:
+        transport = httpx.MockTransport(lambda _request: httpx.Response(200, text="<html></html>"))
+
+        with pytest.raises(InvalidRequestError):
+            await tiktok.resolve_short_link(SHORT_URL, transport)
+
+    @pytest.mark.asyncio
+    async def test_a_network_failure_is_refused(self) -> None:
+        def handler(_request: httpx.Request) -> httpx.Response:
+            raise httpx.ConnectTimeout("slow")
+
+        with pytest.raises(InvalidRequestError):
+            await tiktok.resolve_short_link(SHORT_URL, httpx.MockTransport(handler))
+
+
 YOUTUBE_URL = "https://youtu.be/dKiSnET6eNs"
 
 
@@ -84,6 +149,18 @@ class TestCheckAndCreate:
         video = await service.check_claim(session, uuid4(), "youtube", YOUTUBE_URL, "spoofer", NOW)
 
         assert video.key == "youtube:dKiSnET6eNs"
+
+    @pytest.mark.asyncio
+    async def test_a_tiktok_short_link_gets_the_key_of_the_full_video(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        async def resolve(_url: str) -> str:
+            return FULL_URL
+
+        monkeypatch.setattr(tiktok, "resolve_short_link", resolve)
+        session = ServiceSession(scalar_values=[None, 0])
+
+        video = await service.check_claim(session, uuid4(), "tiktok", SHORT_URL, "spoofer", NOW)
+
+        assert video.key == "tiktok:7695863549985312021"
 
     @pytest.mark.asyncio
     async def test_a_video_that_is_already_open_or_approved_is_refused(self) -> None:
