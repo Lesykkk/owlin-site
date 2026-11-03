@@ -174,7 +174,7 @@ class TestApproveClaim:
         assert result.expires_at == running_until + timedelta(days=PROMO_DAYS)
 
     @pytest.mark.asyncio
-    @pytest.mark.parametrize("platform, views", [("youtube", 999), ("youtube", None), ("tiktok", 4999)])
+    @pytest.mark.parametrize("platform, views", [("youtube", 299), ("youtube", None), ("tiktok", 1999)])
     async def test_not_enough_views_is_refused(self, platform: str, views: int | None) -> None:
         claim = make_claim(platform=platform)
         session = session_for(claim)
@@ -187,7 +187,7 @@ class TestApproveClaim:
 
     @pytest.mark.asyncio
     async def test_the_minimum_is_inclusive_and_other_platforms_need_no_number(self) -> None:
-        for platform, views in [("youtube", 1000), ("tiktok", 5000), ("other", None)]:
+        for platform, views in [("youtube", 300), ("tiktok", 2000), ("other", None)]:
             claim = make_claim(platform=platform)
             result = await review.approve_claim(session_for(claim), claim.id, ADMIN_ID, views=views, now=NOW)
             assert result.status == "approved"

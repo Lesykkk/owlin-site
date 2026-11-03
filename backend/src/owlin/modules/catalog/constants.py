@@ -32,7 +32,7 @@ PERIOD_IDS = tuple(PERIOD_DAYS)
 PROMO_DAYS = 14
 PAYMENT_METHOD_IDS = ("paypal", "crypto", "steam")
 # Views a video needs per platform. None means there is no fixed number and an admin decides.
-PROMO_MIN_VIEWS: dict[str, int | None] = {"tiktok": 5000, "youtube": 1000, "other": None}
+PROMO_MIN_VIEWS: dict[str, int | None] = {"tiktok": 2000, "youtube": 300, "other": None}
 PROMO_PLATFORM_IDS = tuple(PROMO_MIN_VIEWS)
 # Promo claims a user may have under review or still running at the same time.
 MAX_PROMO_SLOTS = 4
